@@ -2,7 +2,7 @@
 
 namespace MarJose123\Ninshiki;
 
-use MarJose123\Ninshiki\Commands\NinshikiCommand;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -19,7 +19,24 @@ class NinshikiServiceProvider extends PackageServiceProvider
             ->name('ninshiki')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_ninshiki_table')
-            ->hasCommand(NinshikiCommand::class);
+            ->hasInertiaComponents()
+            ->hasRoute('web')
+            ->publishesServiceProvider('NinshikiInertiaServiceProvider')
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command
+                    ->startWith(function (InstallCommand $command) {
+                        $command->info('Installing Ninshiki...');
+                    })
+                    ->publishConfigFile();
+                $command->callSilent('inertia:middleware');
+                $command
+                    ->publishConfigFile()
+                    ->copyAndRegisterServiceProviderInApp()
+                    ->askToStarRepoOnGitHub('ninshiki-project/ninshiki')
+                    ->endWith(function (InstallCommand $command) {
+                        $command->info('Have a great day!');
+                    });
+
+            });
     }
 }
