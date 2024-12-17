@@ -1,0 +1,10 @@
+{
+    "private": true,
+    "type": "module",
+    "dependencies": {
+        "@inertiajs/vue3": "^2.0.0",
+        "@vitejs/plugin-vue": "^5.2.1",
+        "laravel-vite-plugin": "^1.1.1",
+        "vite": "^6.0.3"
+    }
+}
