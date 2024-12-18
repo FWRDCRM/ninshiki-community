@@ -10,3 +10,7 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
+    universalObjectCratesClasses:
+        - Illuminate\Http\Resources\Json\JsonResource
+        - Illuminate\Database\Eloquent\Collection
+        - Illuminate\Foundation\Auth\User
