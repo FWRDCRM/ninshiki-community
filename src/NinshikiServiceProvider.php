@@ -22,6 +22,7 @@ class NinshikiServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasInertiaComponents()
+            ->hasAssets()
             ->hasRoute('web')
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
@@ -29,17 +30,12 @@ class NinshikiServiceProvider extends PackageServiceProvider
                         $command->info('Installing Ninshiki...');
                     })
                     ->publishConfigFile()
+                    ->publishAssets()
                     ->askToStarRepoOnGitHub('ninshiki-project/ninshiki')
                     ->endWith(function (InstallCommand $command) {
                         $command->info('Have a great day!');
                     });
 
             });
-    }
-
-    public function bootingPackage(): void
-    {
-        $router = $this->app->make(Router::class);
-        $router->aliasMiddleware('inertia', HandleInertiaRequestsMiddleware::class);
     }
 }
