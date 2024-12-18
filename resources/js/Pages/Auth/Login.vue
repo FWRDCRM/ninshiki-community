@@ -5,7 +5,7 @@ import { Head } from '@inertiajs/vue3'
 <template>
     <Head title="Welcome" />
     <h1>Welcome</h1>
-    <p>Hello, welcome to your first Inertia app! test3</p>
+    <p>Hello, welcome to your first Inertia app!</p>
 
 </template>
 
