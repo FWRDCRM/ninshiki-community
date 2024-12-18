@@ -14,6 +14,10 @@ You can install the package via composer:
 ```bash
 composer require ninshiki-project/ninshiki
 ```
+Install the package
+```bash
+php artisan ninshiki:install
+```
 
 You can publish the config file with:
 
