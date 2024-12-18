@@ -14,7 +14,7 @@ class HandleInertiaRequestsMiddleware extends Middleware
      *
      * @var string
      */
-    protected $rootView = 'app';
+    protected $rootView = 'ninshiki::app';
 
     /**
      * Determines the current asset version.

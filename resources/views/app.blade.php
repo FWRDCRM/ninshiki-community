@@ -9,6 +9,9 @@
     <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=smoothscroll,NodeList.prototype.forEach,Promise,Object.values,Object.assign" defer></script>
 
     @vite('resources/js/app.js')
+    {{ Vite::useBuildDirectory('vendor/ninshiki')
+    ->useHotFile('vendor/ninshiki/ninshiki.hot')
+    ->withEntryPoints(['resources/js/app.js']) }}
     @inertiaHead
 </head>
 <body class="font-sans leading-none text-gray-700 antialiased">
