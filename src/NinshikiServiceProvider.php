@@ -42,6 +42,6 @@ class NinshikiServiceProvider extends PackageServiceProvider
     public function bootingPackage(): void
     {
         $router = $this->app->make(Router::class);
-        $router->middleware('inertia', HandleInertiaRequestsMiddleware::class);
+        $router->aliasMiddleware('inertia', HandleInertiaRequestsMiddleware::class);
     }
 }
