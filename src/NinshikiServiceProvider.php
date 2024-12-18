@@ -29,8 +29,6 @@ class NinshikiServiceProvider extends PackageServiceProvider
                         $command->info('Installing Ninshiki...');
                     })
                     ->publishConfigFile()
-                    ->publishConfigFile()
-                    ->copyAndRegisterServiceProviderInApp()
                     ->askToStarRepoOnGitHub('ninshiki-project/ninshiki')
                     ->endWith(function (InstallCommand $command) {
                         $command->info('Have a great day!');
