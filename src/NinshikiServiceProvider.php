@@ -2,8 +2,6 @@
 
 namespace MarJose123\Ninshiki;
 
-use Illuminate\Routing\Router;
-use MarJose123\Ninshiki\Http\Middleware\HandleInertiaRequestsMiddleware;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;

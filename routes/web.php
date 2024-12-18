@@ -20,5 +20,4 @@ Route::middleware([
     // Authentication Route
     Route::get('/', [AuthenticationController::class, 'index'])->name('login');
 
-
 });
