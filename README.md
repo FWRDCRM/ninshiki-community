@@ -14,7 +14,8 @@ You can install the package via composer:
 ```bash
 composer require ninshiki-project/ninshiki
 ```
-Install the package
+
+Install the ninshiki
 ```bash
 php artisan ninshiki:install
 ```
@@ -31,10 +32,11 @@ php artisan vendor:publish --tag="ninshiki-config"
 composer test
 ```
 
-## Deployment
-You'll need to build both the client-side (app.js) and server-side bundles (ssr.js), and then run the SSR server as a background process, typically using a process monitoring tool such as Supervisor.
+## Development
+
+Always build the assets by running this command
 ```bash
-php artisan inertia:start-ssr
+ npm run build
 ```
 
 ## Changelog
