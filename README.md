@@ -27,6 +27,12 @@ php artisan vendor:publish --tag="ninshiki-config"
 composer test
 ```
 
+## Deployment
+You'll need to build both the client-side (app.js) and server-side bundles (ssr.js), and then run the SSR server as a background process, typically using a process monitoring tool such as Supervisor.
+```bash
+php artisan inertia:start-ssr
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
