@@ -2,6 +2,8 @@
 
 namespace MarJose123\Ninshiki;
 
+use Illuminate\Routing\Route;
+use MarJose123\Ninshiki\Http\Middleware\HandleInertiaRequestsMiddleware;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -21,7 +23,6 @@ class NinshikiServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasInertiaComponents()
             ->hasRoute('web')
-            ->publishesServiceProvider('NinshikiInertiaServiceProvider')
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->startWith(function (InstallCommand $command) {
@@ -36,5 +37,11 @@ class NinshikiServiceProvider extends PackageServiceProvider
                     });
 
             });
+    }
+
+    public function bootingPackage(): void
+    {
+       $router = $this->app->make(Route::class);
+       $router->middleware('inertia', HandleInertiaRequestsMiddleware::class);
     }
 }
