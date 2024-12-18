@@ -27,9 +27,7 @@ class NinshikiServiceProvider extends PackageServiceProvider
                     ->startWith(function (InstallCommand $command) {
                         $command->info('Installing Ninshiki...');
                     })
-                    ->publishConfigFile();
-                $command->callSilent('inertia:middleware');
-                $command
+                    ->publishConfigFile()
                     ->publishConfigFile()
                     ->copyAndRegisterServiceProviderInApp()
                     ->askToStarRepoOnGitHub('ninshiki-project/ninshiki')
