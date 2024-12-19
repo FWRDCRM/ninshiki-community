@@ -1,4 +1,9 @@
 {
+  "resources/css/ninshiki.css": {
+    "file": "assets/ninshiki.css",
+    "src": "resources/css/ninshiki.css",
+    "isEntry": true
+  },
   "resources/js/app.js": {
     "file": "assets/app.js",
     "name": "app",
