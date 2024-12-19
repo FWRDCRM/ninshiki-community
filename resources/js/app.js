@@ -1,4 +1,6 @@
 import {createApp, h} from 'vue'
+import PrimeVue from 'primevue/config';
+import Aura from '@primevue/themes/aura';
 import {createInertiaApp} from '@inertiajs/vue3'
 
 createInertiaApp({
@@ -10,6 +12,11 @@ createInertiaApp({
     setup({el, App, props, plugin}) {
         createApp({render: () => h(App, props)})
             .use(plugin)
+            .use(PrimeVue, {
+                theme: {
+                    presets: Aura
+                }
+            })
             .mount(el)
     },
 })
