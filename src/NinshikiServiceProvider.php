@@ -2,6 +2,7 @@
 
 namespace MarJose123\Ninshiki;
 
+use MarJose123\Ninshiki\Console\Commands\PublishCommand;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -21,6 +22,7 @@ class NinshikiServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasInertiaComponents()
             ->hasAssets()
+            ->hasConsoleCommand(PublishCommand::class)
             ->hasRoute('web')
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
