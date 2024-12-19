@@ -17,7 +17,7 @@ class PublishCommand extends Command
     {
         $this->call('vendor:publish', [
             '--tag' => 'ninshiki-config',
-            '--force' => $this->option('force'),
+            '--force' => $this->hasOption('force'),
         ]);
 
         $this->call('vendor:publish', [
@@ -32,9 +32,8 @@ class PublishCommand extends Command
     /**
      * Get the console command options.
      *
-     * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['force', 'f', InputOption::VALUE_NONE, 'Overwrite any existing files'],
