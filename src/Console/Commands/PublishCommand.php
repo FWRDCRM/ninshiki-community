@@ -31,7 +31,6 @@ class PublishCommand extends Command
 
     /**
      * Get the console command options.
-     *
      */
     protected function getOptions(): array
     {
