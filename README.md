@@ -20,10 +20,21 @@ Install the ninshiki
 php artisan ninshiki:install
 ```
 
-You can publish the config file with:
+You can publish the config and assets file with:
 
 ```bash
-php artisan vendor:publish --tag="ninshiki-config"
+php artisan ninshiki:publish
+```
+
+Keeping Ninshiki’s Assets Updated
+###### _To ensure Nova’s assets are updated when a new version is downloaded, you may add a Composer hook inside your project’s composer.json file to automatically publish Nova’s latest assets:_
+```
+"scripts": {
+    "post-update-cmd": [
+        "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
++        "@php artisan ninshiki:publish --ansi"
+    ]
+}
 ```
 
 ## Testing
