@@ -11,10 +11,15 @@ createInertiaApp({
     title: title => title ? `${title} - Ninshiki` : 'Ninshiki',
     setup({el, App, props, plugin}) {
         createApp({render: () => h(App, props)})
-            .use(plugin)
             .use(PrimeVue, {
                 theme: {
-                    presets: Aura
+                    preset: Aura,
+                    options: {
+                        cssLayer: {
+                            name: 'primevue',
+                            order: 'tailwind-base, primevue, tailwind-utilities'
+                        }
+                    }
                 }
             })
             .mount(el)
