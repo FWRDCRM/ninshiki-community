@@ -21,6 +21,8 @@
         }
     </script>
 
+    @routes
+
     {{ Vite::useBuildDirectory('vendor/ninshiki')
     ->useHotFile('vendor/ninshiki/ninshiki.hot')
     ->withEntryPoints(['resources/js/app.js', 'resources/css/ninshiki.css']) }}
