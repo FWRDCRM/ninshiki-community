@@ -11,7 +11,7 @@
     @vite('resources/js/app.js')
     {{ Vite::useBuildDirectory('vendor/ninshiki')
     ->useHotFile('vendor/ninshiki/ninshiki.hot')
-    ->withEntryPoints(['resources/js/app.js']) }}
+    ->withEntryPoints(['resources/js/app.js', 'resources/css/ninshiki.css']) }}
     @inertiaHead
 </head>
 <body class="font-sans leading-none text-gray-700 antialiased">

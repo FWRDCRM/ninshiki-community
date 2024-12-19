@@ -7,7 +7,7 @@ export default defineConfig({
         laravel({
             hotFile: 'resources/dist/ninshiki.hot',
             buildDirectory: '../resources/dist',
-            input: 'resources/js/app.js',
+            input: ['resources/js/app.js', 'resources/css/ninshiki.css'],
             ssr: 'resources/js/ssr.js',
             refresh: true,
         }),
