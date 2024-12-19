@@ -1,12 +1,8 @@
 <script setup>
-import { Head } from '@inertiajs/vue3'
 </script>
 
 <template>
-    <Head title="Welcome" />
-    <h1>Welcome</h1>
-    <p>Hello, welcome to your first Inertia app!</p>
-
+    <p class="text-gray-600 font-bold">Hello, welcome to your first Inertia app!</p>
 </template>
 
 <style scoped>
