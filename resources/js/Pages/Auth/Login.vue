@@ -2,7 +2,12 @@
 </script>
 
 <template>
-    <p class="text-gray-600 font-bold">Hello, welcome to your first Inertia app!</p>
+    <div class="container flex min-h-dvh min-w-full">
+        <div class="flex items-center justify-center w-full">
+            <p>Continue with Zoho</p>
+        </div>
+
+    </div>
 </template>
 
 <style scoped>
