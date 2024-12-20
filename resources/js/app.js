@@ -2,6 +2,7 @@ import {createApp, h} from 'vue'
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import {createInertiaApp} from '@inertiajs/vue3'
+import { ZiggyVue } from 'ziggy-js';
 
 createInertiaApp({
     resolve: name => {
@@ -11,6 +12,7 @@ createInertiaApp({
     title: title => title ? `${title} - Ninshiki` : 'Ninshiki',
     setup({el, App, props, plugin}) {
         createApp({render: () => h(App, props)})
+            .use(ZiggyVue)
             .use(PrimeVue, {
                 theme: {
                     preset: Aura,
