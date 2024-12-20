@@ -74,4 +74,12 @@ return [
         VerifyCsrfToken::class,
     ],
 
+    'authMiddleware' => [
+
+    ],
+
+    'guestMiddleware' => [
+
+    ],
+
 ];
