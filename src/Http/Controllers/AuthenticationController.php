@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -35,7 +36,7 @@ class AuthenticationController
     /**
      * @throws ConnectionException
      */
-    public function callbackForProviderLogin(Request $request): RedirectResponse|Redirector|Response
+    public function callbackForProviderLogin(Request $request): RedirectResponse
     {
         $response = Http::ninshiki()
             ->post('/login/zoho', [
@@ -51,9 +52,16 @@ class AuthenticationController
             abort(422, $body->error->message);
         }
 
-        return Inertia::render('Feeds', [
-            'response' => $body,
+        $request->session()->regenerate();
+
+        // store session and access tokens
+        session([
+            'token' => $body->token->accessToken,
+            'userId' => $body->user->id,
+            'user' => $body->user,
         ]);
+
+        return redirect(route('feed'));
 
     }
 }
