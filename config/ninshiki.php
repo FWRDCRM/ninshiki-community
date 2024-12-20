@@ -5,7 +5,9 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use MarJose123\Ninshiki\Http\Middleware\AuthenticateMiddleware;
 use MarJose123\Ninshiki\Http\Middleware\HandleInertiaRequestsMiddleware;
+use MarJose123\Ninshiki\Http\Middleware\RedirectIfAuthenticated;
 
 return [
 
@@ -75,11 +77,11 @@ return [
     ],
 
     'authMiddleware' => [
-
+        AuthenticateMiddleware::class,
     ],
 
     'guestMiddleware' => [
-
+        RedirectIfAuthenticated::class,
     ],
 
 ];

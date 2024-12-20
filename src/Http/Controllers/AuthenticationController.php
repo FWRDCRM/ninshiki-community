@@ -55,7 +55,7 @@ class AuthenticationController
         $request->session()->regenerate();
 
         // store session and access tokens
-        session([
+        $request->session()->put([
             'token' => $body->token->accessToken,
             'userId' => $body->user->id,
             'user' => $body->user,

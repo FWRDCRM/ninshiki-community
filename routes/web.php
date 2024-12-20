@@ -14,7 +14,7 @@ Route::middleware(config('ninshiki.middleware'))
          */
         Route::middleware(config('ninshiki.guestMiddleware'))
             ->group(function () {
-                Route::get('/', [AuthenticationController::class, 'index'])->name('login');
+                Route::get('/', [AuthenticationController::class, 'index'])->name('login.page');
                 Route::get('/provider/zoho', [AuthenticationController::class, 'requestForProviderLogin'])->name('login.requestProvider');
                 Route::get('/callback/provider/zoho', [AuthenticationController::class, 'callbackForProviderLogin'])->name('login.callback');
             });
