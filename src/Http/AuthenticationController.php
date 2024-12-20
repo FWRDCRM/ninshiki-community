@@ -2,7 +2,6 @@
 
 namespace MarJose123\Ninshiki\Http;
 
-use _PHPStan_62c6a0a8b\Nette\Schema\ValidationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
@@ -34,22 +33,22 @@ class AuthenticationController
     public function callbackForProviderLogin(Request $request): Redirector|RedirectResponse
     {
         $response = Http::ninshiki()
-            ->post('/api/login/zoho',[
+            ->post('/api/login/zoho', [
                 'code' => $request->get('code'),
             ]);
         $body = $response->object();
 
-        if($response->status() === 401) {
+        if ($response->status() === 401) {
             abort(401, $body->message);
         }
 
-        if($response->status() === 422) {
+        if ($response->status() === 422) {
             abort(422, $body->message);
         }
 
-        if(response()->status() === 200) {
+        if (response()->status() === 200) {
             Inertia::render('Feeds', [
-               'response' => $body,
+                'response' => $body,
             ]);
         }
 
