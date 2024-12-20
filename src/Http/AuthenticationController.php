@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class AuthenticationController
 {
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
         return Inertia::render('Auth/Login');
     }
@@ -34,7 +35,7 @@ class AuthenticationController
     /**
      * @throws ConnectionException
      */
-    public function callbackForProviderLogin(Request $request): Redirector|RedirectResponse
+    public function callbackForProviderLogin(Request $request): RedirectResponse|Redirector|Response
     {
         $response = Http::ninshiki()
             ->post('/login/zoho', [
@@ -43,18 +44,16 @@ class AuthenticationController
         $body = $response->object();
 
         if ($response->status() === 401) {
-            abort(401, $body->message);
+            abort(401, $body->error->message);
         }
 
         if ($response->status() === 422) {
-            abort(422, $body->message);
+            abort(422, $body->error->message);
         }
 
-        if (response()->status() === 200) {
-            Inertia::render('Feeds', [
-                'response' => $body,
-            ]);
-        }
+        return Inertia::render('Feeds', [
+            'response' => $body,
+        ]);
 
     }
 }
