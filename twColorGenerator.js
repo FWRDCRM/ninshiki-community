@@ -19,7 +19,14 @@ const toRGBString = hexCode => {
     return hexCode
 }
 
-const colors = { primary: twColors.sky, ...twColors, gray: twColors.slate }
+// delete old tailwind css
+delete twColors.lightBlue
+delete twColors.warmGray
+delete twColors.trueGray
+delete twColors.coolGray
+delete twColors.blueGray
+
+const colors = {primary: twColors.sky, ...twColors, gray: twColors.slate}
 
 const except = omit(colors, [
     'stone',
