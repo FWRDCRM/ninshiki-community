@@ -50,6 +50,11 @@ class HandleInertiaRequestsMiddleware extends Middleware
                     'error' => $request->session()->get('error'),
                 ];
             },
+            'app' => function () {
+                return [
+                    'version' => \Composer\InstalledVersions::getPrettyVersion('ninshiki-project/ninshiki'),
+                ];
+            },
         ]);
     }
 }
