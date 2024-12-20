@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    @routes
 
     {{-- Inertia --}}
     <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=smoothscroll,NodeList.prototype.forEach,Promise,Object.values,Object.assign" defer></script>
@@ -21,7 +22,6 @@
         }
     </script>
 
-    @routes
 
     {{ Vite::useBuildDirectory('vendor/ninshiki')
     ->useHotFile('vendor/ninshiki/ninshiki.hot')
