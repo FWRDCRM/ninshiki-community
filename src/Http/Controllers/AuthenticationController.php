@@ -1,6 +1,6 @@
 <?php
 
-namespace MarJose123\Ninshiki\Http;
+namespace MarJose123\Ninshiki\Http\Controllers;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\ConnectionException;
