@@ -50,6 +50,7 @@ class NinshikiServiceProvider extends PackageServiceProvider
         Http::macro('ninshiki', function () {
             return Http::withHeaders([
                 'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
             ])->baseUrl(config('ninshiki.backend').'/api');
         });
 
