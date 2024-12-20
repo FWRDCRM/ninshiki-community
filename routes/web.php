@@ -8,5 +8,7 @@ Route::middleware(config('ninshiki.middleware'))
 
         // Authentication Route
         Route::get('/', [AuthenticationController::class, 'index'])->name('login');
+        Route::get('/provider/zoho', [AuthenticationController::class, 'requestForProviderLogin'])->name('login.requestProvider');
+        Route::get('/callback/provider/zoho', [AuthenticationController::class, 'callbackForProviderLogin'])->name('login.callback');
 
     });

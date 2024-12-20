@@ -22,9 +22,13 @@ class AuthenticationController
      */
     public function requestForProviderLogin(): Application|Redirector|RedirectResponse
     {
-        $url = Http::ninshiki()->get('/api/login/zoho');
+        $response = Http::ninshiki()->get('/login/zoho');
 
-        return redirect($url);
+        if ($response->status() !== 200) {
+            abort($response->status(), 'something went wrong');
+        }
+
+        return redirect($response->object()->link);
     }
 
     /**
@@ -33,7 +37,7 @@ class AuthenticationController
     public function callbackForProviderLogin(Request $request): Redirector|RedirectResponse
     {
         $response = Http::ninshiki()
-            ->post('/api/login/zoho', [
+            ->post('/login/zoho', [
                 'code' => $request->get('code'),
             ]);
         $body = $response->object();
