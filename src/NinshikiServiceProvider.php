@@ -2,6 +2,7 @@
 
 namespace MarJose123\Ninshiki;
 
+use Illuminate\Support\Facades\Http;
 use MarJose123\Ninshiki\Console\Commands\PublishCommand;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -37,5 +38,20 @@ class NinshikiServiceProvider extends PackageServiceProvider
                     });
 
             });
+    }
+
+    public function packageBooted()
+    {
+        /**
+         * --------------------------------------------------------------------------------
+         *  HTTP MACRO
+         * --------------------------------------------------------------------------------
+         */
+        Http::macro('ninshiki', function () {
+            return Http::withHeaders([
+                'Accept' => 'application/json',
+            ])->baseUrl(config('ninshiki.backend').'/api');
+        });
+
     }
 }
