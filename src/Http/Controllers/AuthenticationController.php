@@ -17,7 +17,7 @@ class AuthenticationController
 {
     public function index(): InertiaResponse
     {
-        return Inertia::render('Auth/Login');
+        return Inertia::render('auth/login');
     }
 
     /**
