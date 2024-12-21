@@ -51,7 +51,7 @@ class AuthenticationController
         $body = $response->object();
 
         if ($response->status() === 401) {
-            abort(401, $body->message);
+            abort(401);
         }
 
         if ($response->status() === 422) {
