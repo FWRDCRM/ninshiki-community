@@ -47,6 +47,7 @@ class HandleInertiaRequestsMiddleware extends Middleware
             },
             'app' => function () {
                 return [
+                    'name' => config('ninshiki.name'),
                     'version' => \Composer\InstalledVersions::getPrettyVersion('ninshiki-project/ninshiki'),
                 ];
             },
