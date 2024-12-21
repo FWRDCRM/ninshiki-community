@@ -32,7 +32,7 @@ const description = computed(() => {
                 <p class="font-bold text-3xl text-gray-600">{{ title }}</p>
                 <p class="font-normal">{{ description }}</p>
                 <div class="flex max-w-60">
-                    <Button v-show="redirect" class="mt-8" label="Go Back" as="a" :href="redirect"/>
+                    <Button class="mt-8" label="Go Back" as="a" :href="redirect ?? '/'"/>
                 </div>
             </div>
         </div>
