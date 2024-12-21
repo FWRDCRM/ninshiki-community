@@ -17,10 +17,21 @@ class FeedsController
         $response = Http::ninshiki()
             ->withToken($request->session()->get('token'))
             ->get(config('ninshiki.api_version').'/posts');
-        dd($response);
+        $posts = $response->json();
+        $posts = [
+            'data' => $posts['data'],
+            'meta' => [
+                'current_page' => $posts['meta']['current_page'],
+                'last_page' => $posts['meta']['last_page'],
+                'per_page' => $posts['meta']['per_page'],
+                'total' => $posts['meta']['total'],
+                'from' => $posts['meta']['from'],
+                'to' => $posts['meta']['to'],
+            ],
+        ];
 
         return Inertia::render('feed/index', [
-            'posts' => [],
+            'posts' => $posts,
         ]);
     }
 }
