@@ -6,8 +6,8 @@ import { ZiggyVue } from 'ziggy-js';
 
 createInertiaApp({
     resolve: name => {
-        const pages = import.meta.glob('./Pages/**/*.vue', {eager: true})
-        return pages[`./Pages/${name}.vue`]
+        const pages = import.meta.glob('./Inertia/**/*.vue', {eager: true})
+        return pages[`./Inertia/Pages/${name}.vue`]
     },
     title: title => title ? `${title} - Ninshiki` : 'Ninshiki',
     setup({el, App, props, plugin}) {
