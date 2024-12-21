@@ -36,7 +36,7 @@ class HandleInertiaRequestsMiddleware extends Middleware
         return array_merge(parent::share($request), [
             'auth' => function () use ($request) {
                 return [
-                    'user' => $request->session()->has('user') ? [...$request->session()->get('user')] : null,
+                    'user' => $request->session()->has('user') ? $request->session()->get('user') : null,
                 ];
             },
             'flash' => function () use ($request) {
