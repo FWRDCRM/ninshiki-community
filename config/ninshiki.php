@@ -21,7 +21,7 @@ return [
      * framework needs to display the name of the application within the UI
      * or in other locations. Of course, you're free to change the value.
      */
-    'name' => env('NINSHIKI_NAME', env('APP_NAME')),
+    'name' => env('NINSHIKI_NAME', 'Ninshiki'),
 
     /**
      * ----------------------------------------------------------------------------------------------
