@@ -1,5 +1,6 @@
 import {createApp, h} from 'vue'
 import PrimeVue from 'primevue/config';
+import ConfirmationService from 'primevue/confirmationservice';
 import Aura from '@primevue/themes/aura';
 import {createInertiaApp} from '@inertiajs/vue3'
 import { ZiggyVue } from 'ziggy-js';
@@ -24,6 +25,7 @@ createInertiaApp({
                     }
                 }
             })
+            .use(ConfirmationService)
             .mount(el)
     },
 })
