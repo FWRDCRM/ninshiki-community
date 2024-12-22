@@ -90,7 +90,9 @@ const items = ref([
                                     class="mr-2" shape="circle"/>
                                 <span class="inline-flex flex-col items-start">
                             <span class="text-balance font-bold">{{ page.props.auth.user.name }}</span>
-                            <span class="text-xs font-normal italic text-gray-400">{{ page.props.auth.user.email }}</span>
+                            <span class="text-xs font-normal italic text-gray-400">{{
+                                    page.props.auth.user.email
+                                }}</span>
                         </span>
                             </button>
                             <p class="flex flex-row-reverse italic w-full p-2 font-normal text-sm text-gray-300">
