@@ -4,6 +4,7 @@ import {router, usePage} from "@inertiajs/vue3";
 import Menu from 'primevue/menu';
 import LogoutDialog from "@/Components/Auth/LogoutDialog.vue";
 import {useConfirm} from "primevue/useconfirm";
+import ScrollPanel from 'primevue/scrollpanel';
 
 const confirm = useConfirm();
 const page = usePage()
@@ -99,9 +100,9 @@ const items = ref([
             </div>
 
             <div>
-                <div class="pl-5">
+                <ScrollPanel  class="pl-5">
                     <slot/>
-                </div>
+                </ScrollPanel >
             </div>
         </main>
     </div>
