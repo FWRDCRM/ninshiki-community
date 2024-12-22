@@ -18,7 +18,7 @@ defineOptions({layout: Layout})
                 <div
                     class="cursor-pointer flex-grow p-2 border text-left bg-gray-300 border-gray-300 rounded-full outline-none">
                     <div class="flex">
-                        <span class="text-sm font-normal text-gray-500">Who you want to recognize?</span>
+                        <span class="text-sm font-normal text-gray-500">Who you want to recognize?, {{user.name}}</span>
                     </div>
                 </div>
             </div>
