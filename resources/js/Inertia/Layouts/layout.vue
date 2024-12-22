@@ -87,7 +87,7 @@ const items = ref([
                                     class="relative overflow-hidden w-full border-0 bg-transparent flex items-start p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200">
                                 <Avatar
                                     :image="page.props.auth.user.avatar ?? `https://avatar.iran.liara.run/username?username=${page.props.auth.user.name}`"
-                                    class="mr-2" shape="circle"/>
+                                    class="mr-2" size="large" shape="circle"/>
                                 <span class="inline-flex flex-col items-start">
                             <span class="text-balance font-bold">{{ page.props.auth.user.name }}</span>
                             <span class="text-xs font-normal italic text-gray-400">{{
