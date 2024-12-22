@@ -30,7 +30,9 @@
 
     @inertiaHead
 </head>
-<body class=" text-sm font-medium min-h-full text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800">
-@inertia
+<body class=" text-sm font-medium h-screen text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800">
+<div class="flex">
+    @inertia
+</div>
 </body>
 </html>
