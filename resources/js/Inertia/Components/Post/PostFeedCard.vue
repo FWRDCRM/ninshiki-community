@@ -36,7 +36,7 @@ const likedUsers = ref([
 
         <!-- Post Image (Optional) -->
         <div class="mt-4">
-            <Image src="https://via.placeholder.com/600x300" alt="Post Image" class="w-full rounded-lg"/>
+            <Image src="https://via.placeholder.com/600x300" alt="Post Image" class="w-full rounded-lg object-cover"/>
         </div>
 
         <!-- Post Statistics -->
