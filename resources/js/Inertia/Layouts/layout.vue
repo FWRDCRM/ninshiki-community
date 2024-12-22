@@ -54,10 +54,10 @@ const items = ref([
 </script>
 
 <template>
-    <div class="flex">
+    <div class="flex w-full justify-center">
         <LogoutDialog/>
-        <div class="flex px-28 justify-center pt-10">
-            <aside class="h-screen sticky top-9">
+        <div class="flex pt-10">
+            <div class="h-screen sticky top-9">
                 <!-- Fixed Sidebar -->
                 <div class="sidebar">
                     <Menu :model="items" class="w-full md:w-60 ">
@@ -101,10 +101,10 @@ const items = ref([
                         </template>
                     </Menu>
                 </div>
-            </aside>
+            </div>
 
-            <div>
-                <ScrollPanel class="pl-5">
+            <div class="flex w-full">
+                <ScrollPanel class="pl-5 flex w-full">
                     <slot/>
                 </ScrollPanel>
             </div>

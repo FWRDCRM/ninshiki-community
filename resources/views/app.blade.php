@@ -30,9 +30,10 @@
 
     @inertiaHead
 </head>
-<body class=" text-sm font-medium h-screen text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800">
-<div class="flex">
-    @inertia
-</div>
+<body class=" text-sm font-medium h-screen max-w-full text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800">
+{{--<div class="flex w-full">--}}
+{{--    --}}
+{{--</div>--}}
+@inertia
 </body>
 </html>
