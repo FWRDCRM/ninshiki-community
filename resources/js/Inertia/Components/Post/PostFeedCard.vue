@@ -4,7 +4,6 @@ import {ref} from "vue";
 
 const props = defineProps({post: Object})
 
-
 const likedUsers = ref([
     {avatar: "https://via.placeholder.com/40"},
     {avatar: "https://via.placeholder.com/40"},
@@ -16,27 +15,28 @@ const likedUsers = ref([
 </script>
 
 <template>
-    <div class="max-w-xl mx-auto bg-white border border-gray-300 rounded-lg shadow-md p-4">
+    <div class="max-w-sm md:max-w-xl md:min-w-xl mx-auto bg-white border border-gray-300 rounded-lg shadow-md p-4">
         <!-- Post Header -->
         <div class="flex items-center gap-3">
-            <Avatar image="https://via.placeholder.com/40" shape="circle" size="large" alt="Profile Picture"
+            <Avatar :image="props?.post.posted_by?.avatar ?? `https://avatar.iran.liara.run/username?username=${props?.post.posted_by?.name}`" shape="circle" size="large" alt="Profile Picture"
                     class="w-10 h-10 rounded-full"/>
             <div>
-                <h3 class="text-sm font-semibold">John Doe</h3>
-                <p class="text-xs text-gray-500">2 hrs ago</p>
+                <h3 class="text-sm font-semibold">{{props?.post.posted_by.name}}</h3>
+                <p class="text-xs text-gray-500">{{props?.post.created_at_formatted}}</p>
             </div>
         </div>
 
         <!-- Post Content -->
         <div class="mt-4">
-            <p class="text-gray-700">
-                Just wanted to share this amazing moment with everyone. It's such a beautiful day outside!
+            <p class="text-gray-700 font-normal text-sm">
+                {{ props.post.content }}
             </p>
         </div>
 
         <!-- Post Image (Optional) -->
         <div class="mt-4">
-            <Image src="https://via.placeholder.com/600x300" alt="Post Image" class="w-full rounded-lg object-cover"/>
+            <!-- 600x300 -->
+            <Image :src="props.post.attachment_url" alt="Post Image" width="600" height="300" class="w-full rounded-lg object-cover"/>
         </div>
 
         <!-- Post Statistics -->
