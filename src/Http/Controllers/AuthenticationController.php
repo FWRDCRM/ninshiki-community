@@ -76,4 +76,19 @@ class AuthenticationController
         return redirect(route('feed'));
 
     }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function logout(Request $request)
+    {
+        $response = Http::ninshiki()
+            ->withToken($request->session()->get('token'))
+            ->post('/logout');
+
+        $request->session()->flush();
+        $request->session()->regenerate();
+
+        return to_route('login.page');
+    }
 }

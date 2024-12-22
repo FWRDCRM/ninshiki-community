@@ -26,6 +26,9 @@ Route::middleware(config('ninshiki.middleware'))
          */
         Route::middleware(config('ninshiki.authMiddleware'))
             ->group(function () {
+                // logout
+                Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+
                 Route::get('/feed', [FeedsController::class, 'index'])->name('feed');
             });
     });
