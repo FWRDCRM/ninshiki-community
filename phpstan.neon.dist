@@ -14,3 +14,5 @@ parameters:
         - Illuminate\Http\Resources\Json\JsonResource
         - Illuminate\Database\Eloquent\Collection
         - Illuminate\Foundation\Auth\User
+    ignoreErrors:
+        - "#^Unsafe usage of new static#"
