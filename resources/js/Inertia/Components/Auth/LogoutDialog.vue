@@ -15,8 +15,8 @@ const page = usePage()
                 <span class="font-bold text-2xl block mb-2 mt-6">{{ message.header }}</span>
                 <p class="mb-0">{{ message.message }}</p>
                 <div class="flex items-center gap-2 mt-6">
-                    <Button label="Cancel" severity="secondary" @click="rejectCallback"></Button>
-                    <Button label="Logout" severity="danger" @click="acceptCallback"></Button>
+                    <Button label="Cancel" severity="secondary" @click="rejectCallback" class="w-32"></Button>
+                    <Button label="Logout" severity="danger" @click="acceptCallback" class="w-32"></Button>
                 </div>
             </div>
         </template>
