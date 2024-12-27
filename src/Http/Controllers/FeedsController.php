@@ -34,4 +34,16 @@ class FeedsController
             'posts' => $posts,
         ]);
     }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function likeUnlike(Request $request, $id)
+    {
+        $response = Http::ninshiki()
+            ->withToken($request->session()->get('token'))
+            ->patch(config('ninshiki.api_version').'/posts/'.$id.'/toggle/like');
+
+        return $response->json();
+    }
 }

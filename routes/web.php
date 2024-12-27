@@ -28,7 +28,8 @@ Route::middleware(config('ninshiki.middleware'))
             ->group(function () {
                 // logout
                 Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
-
+                //post
                 Route::get('/feed', [FeedsController::class, 'index'])->name('feed');
+                Route::patch('/feed', [FeedsController::class, 'likeUnlike'])->name('feeds.like-unlike');
             });
     });
