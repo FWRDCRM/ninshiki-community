@@ -5,6 +5,7 @@ import Menu from 'primevue/menu';
 import LogoutDialog from "@/Components/Auth/LogoutDialog.vue";
 import {useConfirm} from "primevue/useconfirm";
 import ScrollPanel from 'primevue/scrollpanel';
+import Toast from 'primevue/toast';
 
 const confirm = useConfirm();
 const page = usePage()
@@ -56,6 +57,7 @@ const items = ref([
 <template>
     <div class="flex w-full justify-center">
         <LogoutDialog/>
+        <Toast position="bottom-right" group="br"/>
         <div class="flex pt-10">
             <div class="h-screen sticky top-9">
                 <!-- Fixed Sidebar -->
