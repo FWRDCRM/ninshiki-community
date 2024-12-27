@@ -26,7 +26,7 @@ export function setupAxios() {
 
             // Show the user a 500 error
             if (status >= 500) {
-                Ninshiki.$emit('error', error.response.data.message)
+                NinshikiApp.$emit('error', error.response.data.message)
             }
 
             // Handle Session Timeouts (Unauthorized)
@@ -46,7 +46,7 @@ export function setupAxios() {
 
             // Handle Token Timeouts
             if (status === 419) {
-                Ninshiki.$emit('token-expired')
+                NinshikiApp.$emit('token-expired')
             }
 
             return Promise.reject(error)

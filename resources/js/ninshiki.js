@@ -104,7 +104,7 @@ export default class Ninshiki {
     }
 
     /**
-     * Register a listener on Nova's built-in event bus
+     * Register a listener on Ninshiki's built-in event bus
      *
      * @param args
      */
@@ -140,7 +140,7 @@ export default class Ninshiki {
     }
 
     /**
-     * Return an axios instance configured to make requests to Nova's API
+     * Return an axios instance configured to make requests to Ninshiki's API
      * and handle certain response codes.
      *
      * @param {AxiosRequestConfig|null} [options=null]
