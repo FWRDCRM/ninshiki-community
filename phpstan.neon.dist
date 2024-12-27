@@ -16,3 +16,4 @@ parameters:
         - Illuminate\Foundation\Auth\User
     ignoreErrors:
         - "#^Unsafe usage of new static#"
+        - '#^Call to an undefined static method Illuminate\\Support\\Facades\\Http::ninshiki\(\)#'
