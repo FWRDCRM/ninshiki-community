@@ -13,11 +13,11 @@ jobs:
     if: github.event.pull_request.merged == true
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: main
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
       - name: Install dependencies
         run: npm ci
       - name: Build assets
@@ -25,7 +25,7 @@ jobs:
       - name: Pull changes
         run: git pull
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: main
           commit_message: >
