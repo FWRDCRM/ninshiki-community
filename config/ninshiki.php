@@ -7,6 +7,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Inertia\EncryptHistoryMiddleware;
 use MarJose123\Ninshiki\Http\Middleware\AuthenticateMiddleware;
+use MarJose123\Ninshiki\Http\Middleware\DispatchServingNinshikiEvent;
 use MarJose123\Ninshiki\Http\Middleware\HandleInertiaRequestsMiddleware;
 use MarJose123\Ninshiki\Http\Middleware\RedirectIfAuthenticated;
 
@@ -83,6 +84,7 @@ return [
         AddQueuedCookiesToResponse::class,
         ShareErrorsFromSession::class,
         VerifyCsrfToken::class,
+        DispatchServingNinshikiEvent::class,
     ],
 
     'authMiddleware' => [

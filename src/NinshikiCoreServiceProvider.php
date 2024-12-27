@@ -5,6 +5,7 @@ namespace MarJose123\Ninshiki;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
+use MarJose123\Ninshiki\Events\ServingNinshiki;
 use Psr\Http\Message\RequestInterface;
 
 class NinshikiCoreServiceProvider extends ServiceProvider
@@ -13,8 +14,8 @@ class NinshikiCoreServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->registerHttpMacros();
         $this->registerJsonVariables();
+        $this->registerHttpMacros();
     }
 
     protected function registerHttpMacros(): void
@@ -40,9 +41,9 @@ class NinshikiCoreServiceProvider extends ServiceProvider
         ));
     }
 
-    protected function registerJsonVariables()
+    protected function registerJsonVariables(): void
     {
-        Ninshiki::serving(function () {
+        Ninshiki::serving(function (ServingNinshiki $event) {
             Ninshiki::config([
                 'appName' => Ninshiki::name() ?? config('app.name', 'Ninshiki'), /** @phpstan-ignore nullCoalesce.expr */
                 'timezone' => config('app.timezone', 'UTC'),
