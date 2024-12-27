@@ -6,7 +6,7 @@ import ToastService from "primevue/toastservice";
 import ConfirmationService from "primevue/confirmationservice";
 import {createApp, h} from "vue";
 import {createInertiaApp} from "@inertiajs/vue3";
-import {setupAxios} from "./util/axios.js";
+import {setupAxios} from "@util/axios.js";
 
 const emitter = new Emitter()
 
