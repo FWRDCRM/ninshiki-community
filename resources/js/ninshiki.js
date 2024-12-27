@@ -7,16 +7,18 @@ import ConfirmationService from "primevue/confirmationservice";
 import {createApp, h} from "vue";
 import {createInertiaApp} from "@inertiajs/vue3";
 import {setupAxios} from "@util/axios.js";
+import {ToastEventBus} from "primevue";
 
 const emitter = new Emitter()
 
 export default class Ninshiki {
-    constructor (config) {
+    constructor(config) {
         /** @readonly */
         this.appConfig = config
+        this.toast = ToastEventBus
     }
 
-    async engineStart () {
+    async engineStart() {
         this.log('Initiating Ninshiki engine...')
 
         const appName = this.config('appName')
@@ -25,29 +27,29 @@ export default class Ninshiki {
             title: title => (!title ? appName : `${title} - ${appName}`),
             resolve: name => {
                 const pages = import.meta.glob('./Inertia/**/*.vue', {eager: true})
-                return  pages[`./Inertia/Pages/${name}.vue`]
+                return pages[`./Inertia/Pages/${name}.vue`]
             },
-            setup: ({ el, App, props, plugin }) => {
+            setup: ({el, App, props, plugin}) => {
                 /** @protected */
                 this.mountTo = el
                 /**
                  * @protected
                  * @type VueApp
                  */
-                this.app = createApp({ render: () => h(App, props) })
+                this.app = createApp({render: () => h(App, props)})
 
                 this.app.use(ZiggyVue)
                 this.app.use(PrimeVue, {
-                        theme: {
-                            preset: Aura,
-                            options: {
-                                cssLayer: {
-                                    name: 'primevue',
-                                    order: 'tailwind-base, primevue, tailwind-utilities'
-                                }
+                    theme: {
+                        preset: Aura,
+                        options: {
+                            cssLayer: {
+                                name: 'primevue',
+                                order: 'tailwind-base, primevue, tailwind-utilities'
                             }
                         }
-                    })
+                    }
+                })
                 this.app.use(ToastService)
                 this.app.use(ConfirmationService)
 
@@ -162,13 +164,14 @@ export default class Ninshiki {
      * @param {string} summary
      */
     info(message, summary) {
-        this.$toast.add({
+        this.toast.emit('add', {
             severity: 'info',
             summary: summary,
             detail: message,
             group: 'br',
             life: 3000
         })
+
     }
 
     /**
@@ -218,8 +221,6 @@ export default class Ninshiki {
             life: 3000
         })
     }
-
-
 }
 
 

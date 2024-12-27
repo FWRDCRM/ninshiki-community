@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Ninshiki from "../ninshiki.js";
+import Ninshiki from "@core";
 
 /**
  * @returns {import('axios').AxiosInstance}

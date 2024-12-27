@@ -7,33 +7,15 @@ const props = defineProps({post: Object})
 const toast = useToast();
 
 function onComment() {
-    toast.add({
-        severity: 'info',
-        summary: 'Sorry',
-        detail: 'The functionality you clicked is not yet implemented.',
-        group: 'br',
-        life: 3000
-    })
+    NinshikiApp.info('The functionality you clicked is not yet implemented.', 'Sorry');
 }
 
 function onShare() {
-    toast.add({
-        severity: 'info',
-        summary: 'Sorry',
-        detail: 'The functionality you clicked is not yet implemented.',
-        group: 'br',
-        life: 3000
-    })
+    NinshikiApp.info('The functionality you clicked is not yet implemented.', 'Sorry');
 }
 
 function onLike() {
-    toast.add({
-        severity: 'info',
-        summary: 'Sorry',
-        detail: 'The functionality you clicked is not yet implemented.',
-        group: 'br',
-        life: 3000
-    })
+    NinshikiApp.info('The functionality you clicked is not yet implemented.', 'Sorry');
 }
 
 </script>

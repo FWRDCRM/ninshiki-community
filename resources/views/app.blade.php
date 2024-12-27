@@ -40,11 +40,11 @@
 <script type="module">
 
     const config = @json(\MarJose123\Ninshiki\Ninshiki::jsonVariables(request()));
-    window.Ninshiki = createNinshikiApp(config)
-    Ninshiki.engineStart()
+    window.NinshikiApp = createNinshikiApp(config)
+    NinshikiApp.engineStart()
     /* Start Ninshiki */
     document.addEventListener('DOMContentLoaded', function () {
-        Ninshiki.fly()
+        NinshikiApp.fly()
     })
 </script>
 </body>
