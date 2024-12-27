@@ -64,7 +64,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MarJose123\\Ninshiki\\NinshikiServiceProvider"
+                "MarJose123\\Ninshiki\\NinshikiServiceProvider",
+                "MarJose123\\Ninshiki\\NinshikiCoreServiceProvider"
             ],
             "aliases": {
                 "Ninshiki": "MarJose123\\Ninshiki\\Facades\\Ninshiki"
