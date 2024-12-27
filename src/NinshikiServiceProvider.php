@@ -2,10 +2,7 @@
 
 namespace MarJose123\Ninshiki;
 
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Request;
 use MarJose123\Ninshiki\Console\Commands\PublishCommand;
-use Psr\Http\Message\RequestInterface;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -40,33 +37,5 @@ class NinshikiServiceProvider extends PackageServiceProvider
                     });
 
             });
-    }
-
-    public function packageBooted(): void
-    {
-        /**
-         * --------------------------------------------------------------------------------
-         *  HTTP MACRO
-         * --------------------------------------------------------------------------------
-         */
-        Http::macro('ninshiki', function () {
-            return Http::withHeaders([
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'User-Agent' => Request::header('User-Agent'),
-            ])->baseUrl(config('ninshiki.backend').'/api');
-        });
-
-        /**
-         * --------------------------------------------------------------------------------
-         *  HTTP Client Global Middleware
-         * --------------------------------------------------------------------------------
-         */
-        Http::globalRequestMiddleware(fn (RequestInterface $request) => $request->withHeader(
-            'X-Start-At', now()->toDateTimeString()
-        ));
-        Http::globalResponseMiddleware(fn ($response) => $response->withHeader(
-            'X-Finished-At', now()->toDateTimeString()
-        ));
     }
 }
