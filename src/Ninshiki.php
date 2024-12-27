@@ -50,7 +50,7 @@ class Ninshiki
 
         static::$jsonVariables = array_merge(static::$jsonVariables, $variables);
 
-        return new static();
+        return new static;
     }
 
     /**
