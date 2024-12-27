@@ -181,7 +181,7 @@ export default class Ninshiki {
      * @param  {string} summary
      */
     error(message, summary) {
-        this.$toast.add({
+        this.toast.emit('add', {
             severity: 'error',
             summary: summary,
             detail: message,
@@ -197,7 +197,7 @@ export default class Ninshiki {
      * @param summary
      */
     success(message, summary) {
-        this.$toast.add({
+        this.toast.emit('add', {
             severity: 'success',
             summary: summary,
             detail: message,
@@ -213,7 +213,7 @@ export default class Ninshiki {
      * @param {string} summary
      */
     warning(message, summary) {
-        this.$toast.add({
+        this.toast.emit('add', {
             severity: 'warn',
             summary: summary,
             detail: message,
