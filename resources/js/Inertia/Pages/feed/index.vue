@@ -12,13 +12,14 @@ defineOptions({layout: Layout})
 
 <template>
     <div>
-        <div class="max-w-xl mx-auto bg-white border border-gray-300 rounded-lg shadow-md p-4">
+        <div class="max-w-xl mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
             <div class="flex items-center space-x-3">
                 <img src="https://via.placeholder.com/40" alt="Profile Picture" class="w-10 h-10 rounded-full">
                 <div
                     class="cursor-pointer flex-grow p-2 border text-left bg-gray-300 border-gray-300 rounded-full outline-none">
                     <div class="flex">
-                        <span class="text-sm font-normal text-gray-500">Who you want to recognize?, {{user.name}}</span>
+                        <span
+                            class="text-sm font-normal text-gray-500">Who you want to recognize?, {{ user.name }}</span>
                     </div>
                 </div>
             </div>
