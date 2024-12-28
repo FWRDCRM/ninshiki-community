@@ -31,3 +31,4 @@ testbench.yaml
 /docs
 /coverage
 /resources/dist/ninshiki.hot
+/public/vendor/ninshiki/ninshiki.hot

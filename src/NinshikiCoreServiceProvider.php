@@ -16,6 +16,7 @@ class NinshikiCoreServiceProvider extends ServiceProvider
     {
         $this->registerJsonVariables();
         $this->registerHttpMacros();
+        $this->registerNinshikiAssets();
     }
 
     protected function registerHttpMacros(): void
@@ -51,5 +52,15 @@ class NinshikiCoreServiceProvider extends ServiceProvider
                 'version' => Ninshiki::version(),
             ]);
         });
+    }
+
+    protected function registerNinshikiAssets(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../public/vendor/ninshiki' => public_path('vendor/ninshiki'),
+            ], 'ninshiki-assets');
+        }
+
     }
 }

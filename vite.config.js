@@ -8,8 +8,8 @@ import path from "path";
 export default defineConfig({
     plugins: [
         laravel({
-            hotFile: 'resources/dist/ninshiki.hot',
-            buildDirectory: '../resources/dist',
+            hotFile: 'public/vendor/ninshiki/ninshiki.hot',
+            buildDirectory: '/vendor/ninshiki',
             input: ['resources/js/app.js', 'resources/css/ninshiki.css'],
             ssr: 'resources/js/ssr.js',
             refresh: true,
@@ -31,9 +31,9 @@ export default defineConfig({
     build: {
         rollupOptions: {
             output: {
-                entryFileNames: 'assets/[name].js',
-                chunkFileNames: `assets/[name].js`,
-                assetFileNames: `assets/[name].[ext]`
+                entryFileNames: `[name].js`,
+                chunkFileNames: `[name].js`,
+                assetFileNames: `[name].[ext]`
             }
         }
     },

@@ -21,7 +21,6 @@ class NinshikiServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasInertiaComponents()
-            ->hasAssets()
             ->hasConsoleCommand(PublishCommand::class)
             ->hasRoute('web')
             ->hasInstallCommand(function (InstallCommand $command) {
@@ -29,8 +28,8 @@ class NinshikiServiceProvider extends PackageServiceProvider
                     ->startWith(function (InstallCommand $command) {
                         $command->info('Installing Ninshiki...');
                     })
-                    ->publishConfigFile()
                     ->publishAssets()
+                    ->publishConfigFile()
                     ->askToStarRepoOnGitHub('ninshiki-project/ninshiki')
                     ->endWith(function (InstallCommand $command) {
                         $command->info('Have a great day!');
