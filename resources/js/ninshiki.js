@@ -27,6 +27,12 @@ export default class Ninshiki {
 
         await createInertiaApp({
             title: title => (!title ? appName : `${title} - ${appName}`),
+            progress: {
+                delay: 250,
+                color: '#29d',
+                includeCSS: true,
+                showSpinner: false,
+            },
             resolve: name => {
                 const pages = import.meta.glob('./Inertia/**/*.vue', {eager: true})
                 return pages[`./Inertia/Pages/${name}.vue`]
@@ -54,6 +60,7 @@ export default class Ninshiki {
                 })
                 this.app.use(ToastService)
                 this.app.use(ConfirmationService)
+                this.app.use(plugin)
 
             },
         })
