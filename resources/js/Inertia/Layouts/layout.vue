@@ -41,7 +41,7 @@ const items = ref([
                 icon: 'pi pi-home',
                 command: () => {
                     route().current('feed') ?
-                        router.reload({only: ['posts']}) : router.push(route('feed'));
+                        router.reload({only: ['posts']}) : router.visit(route('feed'), {async: true, showProgress: true});
 
                 }
             },
