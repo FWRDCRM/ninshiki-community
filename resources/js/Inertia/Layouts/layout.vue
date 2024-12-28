@@ -98,7 +98,7 @@ const items = ref([
                         </span>
                             </button>
                             <p class="flex flex-row-reverse italic w-full p-2 font-normal text-sm text-gray-300">
-                                {{ page.props.app.version }}
+                                {{ Ninshiki.version() }}
                             </p>
                         </template>
                     </Menu>
