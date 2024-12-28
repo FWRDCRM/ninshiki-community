@@ -16,6 +16,8 @@ export default class Ninshiki {
         /** @readonly */
         this.appConfig = config
         this.toast = ToastEventBus
+        this.version = config.version;
+        this.appName = config.appName;
     }
 
     async engineStart() {
@@ -62,11 +64,6 @@ export default class Ninshiki {
         this.app.mount(this.mountTo)
         this.log('All systems go...')
     }
-
-    version() {
-        return this.config('version')
-    }
-
 
     /**
      * Log a message to the console with the NINSHIKI prefix
