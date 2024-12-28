@@ -56,7 +56,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
                 <PostFeedCard :key="post.id" :post="post"/>
             </div>
             <!-- Load More Data   -->
-            <div ref="target"></div>
+            <div ref="target" class="-translate-y-32"></div>
         </div>
     </div>
 </template>
