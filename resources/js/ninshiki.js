@@ -63,6 +63,10 @@ export default class Ninshiki {
         this.log('All systems go...')
     }
 
+    version() {
+        return this.config('version')
+    }
+
 
     /**
      * Log a message to the console with the NINSHIKI prefix
