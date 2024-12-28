@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import {router, usePage} from "@inertiajs/vue3";
 import Menu from 'primevue/menu';
 import LogoutDialog from "@/Components/Auth/LogoutDialog.vue";
@@ -23,6 +23,11 @@ const requireConfirmation = () => {
         }
     });
 };
+
+const app = reactive({
+    version: NinshikiApp.version,
+    name: NinshikiApp.appName
+})
 
 const items = ref([
     {
@@ -66,7 +71,7 @@ const items = ref([
                         <template #start>
                     <span class="inline-flex items-center gap-1 px-2 py-2">
                         <span class="text-xl font-semibold text-primary">
-                            {{ page.props.app.name }}
+                            {{ app.name }}
                         </span>
                     </span>
                         </template>
@@ -98,7 +103,7 @@ const items = ref([
                         </span>
                             </button>
                             <p class="flex flex-row-reverse italic w-full p-2 font-normal text-sm text-gray-300">
-                                {{ Ninshiki.version() }}
+                                {{ app.version }}
                             </p>
                         </template>
                     </Menu>
