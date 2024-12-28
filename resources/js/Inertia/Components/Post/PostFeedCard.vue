@@ -2,11 +2,17 @@
 import Image from 'primevue/image';
 import _ from "lodash";
 import {usePage} from "@inertiajs/vue3";
+import {ref} from "vue";
+import RecognizedDialog from "@/Components/Post/RecognizedDialog.vue";
 
 
 const props = defineProps({post: Object})
 const page = usePage()
+const showRecognizedUserModal = ref(false)
 
+function toggleRecognizedUserModal() {
+    showRecognizedUserModal.value = !showRecognizedUserModal.value
+}
 
 function onComment() {
     NinshikiApp.info('The functionality you clicked is not yet implemented.', 'Sorry');
@@ -41,6 +47,9 @@ async function onLike() {
 
 <template>
     <div class="max-w-sm md:max-w-xl md:min-w-xl mx-auto mb-2 bg-white border border-gray-300 rounded-lg shadow-md p-4">
+        <!-- Post Recognized user -->
+        <RecognizedDialog v-model:visible="showRecognizedUserModal" :users="props.post.recipients"/>
+
         <!-- Post Header -->
         <div class="flex items-center gap-3">
             <Avatar
@@ -48,7 +57,15 @@ async function onLike() {
                 shape="circle" size="large" alt="Profile Picture"
                 class="w-10 h-10 rounded-full"/>
             <div>
-                <h3 class="text-sm font-semibold">{{ post.posted_by.name }}</h3>
+                <div class="flex flex-row gap-3 items-center">
+                    <h3 class="text-sm font-semibold">{{ post.posted_by.name }}</h3>
+                    <i class="pi pi-sparkles"/>
+                    <AvatarGroup @click="showRecognizedUserModal = true" class="cursor-pointer">
+                        <Avatar v-for="(_user, index) in post.recipients" :key="index"
+                                :image="_user.avatar ?? `https://avatar.iran.liara.run/username?username=${_user?.name}`"
+                                :alt="_user.name" shape="circle" class="object-cover text-sm"/>
+                    </AvatarGroup>
+                </div>
                 <p class="text-xs text-gray-500">{{ post.created_at_formatted }}</p>
             </div>
         </div>
