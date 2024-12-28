@@ -16,6 +16,10 @@ class FeedsController
     {
         $response = Http::ninshiki()
             ->withToken($request->session()->get('token'))
+            ->withQueryParameters([
+                'page' => $request->has('page') ? $request->get('page') : 1,
+                'per_page' => $request->has('per_page') ? $request->get('per_page') : 15,
+            ])
             ->get(config('ninshiki.api_version').'/posts');
         $posts = $response->json();
         $posts = [
@@ -29,6 +33,10 @@ class FeedsController
                 'to' => $posts['meta']['to'],
             ],
         ];
+
+        if ($request->wantsJson() && ($request->has('page') || $request->has('per_page'))) {
+            return response()->json($posts);
+        }
 
         return Inertia::render('feed/index', [
             'posts' => $posts,
