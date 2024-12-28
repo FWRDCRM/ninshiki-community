@@ -19,7 +19,7 @@ const page = usePage()
                 <div v-for="_user in props.users" :key="_user.id" class="flex items-center">
                     <div class="flex flex-row gap-4 justify-center">
                         <Avatar
-                            :image="_user?.avatar ?? `https://avatar.iran.liara.run/username?username=${_user?.name}`"
+                            :image="_user?.avatar ?? `https://ui-avatars.com/api/?name=${_user?.name}&rounded=true&background=random`"
                             :alt="_user?.name"
                             shape="circle"
                         />

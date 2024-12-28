@@ -17,7 +17,6 @@ const postsState = ref(props.posts.data)
 const postsCurrentPage = ref(props.posts.meta.current_page)
 const postsLastPage = ref(props.posts.meta.last_page)
 
-
 useIntersectionObserver(target, ([{isIntersecting}]) => {
     if (!isIntersecting) {
         return
@@ -40,7 +39,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
     <div>
         <div class="max-w-xl mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
             <div class="flex items-center space-x-3">
-                <img :src="user.avatar ?? `https://avatar.iran.liara.run/username?username=${user.name}`"
+                <img :src="user.avatar ?? `https://ui-avatars.com/api/?name=${user.name}&rounded=true&background=random`"
                      alt="Profile Picture" class="w-10 h-10 rounded-full">
                 <div
                     class="cursor-pointer flex-grow p-2 border text-left bg-gray-300 border-gray-300 rounded-full outline-none">

@@ -72,6 +72,10 @@ export default class Ninshiki {
         this.log('All systems go...')
     }
 
+    uiAvatar(name) {
+        return `https://ui-avatars.com/api/?name=${name}&rounded=true&background=random`
+    }
+
     /**
      * Log a message to the console with the NINSHIKI prefix
      *
@@ -110,6 +114,7 @@ export default class Ninshiki {
     config(key) {
         return this.appConfig[key]
     }
+
 
     /**
      * Register a listener on Ninshiki's built-in event bus
