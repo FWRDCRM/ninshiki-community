@@ -2,7 +2,6 @@
 import {usePage} from "@inertiajs/vue3";
 import {ref} from "vue";
 
-const props = defineProps({toggleCancelPost: Function})
 const page = usePage()
 
 const selectedGif = ref('https://picsum.photos/300/200')
@@ -16,7 +15,7 @@ const onGifLoad = () => {
 
 const onGifRemoved = () => {
     isGifLoaded.value = false;
-    selectedGif.value = '';
+    selectedGif.value = null;
 }
 
 </script>
@@ -61,7 +60,6 @@ const onGifRemoved = () => {
             </div>
 
 
-            <!-- Placeholder for GIF -->
             <!-- Placeholder for GIF -->
             <div v-if="selectedGif" class="mt-4 relative w-[300px] h-[200px] mx-auto group">
                 <Image
