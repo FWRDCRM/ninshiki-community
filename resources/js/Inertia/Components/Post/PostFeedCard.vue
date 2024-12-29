@@ -10,10 +10,6 @@ const props = defineProps({post: Object})
 const page = usePage()
 const showRecognizedUserModal = ref(false)
 
-function toggleRecognizedUserModal() {
-    showRecognizedUserModal.value = !showRecognizedUserModal.value
-}
-
 function onComment() {
     NinshikiApp.info('The functionality you clicked is not yet implemented.', 'Sorry');
 }
