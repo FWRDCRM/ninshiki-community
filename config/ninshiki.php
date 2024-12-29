@@ -78,12 +78,12 @@ return [
      * own authentication middleware
      */
     'middleware' => [
-        HandleInertiaRequestsMiddleware::class,
         StartSession::class,
         EncryptCookies::class,
         AddQueuedCookiesToResponse::class,
         ShareErrorsFromSession::class,
         VerifyCsrfToken::class,
+        HandleInertiaRequestsMiddleware::class,
         DispatchServingNinshikiEvent::class,
     ],
 
