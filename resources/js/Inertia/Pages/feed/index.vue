@@ -4,11 +4,13 @@ import {usePage} from '@inertiajs/vue3'
 import Layout from "@/Layouts/layout.vue";
 import PostFeedCard from "@/Components/Post/PostFeedCard.vue";
 import {useIntersectionObserver} from '@vueuse/core'
+import PostCreateModal from "@/Components/Post/PostCreateModal.vue";
 
 defineOptions({layout: Layout})
 const props = defineProps({posts: Object})
 
 const target = ref(null)
+const showCreateModal = ref(false)
 
 const page = usePage()
 const user = computed(() => page.props.auth.user)
@@ -37,12 +39,15 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
 
 <template>
     <div>
+        <PostCreateModal v-model:visible="showCreateModal"/>
         <div class="max-w-xl mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
             <div class="flex items-center space-x-3">
-                <img :src="user.avatar ?? `https://ui-avatars.com/api/?name=${user.name}&rounded=true&background=random`"
-                     alt="Profile Picture" class="w-10 h-10 rounded-full">
+                <img
+                    :src="user.avatar ?? `https://ui-avatars.com/api/?name=${user.name}&rounded=true&background=random`"
+                    alt="Profile Picture" class="w-10 h-10 rounded-full">
                 <div
-                    class="cursor-pointer flex-grow p-2 border text-left bg-gray-300 border-gray-300 rounded-full outline-none">
+                    class="cursor-pointer flex-grow p-2 border text-left bg-gray-300 border-gray-300 rounded-full outline-none"
+                    @click="showCreateModal=true">
                     <div class="flex">
                         <span
                             class="text-sm font-normal text-gray-500">Who you want to recognize?, {{ user.name }}</span>
