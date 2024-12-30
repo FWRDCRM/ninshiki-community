@@ -19,6 +19,10 @@
     "file": "primeicons.woff2",
     "src": "node_modules/primeicons/fonts/primeicons.woff2"
   },
+  "resources/assets/image/attribution/giphy/PoweredBy_200px-White_HorizText.png": {
+    "file": "PoweredBy_200px-White_HorizText.png",
+    "src": "resources/assets/image/attribution/giphy/PoweredBy_200px-White_HorizText.png"
+  },
   "resources/css/ninshiki.css": {
     "file": "ninshiki.css",
     "src": "resources/css/ninshiki.css",
@@ -28,6 +32,9 @@
     "file": "app.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "assets": [
+      "PoweredBy_200px-White_HorizText.png"
+    ]
   }
 }
