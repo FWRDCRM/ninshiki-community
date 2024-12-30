@@ -2,6 +2,7 @@
 
 use MarJose123\Ninshiki\Http\Controllers\AuthenticationController;
 use MarJose123\Ninshiki\Http\Controllers\FeedsController;
+use MarJose123\Ninshiki\Http\Controllers\GiphyController;
 
 Route::middleware(config('ninshiki.middleware'))
     ->domain(config('ninshiki.domain'))
@@ -31,5 +32,8 @@ Route::middleware(config('ninshiki.middleware'))
                 //post
                 Route::get('/feed', [FeedsController::class, 'index'])->name('feed');
                 Route::patch('/feed/{id}', [FeedsController::class, 'likeUnlike'])->name('feeds.like-unlike');
+                //giphy
+                Route::get('/gif', [GiphyController::class, 'trending'])->name('gif.trending');
+                Route::get('/gif/search', [GiphyController::class, 'search'])->name('gif.search');
             });
     });

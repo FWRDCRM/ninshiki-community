@@ -9,10 +9,15 @@ class GiphyController
 {
     public function trending(Request $request)
     {
-        $reps = Http::giphy()
-            ->withQueryParameters([
-                'api_key' => '',
-            ])->get('/gifs/trending');
+        if ($request->wantsJson()) {
+            $reps = Http::giphy()
+                ->withQueryParameters([
+                    'api_key' => config('ninshiki.giphy.token'),
+                    'limit' => config('ninshiki.giphy.result.limit') ?? 30,
+                    'rating' => 'g',
+                    'bundle' => 'messaging_non_clips',
+                ])->get('/gifs/trending');
+        }
     }
 
     public function search(Request $request)
