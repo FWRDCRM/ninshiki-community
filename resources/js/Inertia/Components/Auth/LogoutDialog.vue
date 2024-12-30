@@ -10,7 +10,7 @@ const page = usePage()
         <template #container="{ message, acceptCallback, rejectCallback }">
             <div class="flex flex-col items-center p-8 bg-surface-0 dark:bg-surface-900 rounded">
                 <Avatar
-                    :image="page.props.auth.user.avatar ?? `https://avatar.iran.liara.run/username?username=${page.props.auth.user.email}`"
+                    :image="page.props.auth.user.avatar ?? `https://ui-avatars.com/api/?name=${page.props.auth.user.name}&rounded=true&background=random`"
                     class="mr-2 rounded-full  h-24 w-24 -mt-20 inline-flex" shape="circle" size="xlarge"/>
                 <span class="font-bold text-2xl block mb-2 mt-6">{{ message.header }}</span>
                 <p class="mb-0">{{ message.message }}</p>
