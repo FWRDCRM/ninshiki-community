@@ -1,47 +1,41 @@
 <script setup>
 
 import {ref, watch} from "vue";
+import _ from "lodash";
 
 const props = defineProps({isVisible: Boolean})
-const emit = defineEmits(['update:isVisible', 'gifSelected'])
+const emit = defineEmits(['gifSelected'])
 
 const giphySearch = ref('');
 const giphyResults = ref([]);
+const giphyOffset = ref(0);
 
 
 // Fetch trending GIFs as default
 const fetchTrendingGifs = async () => {
     try {
-        const response = await NinshikiApp.request().get('https://api.giphy.com/v1/gifs/trending', {
-            params: {
-                api_key: apiKey,
-                limit: 30, // Limit results to 30
-            },
-        });
+        const response = await NinshikiApp.request().get(route('gif.trending'));
         giphyResults.value = response.data.data;
     } catch (error) {
-        console.error('Error fetching trending GIFs:', error);
+        NinshikiApp.debug('Error fetching trending GIFs:', error);
     }
 };
 
 // Search GIFs
 const searchGiphy = async () => {
-    if (giphySearch.value.trim() === '') {
-        fetchTrendingGifs(); // If search is cleared, load trending GIFs
+    if (_.trim(giphySearch.value) === '') {
+        await fetchTrendingGifs(); // If search is cleared, load trending GIFs
         return;
     }
 
     try {
-        const response = await NinshikiApp.request().get('https://api.giphy.com/v1/gifs/search', {
-            params: {
-                api_key: apiKey,
-                q: giphySearch.value,
-                limit: 30, // Limit results to 30
-            },
-        });
+        const response = await NinshikiApp.request().get(route('gif.search', {
+            search: giphySearch.value,
+            offset: giphyOffset.value
+        }));
         giphyResults.value = response.data.data;
     } catch (error) {
-        console.error('Error searching GIFs:', error);
+        NinshikiApp.debug('Error searching GIFs:', error);
     }
 };
 
@@ -53,7 +47,7 @@ const clearSearch = () => {
 
 // Close modal
 const closeModal = () => {
-    emit('update:isVisible', false);
+    emit('update:visible', false);
 };
 
 // Emit selected GIF URL back to the parent
@@ -83,8 +77,8 @@ watch(
     >
         <!-- Header Slot -->
         <template #header>
-            <div class="flex items-center justify-between w-full">
-                <span>Search Giphy</span>
+            <div class="flex items-center justify-center w-full">
+                <span>Search GIF</span>
             </div>
         </template>
 
@@ -97,16 +91,23 @@ watch(
                     <InputText
                         v-model="giphySearch"
                         placeholder="Search GIFs..."
-                        class="w-full pr-10bg-white text-gray-900 border-gray-300"
-                        @input="searchGiphy"
+                        class="w-full pr-10 bg-white text-gray-900 border-gray-300"
+                        @keydown.enter="searchGiphy"
                     />
                     <!-- Clear Button Inside Input -->
                     <Button
                         icon="pi pi-times"
                         v-if="giphySearch.trim()"
-                        class="p-button-text p-button-rounded absolute top-1/2 right-2 -translate-y-1/2"
+                        class="p-button-text p-button-rounded absolute top-1/2 right-10 -translate-y-1/2"
                         @click="clearSearch"
                         aria-label="Clear Search"
+                    />
+                    <!-- Search Button Inside Input -->
+                    <Button
+                        icon="pi pi-search"
+                        class="p-button-text p-button-rounded absolute top-1/2 right-2 -translate-y-1/2"
+                        @click="searchGiphy"
+                        aria-label="Search GIFs"
                     />
                 </div>
             </div>
