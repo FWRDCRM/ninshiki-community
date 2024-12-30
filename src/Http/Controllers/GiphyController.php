@@ -18,7 +18,7 @@ class GiphyController
                     'bundle' => 'messaging_non_clips',
                 ])->get('/gifs/trending');
 
-            return response()->json($reps);
+            return response()->json($reps->json());
         }
     }
 
@@ -36,7 +36,7 @@ class GiphyController
                     'q' => $request->query('q'),
                 ])->get('/gifs/search');
 
-            return response()->json($reps);
+            return response()->json($reps->json());
         }
 
     }
