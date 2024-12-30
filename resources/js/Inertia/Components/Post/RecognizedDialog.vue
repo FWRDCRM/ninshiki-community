@@ -11,7 +11,7 @@ const page = usePage()
     <Dialog modal :style="{ width: '25rem' }">
         <template #header>
             <div class="flex flex-row items-center">
-                <h2>🎉 Recognized User✨🎉</h2>
+                <h2>🎉 Recognized Employee ✨🎉</h2>
             </div>
         </template>
         <div class="flex w-full">
