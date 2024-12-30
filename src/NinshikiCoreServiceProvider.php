@@ -29,6 +29,14 @@ class NinshikiCoreServiceProvider extends ServiceProvider
             ])->baseUrl(config('ninshiki.backend').'/api');
         });
 
+        Http::macro('giphy', function () {
+            return Http::withHeaders([
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ])
+                ->baseUrl('https://api.giphy.com/v1');
+        });
+
         /**
          * --------------------------------------------------------------------------------
          *  HTTP Client Global Middleware
