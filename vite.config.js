@@ -42,6 +42,7 @@ export default defineConfig({
             '@': path.resolve(__dirname,'resources/js/Inertia'),
             '@util': path.resolve(__dirname,'resources/js/utils'),
             '@core': path.resolve(__dirname,'resources/js/ninshiki.js'),
+            '@assets': path.resolve(__dirname,'resources/assets'),
         }
     }
 })

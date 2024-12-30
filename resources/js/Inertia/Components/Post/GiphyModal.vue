@@ -2,6 +2,7 @@
 
 import {ref, watch} from "vue";
 import _ from "lodash";
+import giphyAttributeImage from '@assets/image/attribution/giphy/PoweredBy_200px-White_HorizText.png'
 
 const props = defineProps({isVisible: Boolean})
 const emit = defineEmits(['gifSelected'])
@@ -73,13 +74,11 @@ watch(
         :blockScroll="true"
         :closeOnEscape="true"
         position="center"
-        :style="{ width: '35rem', height: '30rem' }"
+        :style="{ width: '35rem'}"
     >
         <!-- Header Slot -->
         <template #header>
-            <div class="flex items-center justify-center w-full">
-                <span>Search GIF</span>
-            </div>
+            <div></div>
         </template>
 
         <!-- Modal Content -->
@@ -114,7 +113,7 @@ watch(
 
             <!-- GIF Grid -->
             <div class="grid grid-cols-3 gap-4 overflow-y-auto" style="height: 20rem;">
-                <img
+                <Image
                     v-for="gif in giphyResults"
                     :key="gif.id"
                     :src="gif.images.fixed_width.url"
@@ -124,6 +123,21 @@ watch(
                 />
             </div>
         </div>
+
+        <template #footer>
+            <div class="flex justify-center w-full h-full py-2">
+                <a
+                    href="https://giphy.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex h-full"
+                >
+                    <Image
+                        :src="giphyAttributeImage"
+                    />
+                </a>
+            </div>
+        </template>
 
     </Dialog>
 </template>
