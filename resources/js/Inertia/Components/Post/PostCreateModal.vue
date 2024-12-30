@@ -1,12 +1,14 @@
 <script setup>
 import {usePage} from "@inertiajs/vue3";
 import {ref} from "vue";
+import GiphyModal from "@/Components/Post/GiphyModal.vue";
 
 const page = usePage()
 
 const selectedGif = ref('https://picsum.photos/300/200')
 const isGifLoaded = ref(false);
 const postContent = ref('');
+const showGiphyModal = ref(false);
 
 // Function to be called when the GIF has loaded
 const onGifLoad = () => {
@@ -16,6 +18,16 @@ const onGifLoad = () => {
 const onGifRemoved = () => {
     isGifLoaded.value = false;
     selectedGif.value = null;
+}
+
+// Handle GIF selection from Giphy modal
+const selectGifFromGiphy = (gifUrl) => {
+    selectedGif.value = gifUrl;
+    isGifLoaded.value = false; // Reset loaded state
+}
+
+const selectGif = () => {
+    showGiphyModal.value = true;
 }
 
 </script>
@@ -31,6 +43,11 @@ const onGifRemoved = () => {
                 <span>Inspiring Recognition: Celebrate Success</span>
             </div>
         </template>
+        <!-- Giphy Modal Component -->
+                <GiphyModal
+                    v-model:visible="showGiphyModal"
+                    @gifSelected="selectGifFromGiphy"
+                />
 
         <!-- Modal Content -->
         <div>
