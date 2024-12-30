@@ -30,10 +30,10 @@ class GiphyController
                     'api_key' => config('ninshiki.giphy.token'),
                     'limit' => config('ninshiki.giphy.result.limit') ?? 30,
                     'rating' => 'g',
-                    'offset' => $request->query('offset') ?? 0,
+                    'offset' => $request->offset ?? 0,
                     'bundle' => 'messaging_non_clips',
                     'lang' => 'en',
-                    'q' => $request->query('q'),
+                    'q' => $request->search,
                 ])->get('/gifs/search');
 
             return response()->json($reps->json());

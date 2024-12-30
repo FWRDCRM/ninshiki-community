@@ -49,6 +49,8 @@ return [
      *  GIPHY Integration
      * ----------------------------------------------------------------------------------------------
      * This will be used for the GIPHY integration for GIF feature in creating a post
+     *
+     * Create Giphy Developer account and generate token https://developers.giphy.com
      */
     'giphy' => [
         'token' => env('NINSHIKI_GIPHY_TOKEN', null),
