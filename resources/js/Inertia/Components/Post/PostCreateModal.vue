@@ -5,7 +5,7 @@ import GiphyModal from "@/Components/Post/GiphyModal.vue";
 
 const page = usePage()
 
-const selectedGif = ref('https://picsum.photos/300/200')
+const selectedGif = ref(null)
 const isGifLoaded = ref(false);
 const postContent = ref('');
 const showGiphyModal = ref(false);
@@ -44,10 +44,11 @@ const selectGif = () => {
             </div>
         </template>
         <!-- Giphy Modal Component -->
-                <GiphyModal
-                    v-model:visible="showGiphyModal"
-                    @gifSelected="selectGifFromGiphy"
-                />
+        <GiphyModal
+            v-model:visible="showGiphyModal"
+            :is-visible="showGiphyModal"
+            @gifSelected="selectGifFromGiphy"
+        />
 
         <!-- Modal Content -->
         <div>
@@ -78,21 +79,25 @@ const selectGif = () => {
 
 
             <!-- Placeholder for GIF -->
-            <div v-if="selectedGif" class="mt-4 relative w-[300px] h-[200px] mx-auto group">
-                <Image
-                    :src="selectedGif"
-                    alt="Selected GIF"
-                    class="w-full h-full rounded-lg object-cover"
-                    @load="onGifLoad"
-                />
-                <!-- Remove Button (hidden by default, shown on hover) -->
-                <Button
-                    icon="pi pi-times"
-                    v-tooltip.top="'Remove GIF'"
-                    class="remove-gif-btn p-button-rounded p-button-text text-white bg-red-500 absolute top-2 right-2 hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
-                    @click="onGifRemoved"
-                    v-if="isGifLoaded"
-                />
+            <div v-if="selectedGif" class="mt-4 mx-auto relative  w-[300px] h-[200px]">
+                <!-- GIF Image -->
+                <div class="relative inline-block group">
+                    <Image
+                        :src="selectedGif"
+                        alt="Selected GIF"
+                        class="rounded-lg object-cover "
+                        @load="onGifLoad"
+                    />
+
+                    <!-- Remove Button (Now Sits Directly on GIF) -->
+                    <Button
+                        icon="pi pi-times"
+                        v-tooltip.top="'Remove GIF'"
+                        class="remove-gif-btn p-button-rounded p-button-text text-white bg-red-500 absolute top-2 right-2 hover:bg-red-600 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                        @click="onGifRemoved"
+                        v-if="isGifLoaded"
+                    />
+                </div>
             </div>
 
             <!-- Media Option -->
@@ -107,9 +112,8 @@ const selectGif = () => {
         </div>
 
 
-
         <template #footer>
-            <Button label="Post" icon="pi pi-send" iconPos="right" />
+            <Button label="Post" icon="pi pi-send" iconPos="right"/>
         </template>
     </Dialog>
 </template>
