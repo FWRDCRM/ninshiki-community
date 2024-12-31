@@ -1,14 +1,22 @@
 <script setup>
 import {usePage} from "@inertiajs/vue3";
-import {ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import GiphyModal from "@/Components/Post/GiphyModal.vue";
 
 const page = usePage()
+
+const employees = ref([]);
 
 const selectedGif = ref(null)
 const isGifLoaded = ref(false);
 const postContent = ref('');
 const showGiphyModal = ref(false);
+
+const formState = reactive({
+    content: null,
+    employees: [],
+    isSubmitting: false,
+})
 
 // Function to be called when the GIF has loaded
 const onGifLoad = () => {
@@ -29,6 +37,14 @@ const selectGifFromGiphy = (gifUrl) => {
 const selectGif = () => {
     showGiphyModal.value = true;
 }
+
+onMounted(() => {
+    // fetch all the employees
+    NinshikiApp.request().get(route('employees')).then((response) => {
+        employees.value = response.data.data;
+        console.log(response);
+    })
+})
 
 </script>
 
@@ -54,12 +70,10 @@ const selectGif = () => {
         <div>
             <!-- User Info -->
             <div class="flex items-center mb-4">
-                <Avatar
-                    image="https://via.placeholder.com/40"
-                    shape="circle"
-                    size="large"
-                />
-                <span class="ml-3 font-medium">John Doe</span>
+                <FloatLabel class="w-full md:w-80">
+                    <MultiSelect id="over_label" v-model="formState.employees" :options="cities" optionLabel="name" filter :maxSelectedLabels="3" class="w-full" />
+                    <label for="over_label">Over Label</label>
+                </FloatLabel>
             </div>
 
             <!-- Post Input -->
