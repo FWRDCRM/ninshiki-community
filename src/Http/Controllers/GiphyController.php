@@ -2,11 +2,15 @@
 
 namespace MarJose123\Ninshiki\Http\Controllers;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class GiphyController
 {
+    /**
+     * @throws ConnectionException
+     */
     public function trending(Request $request)
     {
         if ($request->wantsJson()) {
@@ -22,6 +26,9 @@ class GiphyController
         }
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function search(Request $request)
     {
         if ($request->wantsJson()) {
