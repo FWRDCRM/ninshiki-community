@@ -30,12 +30,12 @@ Route::middleware(config('ninshiki.middleware'))
             ->group(function () {
                 // logout
                 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
-                //post
+                // post
                 Route::get('feed', [FeedsController::class, 'index'])->name('feed');
                 Route::patch('feed/{id}', [FeedsController::class, 'likeUnlike'])->name('feeds.like-unlike');
-                //users
+                // users
                 Route::get('employees', [EmployeesController::class, 'getAllEmployees'])->name('employees');
-                //giphy
+                // giphy
                 Route::get('gif', [GiphyController::class, 'trending'])->name('gif.trending');
                 Route::get('gif/search', [GiphyController::class, 'search'])->name('gif.search');
 
