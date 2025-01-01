@@ -2,6 +2,7 @@
 
 namespace MarJose123\Ninshiki;
 
+use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -17,6 +18,7 @@ class NinshikiCoreServiceProvider extends ServiceProvider
         $this->registerJsonVariables();
         $this->registerHttpMacros();
         $this->registerNinshikiAssets();
+        $this->registerAboutCommand();
     }
 
     protected function registerHttpMacros(): void
@@ -70,5 +72,20 @@ class NinshikiCoreServiceProvider extends ServiceProvider
             ], 'ninshiki-assets');
         }
 
+    }
+
+    protected function registerAboutCommand(): void
+    {
+        $formatEnabledStatus = fn ($value) => $value ? '<fg=yellow;options=bold>ENABLED</>' : 'OFF';
+
+        AboutCommand::add('Ninshki UI', function (AboutCommand $command) use ($formatEnabledStatus) {
+            return [
+                'Giphy Integration' => AboutCommand::format(is_null(config('ninshiki.giphy.token')), console: $formatEnabledStatus),
+                'Backend URL' => config('ninshiki.backend'),
+                'Backend API Version' => config('ninshiki.api_version'),
+                'URL' => config('ninshiki.path'),
+                'Ninshiki UI Version' => Ninshiki::version(),
+            ];
+        });
     }
 }
