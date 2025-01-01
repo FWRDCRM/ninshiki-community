@@ -47,7 +47,7 @@ watch(
     (newVal) => {
         if (newVal) {
             NinshikiApp.request().get(route('employees')).then((response) => {
-                employees.value = response.data.data;
+                employees.value = response.data;
             })
         }
     }
