@@ -39,7 +39,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
 
 <template>
     <div>
-        <PostCreateModal v-model:visible="showCreateModal"/>
+        <PostCreateModal v-model:visible="showCreateModal" :modal-visible="showCreateModal"/>
         <div class="max-w-xl mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
             <div class="flex items-center space-x-3">
                 <img
