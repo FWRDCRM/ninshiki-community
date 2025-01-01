@@ -1,6 +1,6 @@
 <script setup>
 import {usePage} from "@inertiajs/vue3";
-import {reactive, ref, watch} from "vue";
+import {computed, reactive, ref, watch} from "vue";
 import GiphyModal from "@/Components/Post/GiphyModal.vue";
 
 const page = usePage()
@@ -8,6 +8,20 @@ const page = usePage()
 const props = defineProps({modalVisible: Boolean})
 
 const employees = ref([]);
+const points = ref([
+    {
+        name: '3 coins',
+        value: 3
+    },
+    {
+        name: '5 coins',
+        value: 5
+    },
+    {
+        name: '10 coins',
+        value: 10
+    }
+])
 
 const selectedGif = ref(null)
 const isGifLoaded = ref(false);
@@ -16,8 +30,21 @@ const showGiphyModal = ref(false);
 
 const formState = reactive({
     content: null,
+    points: null,
     employees: [],
     isSubmitting: false,
+})
+
+// function for handling the content max length per points
+const maxLengthPerPoints = computed(() => {
+    switch (formState.points?.value) {
+        case 5:
+            return 310;
+        case 10:
+            return 480;
+        default:
+            return 210;
+    }
 })
 
 // Function to be called when the GIF has loaded
@@ -76,13 +103,12 @@ watch(
         <!-- Modal Content -->
         <div class="my-5 gap-3 space-y-3">
             <!-- User Info -->
-            <div class="flex w-full gap-3">
+            <div class="flex w-full flex-row gap-3">
                 <FloatLabel class="w-full md:w-80">
-                    <MultiSelect id="over_label" v-model="formState.employees" :options="employees" optionLabel="name"
+                    <MultiSelect id="employees" v-model="formState.employees" :options="employees" optionLabel="name"
                                  filter class="w-full" :show-toggle-all="false"
                                  :max-selected-labels=3
-                                 display="chip"
-                    >
+                                 display="chip">
                         <template #option="slotProps">
                             <div class="flex items-center">
                                 <Avatar :alt="slotProps.option.name"
@@ -98,7 +124,12 @@ watch(
                             <div class="font-medium px-3 py-2">Available Employees</div>
                         </template>
                     </MultiSelect>
-                    <label for="over_label">Who you want to recognize?</label>
+                    <label for="employees">Who you want to recognize?</label>
+                </FloatLabel>
+                <FloatLabel class="w-full md:w-56">
+                    <Select :showClear="true" :checkmark="true" v-model="formState.points" inputId="points"
+                            :options="points" optionLabel="name" class="w-full"/>
+                    <label for="points">Points you want to send?</label>
                 </FloatLabel>
             </div>
 
@@ -108,11 +139,13 @@ watch(
                     rows="4"
                     autoResize
                     class="w-full"
+                    placeholder="Recognize someone or your team?"
                     v-model="postContent"
+                    :maxlength="maxLengthPerPoints"
                 />
                 <!-- Character Counter -->
                 <div class="text-right text-sm text-gray-500">
-                    {{ postContent.length }} / 500
+                    {{ postContent.length }} / {{ maxLengthPerPoints }}
                 </div>
             </div>
 
