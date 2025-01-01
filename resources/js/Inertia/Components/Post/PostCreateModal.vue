@@ -1,9 +1,11 @@
 <script setup>
 import {usePage} from "@inertiajs/vue3";
-import {onMounted, reactive, ref} from "vue";
+import {reactive, ref, watch} from "vue";
 import GiphyModal from "@/Components/Post/GiphyModal.vue";
 
 const page = usePage()
+
+const props = defineProps({modalVisible: Boolean})
 
 const employees = ref([]);
 
@@ -38,13 +40,18 @@ const selectGif = () => {
     showGiphyModal.value = true;
 }
 
-onMounted(() => {
-    // fetch all the employees
-    NinshikiApp.request().get(route('employees')).then((response) => {
-        employees.value = response.data.data;
-        console.log(response);
-    })
-})
+
+// Fetch trending Employee list when the modal is opened
+watch(
+    () => props.modalVisible,
+    (newVal) => {
+        if (newVal) {
+            NinshikiApp.request().get(route('employees')).then((response) => {
+                employees.value = response.data.data;
+            })
+        }
+    }
+);
 
 </script>
 
@@ -67,12 +74,31 @@ onMounted(() => {
         />
 
         <!-- Modal Content -->
-        <div>
+        <div class="my-5 gap-3 space-y-3">
             <!-- User Info -->
-            <div class="flex items-center mb-4">
+            <div class="flex w-full gap-3">
                 <FloatLabel class="w-full md:w-80">
-                    <MultiSelect id="over_label" v-model="formState.employees" :options="cities" optionLabel="name" filter :maxSelectedLabels="3" class="w-full" />
-                    <label for="over_label">Over Label</label>
+                    <MultiSelect id="over_label" v-model="formState.employees" :options="employees" optionLabel="name"
+                                 filter class="w-full" :show-toggle-all="false"
+                                 :max-selected-labels=3
+                                 display="chip"
+                    >
+                        <template #option="slotProps">
+                            <div class="flex items-center">
+                                <Avatar :alt="slotProps.option.name"
+                                        :image="slotProps.option.avatar ?? `https://ui-avatars.com/api/?name=${slotProps.option.name}&rounded=true&background=random`"
+                                        class="mr-2" style="width: 18px"/>
+                                <div>{{ slotProps.option.name }}</div>
+                            </div>
+                        </template>
+                        <template #dropdownicon>
+                            <i class="pi pi-users"/>
+                        </template>
+                        <template #header>
+                            <div class="font-medium px-3 py-2">Available Employees</div>
+                        </template>
+                    </MultiSelect>
+                    <label for="over_label">Who you want to recognize?</label>
                 </FloatLabel>
             </div>
 
@@ -81,7 +107,6 @@ onMounted(() => {
                 <Textarea
                     rows="4"
                     autoResize
-                    placeholder="Who you want to recognize?"
                     class="w-full"
                     v-model="postContent"
                 />
