@@ -7,7 +7,7 @@
 [![](https://img.shields.io/badge/Laravel-v11.x-FF2D20?style=flat-square&logo=laravel&logoColor=white)](#)
 [![](https://img.shields.io/badge/Vue.js-v3.x-4FC08D?style=flat-square&logo=vue.js&logoColor=white)](#)
 [![](https://img.shields.io/badge/Tailwind_CSS-v3.x-06B6D4?style=flat-square&logo=tailwind-css&logoColor=white)](#)
-[![](https://img.shields.io/badge/PrimeVue-v4.x-06B6D4?style=flat-square&logo=primevue&logoColor=white)](#)
+[![](https://img.shields.io/badge/PrimeVue-v4.x-41B883?style=flat-square&logo=primevue&logoColor=white)](#)
 [![](https://img.shields.io/badge/Inertia-v2.x-9553E9?style=flat-square&logo=inertia&logoColor=white)](#)
 
 Ninshiki Web App; Inspiring Recognition: Celebrate Success
