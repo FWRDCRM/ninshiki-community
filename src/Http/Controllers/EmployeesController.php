@@ -22,7 +22,15 @@ class EmployeesController
                 ])
                 ->get(config('ninshiki.api_version').'/users');
 
-            $employees = $response->collect();
+            $data = $response->collect('data');
+            $employees = $data->map(function ($employee) {
+                return [
+                    'id' => $employee['id'],
+                    'name' => $employee['name'],
+                    'avatar' => $employee['avatar'],
+                    'email' => $employee['email'],
+                ];
+            });
 
             return response()->json($employees);
         }
