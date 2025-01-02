@@ -93,18 +93,21 @@ const createPost = () => {
     formState.processing = true;
     data.append("post_content", formState.content);
     data.append("points", formState.points?.value);
-    data.append("attachment_type", 'gif')
-    data.append("gif_url", selectedGif.value);
+    if (selectedGif?.value !== undefined && selectedGif.value !== null) {
+        data.append("attachment_type", 'gif')
+        data.append("gif_url", selectedGif.value);
+    }
     data.append('type', 'user')
     for (let i = 0; i < formState.employees.length; i++) {
         data.append(`recipient_id[${i}]`, formState.employees[i]?.id)
     }
 
-    NinshikiApp.request().post(route('feeds.create-post'), data).then(({response}) => {
+    NinshikiApp.request().post(route('feeds.create-post'), data).then((response) => {
         console.log("then")
         console.log(response)
         formState.processing = false;
-        router.reload({only: ['posts']})
+        router.visit(route('feed'), {only: ['posts'], preserveState: false})
+        emit('update:visible', false)
     }).catch(({response}) => {
         if (response.status === 429) {
             NinshikiApp.warning(response.data.error.message, response.statusText)
