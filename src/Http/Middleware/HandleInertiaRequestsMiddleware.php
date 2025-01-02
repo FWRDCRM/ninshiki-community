@@ -23,7 +23,15 @@ class HandleInertiaRequestsMiddleware extends Middleware
      */
     public function version(Request $request): ?string
     {
-        return parent::version($request);
+        if (config('app.asset_url')) {
+            return md5(config('app.asset_url'));
+        }
+
+        if (file_exists($manifest = public_path('vendor/ninshiki/manifest.json'))) {
+            return md5_file($manifest);
+        }
+
+        return null;
     }
 
     /**
