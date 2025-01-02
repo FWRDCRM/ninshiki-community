@@ -103,7 +103,7 @@ return [
     ],
 
     'authMiddleware' => [
-        EncryptHistoryMiddleware::class,
+        //        EncryptHistoryMiddleware::class,
         AuthenticateMiddleware::class,
     ],
 
