@@ -1,13 +1,14 @@
 <script setup>
-import {usePage} from "@inertiajs/vue3";
+import {router, usePage} from "@inertiajs/vue3";
 import {computed, reactive, ref, watch} from "vue";
 import GiphyModal from "@/Components/Post/GiphyModal.vue";
 import _ from "lodash";
-import { useForm } from '@inertiajs/vue3'
+import {useForm} from '@inertiajs/vue3'
 
 const page = usePage()
 
 const props = defineProps({modalVisible: Boolean})
+const emit = defineEmits([])
 
 const employees = ref([]);
 const points = ref([
@@ -30,10 +31,9 @@ const isGifLoaded = ref(false);
 const showGiphyModal = ref(false);
 
 const formState = useForm({
-    content: null,
-    points: null,
+    content: undefined,
+    points: undefined,
     employees: [],
-    isSubmitting: false,
 })
 
 // function for handling the content max length per points
@@ -70,16 +70,33 @@ const selectGif = () => {
 
 const createPost = () => {
     const data = new FormData();
-    //
-    // data.append("post_content", formState.content);
-    // data.append("points", formState.points);
-    // data.append("attachment_type", 'gif')
-    // data.append("gif_url", selectedGif.value);
-    // data.append("recipient_id", formState.employees)
+    formState.processing = true;
+    data.append("post_content", formState.content);
+    data.append("points", formState.points?.value);
+    data.append("attachment_type", 'gif')
+    data.append("gif_url", selectedGif.value);
+    data.append('type', 'user')
+    for (let i = 0; i < formState.employees.length; i++) {
+        data.append(`recipient_id[${i}]`, formState.employees[i]?.id)
+    }
 
+    NinshikiApp.request().post(route('feeds.create-post'), data).then(({response}) => {
+        console.log("then")
+        console.log(response)
+        formState.processing = false;
+        router.reload({ only:['posts']})
+    }).catch(({response}) => {
+        if (response.status === 429) {
+            NinshikiApp.warning(response.data.error.message, response.statusText)
+        }
+        if(response.status === 422) {
+            NinshikiApp.warning(response.data.error.message, response.statusText)
+            // show error message per field
+        }
 
-    console.log(formState.employees)
-    console.log(formState)
+        console.log(response)
+        formState.processing = false;
+    })
 }
 
 
@@ -203,7 +220,7 @@ watch(
 
 
         <template #footer>
-            <Button label="Post" icon="pi pi-send" iconPos="right" @click="createPost"/>
+            <Button label="Post" icon="pi pi-send" iconPos="right" @click="createPost" :loading="formState.processing"/>
         </template>
     </Dialog>
 </template>
