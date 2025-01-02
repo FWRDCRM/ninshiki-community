@@ -76,7 +76,7 @@ async function onLike() {
         <!-- Post Image (Optional) -->
         <div class="mt-4">
             <!-- 600x300 -->
-            <Image :src="post.attachment_url" alt="Post Image" width="600" height="300"
+            <Image :src="post.attachment_url" v-show="post.attachment_url" alt="Post Image" width="600" height="300"
                    class="w-full rounded-lg object-cover"/>
         </div>
 
