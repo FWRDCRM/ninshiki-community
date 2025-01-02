@@ -2,6 +2,7 @@
 import {usePage} from "@inertiajs/vue3";
 import {computed, reactive, ref, watch} from "vue";
 import GiphyModal from "@/Components/Post/GiphyModal.vue";
+import _ from "lodash";
 
 const page = usePage()
 
@@ -74,7 +75,10 @@ watch(
     (newVal) => {
         if (newVal) {
             NinshikiApp.request().get(route('employees')).then((response) => {
-                employees.value = response.data;
+                const data = response.data;
+                // remove current user info from the list
+                _.remove(data, (data) => data.id === page.props.auth.user.id );
+                employees.value = data;
             })
         }
     }
