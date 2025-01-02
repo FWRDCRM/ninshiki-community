@@ -62,7 +62,6 @@ class FeedsController
     {
         $response = Http::ninshiki()
             ->withToken($request->session()->get('token'))
-            ->asMultipart()
             ->post(config('ninshiki.api_version').'/posts', [
                 'post_content' => $request->post_content,
                 'amount' => $request->points,
