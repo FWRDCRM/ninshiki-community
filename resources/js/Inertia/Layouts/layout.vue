@@ -112,7 +112,9 @@ const items = ref([
 
             <div class="flex w-full">
                 <ScrollPanel class="pl-5 flex w-full">
-                    <slot/>
+                    <Transition name="page" appear>
+                        <slot/>
+                    </Transition>
                 </ScrollPanel>
             </div>
         </div>
