@@ -54,4 +54,25 @@ class FeedsController
 
         return $response->json();
     }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function createPost(Request $request)
+    {
+        $response = Http::ninshiki()
+            ->withToken($request->session()->get('token'))
+            ->asMultipart()
+            ->post(config('ninshiki.api_version').'/posts', [
+                'post_content' => $request->post_content,
+                'amount' => $request->points,
+                'attachment_type' => $request->attachment_type,
+                ...[$request->attachment_type === 'gif' ? ['gif_url' => $request->gif_url] : $request->file('image')],
+                'type' => 'user',
+                'recipient_id' => $request->recipient_id,
+            ]);
+
+        return response()->json($response->json());
+
+    }
 }
