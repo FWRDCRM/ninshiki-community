@@ -68,7 +68,27 @@ const selectGif = () => {
     showGiphyModal.value = true;
 }
 
+const validateForm = () => {
+    let isValid = true;
+    formState.clearErrors()
+    if (formState.employees.length === 0) {
+        formState.setError('employees', 'Employee field is required');
+        isValid = false;
+    }
+    if (formState.content?.length === 0 || formState.content === undefined || formState.content === null) {
+        formState.setError('content', 'Content field is required');
+        isValid = false;
+    }
+    if (formState.points === undefined || formState.points === null) {
+        formState.setError('points', 'Points field is required');
+        isValid = false;
+    }
+    return isValid;
+}
+
 const createPost = () => {
+    const isFormValid = validateForm();
+    if (!isFormValid) return;
     const data = new FormData();
     formState.processing = true;
     data.append("post_content", formState.content);
@@ -84,14 +104,15 @@ const createPost = () => {
         console.log("then")
         console.log(response)
         formState.processing = false;
-        router.reload({ only:['posts']})
+        router.reload({only: ['posts']})
     }).catch(({response}) => {
         if (response.status === 429) {
             NinshikiApp.warning(response.data.error.message, response.statusText)
         }
-        if(response.status === 422) {
+        if (response.status === 422) {
             NinshikiApp.warning(response.data.error.message, response.statusText)
             // show error message per field
+            const errorFields = response.data.error.errors
         }
 
         console.log(response)
@@ -122,7 +143,7 @@ watch(
             :blockScroll="true"
             :closeOnEscape="false"
             position="center"
-            :style="{ width: '35rem' }">
+            :style="{ width: '40rem' }">
         <template #header>
             <div class="flex items-center justify-center w-full">
                 <span>Inspiring Recognition: Celebrate Success</span>
@@ -139,33 +160,49 @@ watch(
         <div class="my-5 gap-3 space-y-3">
             <!-- User Info -->
             <div class="flex w-full flex-row gap-3">
-                <FloatLabel class="w-full md:w-80">
-                    <MultiSelect id="employees" v-model="formState.employees" :options="employees" optionLabel="name"
-                                 filter class="w-full" :show-toggle-all="false"
-                                 :max-selected-labels=3
-                                 display="chip">
-                        <template #option="slotProps">
-                            <div class="flex items-center">
-                                <Avatar :alt="slotProps.option.name"
-                                        :image="slotProps.option.avatar ?? `https://ui-avatars.com/api/?name=${slotProps.option.name}&rounded=true&background=random`"
-                                        class="mr-2" style="width: 18px"/>
-                                <div>{{ slotProps.option.name }}</div>
-                            </div>
-                        </template>
-                        <template #dropdownicon>
-                            <i class="pi pi-users"/>
-                        </template>
-                        <template #header>
-                            <div class="font-medium px-3 py-2">Available Employees</div>
-                        </template>
-                    </MultiSelect>
-                    <label for="employees">Who you want to recognize?</label>
-                </FloatLabel>
-                <FloatLabel class="w-full md:w-56">
-                    <Select :showClear="true" :checkmark="true" v-model="formState.points" inputId="points"
-                            :options="points" optionLabel="name" class="w-full"/>
-                    <label for="points">Points you want to send?</label>
-                </FloatLabel>
+                <div class="flex flex-col gap-1">
+                    <FloatLabel class="w-full md:w-80">
+                        <MultiSelect id="employees" v-model="formState.employees" :options="employees"
+                                     optionLabel="name"
+                                     filter class="w-full" :show-toggle-all="false"
+                                     :max-selected-labels=3
+                                     display="chip"
+                                     required
+                                     :invalid="!!formState.errors?.employees"
+                        >
+                            <template #option="slotProps">
+                                <div class="flex items-center">
+                                    <Avatar :alt="slotProps.option.name"
+                                            :image="slotProps.option.avatar ?? `https://ui-avatars.com/api/?name=${slotProps.option.name}&rounded=true&background=random`"
+                                            class="mr-2" style="width: 18px"/>
+                                    <div>{{ slotProps.option.name }}</div>
+                                </div>
+                            </template>
+                            <template #dropdownicon>
+                                <i class="pi pi-users"/>
+                            </template>
+                            <template #header>
+                                <div class="font-medium px-3 py-2">Available Employees</div>
+                            </template>
+                        </MultiSelect>
+                        <label for="employees">Who you want to recognize?</label>
+                    </FloatLabel>
+                    <Message v-if="formState.errors?.employees" severity="error" size="small" variant="simple">
+                        {{ formState.errors?.employees }}
+                    </Message>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <FloatLabel class="w-full md:w-56">
+                        <Select :showClear="true" :checkmark="true" v-model="formState.points" inputId="points"
+                                :invalid="!!formState.errors?.points"
+                                :options="points" optionLabel="name" class="w-full"/>
+                        <label for="points">Points you want to reward?</label>
+                    </FloatLabel>
+                    <Message v-if="formState.errors?.points" severity="error" size="small" variant="simple">
+                        {{ formState.errors?.points }}
+                    </Message>
+                </div>
             </div>
 
             <!-- Post Input -->
@@ -177,10 +214,19 @@ watch(
                     placeholder="Recognize someone or your team?"
                     v-model="formState.content"
                     :maxlength="maxLengthPerPoints"
+                    required
+                    :invalid="!!formState.errors?.content"
                 />
                 <!-- Character Counter -->
-                <div class="text-right text-sm text-gray-500">
-                    {{ formState.content?.length ?? 0 }} / {{ maxLengthPerPoints }}
+                <div class="flex flex-row w-full">
+                    <div class="text-left text-sm mr-auto">
+                        <Message v-if="formState.errors?.content" severity="error" size="small" variant="simple">
+                            {{ formState.errors?.content }}
+                        </Message>
+                    </div>
+                    <div class="text-right text-sm ml-auto text-gray-500">
+                        {{ formState.content?.length ?? 0 }} / {{ maxLengthPerPoints }}
+                    </div>
                 </div>
             </div>
 
@@ -206,21 +252,23 @@ watch(
                     />
                 </div>
             </div>
-
-            <!-- Media Option -->
-            <div v-else class="flex items-center mt-4">
-                <Button
-                    label="GIF"
-                    icon="pi pi-gift"
-                    class="p-button-text text-gray-600 hover:text-blue-500"
-                    @click="selectGif"
-                />
-            </div>
         </div>
 
 
         <template #footer>
-            <Button label="Post" icon="pi pi-send" iconPos="right" @click="createPost" :loading="formState.processing"/>
+            <div class="flex flex-row w-full">
+                <!-- Media Option -->
+                <Button
+                    label="Add GIF"
+                    icon="pi pi-gift mr-auto"
+                    class="p-button-text text-gray-600 hover:text-blue-500"
+                    @click="selectGif"
+                    v-if="!selectedGif"
+                />
+                <Button label="Post" class="ml-auto" icon="pi pi-send" iconPos="right" @click="createPost"
+                        :disabled="formState.processing" :loading="formState.processing"/>
+            </div>
+
         </template>
     </Dialog>
 </template>
