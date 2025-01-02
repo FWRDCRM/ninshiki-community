@@ -66,7 +66,7 @@ class FeedsController
                 'post_content' => $request->post_content,
                 'amount' => $request->points,
                 'attachment_type' => $request->attachment_type,
-                'gif_url' => $request->gif_url,
+                ...($request->has('gif_url') ? ['gif_url' => $request->gif_url] : []),
                 'type' => 'user',
                 'recipient_id' => $request->recipient_id,
             ]);
