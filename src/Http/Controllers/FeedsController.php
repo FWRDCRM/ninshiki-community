@@ -35,7 +35,7 @@ class FeedsController
         ];
 
         if ($request->wantsJson() && ($request->has('page') || $request->has('per_page'))) {
-            return response()->json($posts);
+            return response()->json($posts, $response->status());
         }
 
         return Inertia::render('feed/index', [
@@ -52,7 +52,7 @@ class FeedsController
             ->withToken($request->session()->get('token'))
             ->patch(config('ninshiki.api_version').'/posts/'.$id.'/toggle/like');
 
-        return $response->json();
+        return response()->json($response->json(), $response->status());
     }
 
     /**
@@ -71,7 +71,7 @@ class FeedsController
                 'recipient_id' => $request->recipient_id,
             ]);
 
-        return response()->json($response->json());
+        return response()->json($response->json(), $response->status());
 
     }
 }
