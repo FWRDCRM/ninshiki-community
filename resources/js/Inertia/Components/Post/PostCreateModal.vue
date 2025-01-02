@@ -3,6 +3,7 @@ import {usePage} from "@inertiajs/vue3";
 import {computed, reactive, ref, watch} from "vue";
 import GiphyModal from "@/Components/Post/GiphyModal.vue";
 import _ from "lodash";
+import { useForm } from '@inertiajs/vue3'
 
 const page = usePage()
 
@@ -26,10 +27,9 @@ const points = ref([
 
 const selectedGif = ref(null)
 const isGifLoaded = ref(false);
-const postContent = ref('');
 const showGiphyModal = ref(false);
 
-const formState = reactive({
+const formState = useForm({
     content: null,
     points: null,
     employees: [],
@@ -68,6 +68,20 @@ const selectGif = () => {
     showGiphyModal.value = true;
 }
 
+const createPost = () => {
+    const data = new FormData();
+    //
+    // data.append("post_content", formState.content);
+    // data.append("points", formState.points);
+    // data.append("attachment_type", 'gif')
+    // data.append("gif_url", selectedGif.value);
+    // data.append("recipient_id", formState.employees)
+
+
+    console.log(formState.employees)
+    console.log(formState)
+}
+
 
 // Fetch trending Employee list when the modal is opened
 watch(
@@ -77,7 +91,7 @@ watch(
             NinshikiApp.request().get(route('employees')).then((response) => {
                 const data = response.data;
                 // remove current user info from the list
-                _.remove(data, (data) => data.id === page.props.auth.user.id );
+                _.remove(data, (data) => data.id === page.props.auth.user.id);
                 employees.value = data;
             })
         }
@@ -144,12 +158,12 @@ watch(
                     autoResize
                     class="w-full"
                     placeholder="Recognize someone or your team?"
-                    v-model="postContent"
+                    v-model="formState.content"
                     :maxlength="maxLengthPerPoints"
                 />
                 <!-- Character Counter -->
                 <div class="text-right text-sm text-gray-500">
-                    {{ postContent.length }} / {{ maxLengthPerPoints }}
+                    {{ formState.content?.length ?? 0 }} / {{ maxLengthPerPoints }}
                 </div>
             </div>
 
@@ -189,7 +203,7 @@ watch(
 
 
         <template #footer>
-            <Button label="Post" icon="pi pi-send" iconPos="right"/>
+            <Button label="Post" icon="pi pi-send" iconPos="right" @click="createPost"/>
         </template>
     </Dialog>
 </template>
