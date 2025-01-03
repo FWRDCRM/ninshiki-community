@@ -1,9 +1,8 @@
 <script setup>
-import {router, usePage} from "@inertiajs/vue3";
-import {computed, reactive, ref, watch} from "vue";
+import {useForm, usePage} from "@inertiajs/vue3";
+import {computed, ref, watch} from "vue";
 import GiphyModal from "@/Components/Post/GiphyModal.vue";
 import _ from "lodash";
-import {useForm} from '@inertiajs/vue3'
 
 const page = usePage()
 
@@ -102,11 +101,10 @@ const createPost = () => {
         data.append(`recipient_id[${i}]`, formState.employees[i]?.id)
     }
 
-    NinshikiApp.request().post(route('feeds.create-post'), data).then((response) => {
+    NinshikiApp.request().post(route('feeds.create-post'), data).then((data) => {
         console.log("then")
-        console.log(response)
-        formState.processing = false;
-        router.visit(route('feed'), {only: ['posts'], preserveState: false})
+        console.log(data)
+        NinshikiApp.$emit('post-created')
         emit('update:visible', false)
     }).catch(({response}) => {
         if (response.status === 429) {
@@ -117,8 +115,7 @@ const createPost = () => {
             // show error message per field
             const errorFields = response.data.error.errors
         }
-
-        console.log(response)
+    }).finally(() => {
         formState.processing = false;
     })
 }
