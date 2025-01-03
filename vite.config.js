@@ -11,7 +11,6 @@ export default defineConfig({
             hotFile: 'public/vendor/ninshiki/ninshiki.hot',
             buildDirectory: '/vendor/ninshiki',
             input: ['resources/js/app.js', 'resources/css/ninshiki.css'],
-            ssr: 'resources/js/ssr.js',
             refresh: true,
         }),
         vue({
