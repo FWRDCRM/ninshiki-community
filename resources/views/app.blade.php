@@ -29,9 +29,6 @@
     {{ Vite::useBuildDirectory('vendor/ninshiki')
 ->useHotFile('vendor/ninshiki/ninshiki.hot')
 ->withEntryPoints(['resources/js/app.js', 'resources/css/ninshiki.css']) }}
-
-
-    @inertiaHead
 </head>
 <body class=" text-sm font-medium h-screen max-w-full text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800">
 @inertia
