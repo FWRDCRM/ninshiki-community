@@ -38,9 +38,8 @@ class FeedsController
             return response()->json($posts, $response->status());
         }
 
-        return Inertia::render('feed/index', [
-            'posts' => $posts,
-        ]);
+        return Inertia::render('feed/index')
+            ->with('posts', $posts);
     }
 
     /**
@@ -67,7 +66,7 @@ class FeedsController
                 'amount' => $request->points,
                 ...($request->has('gif_url') ? [
                     'attachment_type' => $request->attachment_type,
-                    'gif_url' => $request->gif_url
+                    'gif_url' => $request->gif_url,
                 ] : []),
                 'type' => 'user',
                 'recipient_id' => $request->recipient_id,
