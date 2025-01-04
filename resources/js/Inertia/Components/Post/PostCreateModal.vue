@@ -102,8 +102,7 @@ const createPost = () => {
     }
 
     NinshikiApp.request().post(route('feeds.create-post'), data).then((data) => {
-        console.log("then")
-        console.log(data)
+        NinshikiApp.success("🎉 Your recognition post for your colleague has been successfully posted! 🌟", "Successfully Posted")
         NinshikiApp.$emit('post-created')
         emit('update:visible', false)
     }).catch(({response}) => {
