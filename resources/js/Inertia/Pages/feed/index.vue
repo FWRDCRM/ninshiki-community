@@ -1,6 +1,6 @@
 <script setup>
 import {computed, ref} from 'vue'
-import {router, usePage} from '@inertiajs/vue3'
+import {usePage} from '@inertiajs/vue3'
 import Layout from "@/Layouts/layout.vue";
 import PostFeedCard from "@/Components/Post/PostFeedCard.vue";
 import {useIntersectionObserver} from '@vueuse/core'
@@ -15,14 +15,14 @@ const showCreateModal = ref(false)
 const page = usePage()
 const user = computed(() => page.props.auth.user)
 
-const postsState = ref(posts.data)
-const postsCurrentPage = ref(posts.meta.current_page)
-const postsLastPage = ref(posts.meta.last_page)
+const postsState = computed(() => posts.data)
+const postsCurrentPage = computed(() => posts.meta.current_page)
+const postsLastPage = computed(() => posts.meta.last_page)
 
 NinshikiApp.$on('post-created', () => {
-    // router.reload({only: ['posts']})
-    console.log('emit triggered')
-   router.reload({only: ['posts']});
+    NinshikiApp.$router.reload({
+        only: ['posts'],
+    });
 })
 
 useIntersectionObserver(target, ([{isIntersecting}]) => {
