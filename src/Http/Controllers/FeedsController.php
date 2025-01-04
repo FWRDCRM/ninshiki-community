@@ -38,8 +38,9 @@ class FeedsController
             return response()->json($posts, $response->status());
         }
 
-        return Inertia::render('feed/index')
-            ->with('posts', $posts);
+        return Inertia::render('feed/index', [
+            'posts' => $posts,
+        ]);
     }
 
     /**
