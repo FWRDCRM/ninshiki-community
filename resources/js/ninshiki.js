@@ -5,7 +5,7 @@ import Aura from "@primevue/themes/aura";
 import ToastService from "primevue/toastservice";
 import ConfirmationService from "primevue/confirmationservice";
 import {createApp, h} from "vue";
-import {createInertiaApp} from "@inertiajs/vue3";
+import {createInertiaApp, router} from "@inertiajs/vue3";
 import {setupAxios} from "@util/axios.js";
 import {ToastEventBus} from "primevue";
 
@@ -18,6 +18,7 @@ export default class Ninshiki {
         this.toast = ToastEventBus
         this.version = config.version;
         this.appName = config.appName;
+        this.$router = router
     }
 
     async engineStart() {
