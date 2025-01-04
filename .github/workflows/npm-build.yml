@@ -29,4 +29,4 @@ jobs:
         with:
           branch: main
           commit_message: >
-            chore: build assets
+            :hammer_and_wrench: chore: build assets :package:
