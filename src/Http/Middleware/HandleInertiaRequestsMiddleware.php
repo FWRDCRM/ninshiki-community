@@ -2,8 +2,13 @@
 
 namespace MarJose123\Ninshiki\Http\Middleware;
 
+use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Inertia\Inertia;
 use Inertia\Middleware;
+use Inertia\ResponseFactory;
+use Override;
 
 class HandleInertiaRequestsMiddleware extends Middleware
 {
@@ -48,5 +53,17 @@ class HandleInertiaRequestsMiddleware extends Middleware
                 ];
             },
         ]);
+    }
+
+    #[Override]
+    public function handle(Request $request, Closure $next)
+    {
+        Config::set('inertia.ssr.enabled', false);
+
+        if (method_exists(ResponseFactory::class, 'encryptHistory') && $request->getScheme() === 'https') {
+            Inertia::encryptHistory(); // @phpstan-ignore staticMethod.notFound
+        }
+
+        return parent::handle($request, $next);
     }
 }
