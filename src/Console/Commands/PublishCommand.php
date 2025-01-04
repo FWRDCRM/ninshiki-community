@@ -15,10 +15,10 @@ class PublishCommand extends Command
 
     public function handle(): void
     {
-        $this->call('vendor:publish', [
-            '--tag' => 'ninshiki-config',
-            '--force' => $this->hasOption('force'),
-        ]);
+        //        $this->call('vendor:publish', [
+        //            '--tag' => 'ninshiki-config',
+        //            '--force' => $this->hasOption('force'),
+        //        ]);
 
         $this->call('vendor:publish', [
             '--tag' => 'ninshiki-assets',
