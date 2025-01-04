@@ -7,7 +7,7 @@ import _ from "lodash";
 const page = usePage()
 
 const props = defineProps({modalVisible: Boolean})
-const emit = defineEmits([])
+const emit = defineEmits(['update:visible'])
 
 const employees = ref([]);
 const points = ref([
