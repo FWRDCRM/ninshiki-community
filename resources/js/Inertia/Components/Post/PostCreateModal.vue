@@ -7,7 +7,7 @@ import _ from "lodash";
 const page = usePage()
 
 const props = defineProps({modalVisible: Boolean})
-const emit = defineEmits(['update:visible'])
+const emit = defineEmits([]);
 
 const employees = ref([]);
 const points = ref([
@@ -25,7 +25,6 @@ const points = ref([
     }
 ])
 
-const selectedGif = ref(null)
 const isGifLoaded = ref(false);
 const showGiphyModal = ref(false);
 
@@ -33,6 +32,13 @@ const formState = useForm({
     content: undefined,
     points: undefined,
     employees: [],
+    gif: undefined,
+    reset: () => {
+        this.employees = [];
+        this.points = undefined;
+        this.content = undefined;
+        this.gif = undefined;
+    }
 })
 
 // function for handling the content max length per points
@@ -54,12 +60,12 @@ const onGifLoad = () => {
 
 const onGifRemoved = () => {
     isGifLoaded.value = false;
-    selectedGif.value = null;
+    formState.gif = null;
 }
 
 // Handle GIF selection from Giphy modal
 const selectGifFromGiphy = (gifUrl) => {
-    selectedGif.value = gifUrl;
+    formState.gif = gifUrl;
     isGifLoaded.value = false; // Reset loaded state
 }
 
@@ -92,9 +98,9 @@ const createPost = () => {
     formState.processing = true;
     data.append("post_content", formState.content);
     data.append("points", formState.points?.value);
-    if (selectedGif?.value !== undefined && selectedGif.value !== null) {
+    if (formState.gif !== undefined && formState.gif !== null) {
         data.append("attachment_type", 'gif')
-        data.append("gif_url", selectedGif.value);
+        data.append("gif_url", formState.gif);
     }
     data.append('type', 'user')
     for (let i = 0; i < formState.employees.length; i++) {
@@ -104,6 +110,9 @@ const createPost = () => {
     NinshikiApp.request().post(route('feeds.create-post'), data).then((data) => {
         NinshikiApp.success("🎉 Your recognition post for your colleague has been successfully posted! 🌟", "Successfully Posted")
         NinshikiApp.$emit('post-created')
+        // Clear the form value
+        formState.reset()
+        // close modal
         emit('update:visible', false)
     }).catch(({response}) => {
         if (response.status === 429) {
@@ -231,11 +240,11 @@ watch(
 
 
             <!-- Placeholder for GIF -->
-            <div v-if="selectedGif" class="mt-4 mx-auto relative  w-[300px] h-[200px]">
+            <div v-if="formState.gif" class="mt-4 mx-auto relative  w-[300px] h-[200px]">
                 <!-- GIF Image -->
                 <div class="relative inline-block group">
                     <Image
-                        :src="selectedGif"
+                        :src="formState.gif"
                         alt="Selected GIF"
                         class="rounded-lg object-cover "
                         @load="onGifLoad"
@@ -262,7 +271,7 @@ watch(
                     icon="pi pi-gift mr-auto"
                     class="p-button-text text-gray-600 hover:text-blue-500"
                     @click="selectGif"
-                    v-if="!selectedGif"
+                    v-if="!formState.gif"
                 />
                 <Button label="Post" class="ml-auto" icon="pi pi-send" iconPos="right" @click="createPost"
                         :disabled="formState.processing" :loading="formState.processing"/>
