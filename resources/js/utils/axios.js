@@ -36,7 +36,7 @@ export function setupAxios() {
                     location.href = redirect
                     return
                 }
-                route('login')
+                NinshikiApp.$router.visit(route('login.page'))
             }
 
             // Handle Forbidden

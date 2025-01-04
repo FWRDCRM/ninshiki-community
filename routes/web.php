@@ -4,6 +4,7 @@ use MarJose123\Ninshiki\Http\Controllers\AuthenticationController;
 use MarJose123\Ninshiki\Http\Controllers\EmployeesController;
 use MarJose123\Ninshiki\Http\Controllers\FeedsController;
 use MarJose123\Ninshiki\Http\Controllers\GiphyController;
+use MarJose123\Ninshiki\Http\Middleware\EnsureAuthenticatedMiddleware;
 
 Route::middleware(config('ninshiki.middleware'))
     ->domain(config('ninshiki.domain'))
@@ -26,7 +27,7 @@ Route::middleware(config('ninshiki.middleware'))
          *  AUTHENTICATED ROUTE
          * ------------------------------------------------------------------------------
          */
-        Route::middleware(config('ninshiki.authMiddleware'))
+        Route::middleware(array_merge(config('ninshiki.authMiddleware'), [EnsureAuthenticatedMiddleware::class]))
             ->group(function () {
                 // logout
                 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');

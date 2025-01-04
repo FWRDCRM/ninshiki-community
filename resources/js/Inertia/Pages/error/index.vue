@@ -20,8 +20,8 @@ const description = computed(() => {
         500: 'Whoops, something went wrong on our servers.',
         404: 'Sorry, the page you are looking for could not be found.',
         403: 'Sorry, you are forbidden from accessing this page.',
-        401: 'Sorry, we are not able to access this page.',
-    }[props.status] ? [props.status] : props.message
+        401: 'Whoops, it seems like you\'re session has been already expired. Please login and try again.',
+    }[props.status]
 })
 </script>
 
