@@ -183,7 +183,7 @@ export default class Ninshiki {
             summary: summary,
             detail: message,
             group: 'br',
-            life: 3000
+            life: 5000
         })
 
     }
@@ -200,7 +200,7 @@ export default class Ninshiki {
             summary: summary,
             detail: message,
             group: 'br',
-            life: 3000
+            life: 5000
         })
     }
 
@@ -216,7 +216,7 @@ export default class Ninshiki {
             summary: summary,
             detail: message,
             group: 'br',
-            life: 3000
+            life: 5000
         })
     }
 
@@ -232,7 +232,7 @@ export default class Ninshiki {
             summary: summary,
             detail: message,
             group: 'br',
-            life: 3000
+            life: 5000
         })
     }
 }
