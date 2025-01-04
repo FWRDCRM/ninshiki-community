@@ -5,7 +5,7 @@ import _ from "lodash";
 import giphyAttributeImage from '@assets/image/attribution/giphy/PoweredBy_200px-White_HorizText.png'
 
 const props = defineProps({isVisible: Boolean})
-const emit = defineEmits(['gifSelected','update:visible'])
+const emit = defineEmits(['gifSelected'])
 
 const giphySearch = ref('');
 const giphyResults = ref([]);
