@@ -17,10 +17,11 @@
     ],
     "require": {
         "php": "^8.3",
-        "illuminate/contracts": "^10.0||^11.0",
+        "laravel/framework": "^10.0||^11.1",
         "inertiajs/inertia-laravel": "*",
         "spatie/laravel-package-tools": "^1.16",
-        "tightenco/ziggy": "^2.4"
+        "tightenco/ziggy": "^2.4",
+        "guzzlehttp/guzzle": "^7.2"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
