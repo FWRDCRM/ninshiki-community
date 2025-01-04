@@ -4,9 +4,14 @@ import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite';
 import {PrimeVueResolver} from '@primevue/auto-import-resolver';
 import path from "path";
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
     plugins: [
+        vueDevTools({
+            appendTo: 'resources/js/app.js',
+            launchEditor: 'phpstorm'
+        }),
         laravel({
             hotFile: 'public/vendor/ninshiki/ninshiki.hot',
             buildDirectory: '/vendor/ninshiki',
