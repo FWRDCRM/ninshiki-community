@@ -59,12 +59,12 @@ class HandleInertiaRequestsMiddleware extends Middleware
     /**
      * Handle the incoming request.
      *
-     * @param Request $request
+     * @param $request
      * @param Closure $next
      * @return Response
      */
     #[Override]
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next): Response
     {
         Config::set('inertia.ssr.enabled', false);
 
