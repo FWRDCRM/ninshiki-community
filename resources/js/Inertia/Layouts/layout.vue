@@ -49,6 +49,18 @@ const items = ref([
                 }
             },
             {
+                label: 'Employees',
+                icon: 'pi pi-users',
+                command: () => {
+                    route().current('employees.list') ?
+                        router.reload({
+                            only: ['employees'],
+                            preserveState: false
+                        }) : router.visit(route('employees.list'), {preserveState: false});
+
+                }
+            },
+            {
                 label: 'Logout',
                 icon: 'pi pi-sign-out',
                 command: () => requireConfirmation()
@@ -116,7 +128,7 @@ const items = ref([
             <div class="flex w-full">
                 <ScrollPanel class="pl-5 flex w-full">
                     <Transition name="page" appear>
-                        <slot/>
+                        <slot class="flex w-full"/>
                     </Transition>
                 </ScrollPanel>
             </div>

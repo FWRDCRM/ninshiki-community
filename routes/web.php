@@ -36,6 +36,7 @@ Route::middleware(config('ninshiki.middleware'))
                 Route::patch('feed/{id}', [FeedsController::class, 'likeUnlike'])->name('feeds.like-unlike');
                 Route::post('feed', [FeedsController::class, 'createPost'])->name('feeds.create-post');
                 // users
+                Route::get('employees/list', [EmployeesController::class, 'index'])->name('employees.list');
                 Route::get('employees', [EmployeesController::class, 'getAllEmployees'])->name('employees');
                 // giphy
                 Route::get('gif', [GiphyController::class, 'trending'])->name('gif.trending');
