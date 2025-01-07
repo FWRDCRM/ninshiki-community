@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use Inertia\Middleware;
 use Inertia\ResponseFactory;
 use Override;
+use Symfony\Component\HttpFoundation\Response;
 
 class HandleInertiaRequestsMiddleware extends Middleware
 {
@@ -55,8 +56,15 @@ class HandleInertiaRequestsMiddleware extends Middleware
         ]);
     }
 
+    /**
+     * Handle the incoming request.
+     *
+     * @param Request $request
+     * @param Closure $next
+     * @return Response
+     */
     #[Override]
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         Config::set('inertia.ssr.enabled', false);
 
