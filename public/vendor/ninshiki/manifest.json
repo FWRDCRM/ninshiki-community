@@ -33,6 +33,9 @@
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
+    "css": [
+      "app.css"
+    ],
     "assets": [
       "PoweredBy_200px-White_HorizText.png"
     ]
