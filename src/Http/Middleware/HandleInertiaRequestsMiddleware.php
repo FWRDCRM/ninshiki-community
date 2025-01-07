@@ -59,8 +59,8 @@ class HandleInertiaRequestsMiddleware extends Middleware
     /**
      * Handle the incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
+     * @param  Request  $request
+     * @param  Closure  $next
      * @return Response
      */
     #[Override]
