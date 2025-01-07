@@ -34,8 +34,7 @@ php artisan ninshiki:publish
 
 Keeping Ninshiki’s Assets Updated
 
-###### _To ensure Nova’s assets are updated when a new version is downloaded, you may add a Composer hook inside your
-project’s composer.json file to automatically publish Nova’s latest assets:_
+###### _To ensure Ninshiki’s assets are updated when a new version is downloaded, you may add a Composer hook inside your project’s composer.json file to automatically publish Ninshiki’s latest assets:_
 
 ```diff
 "scripts": {
