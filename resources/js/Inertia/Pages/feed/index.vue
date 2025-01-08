@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, ref, watch} from 'vue'
 import {usePage} from '@inertiajs/vue3'
 import Layout from "@/Layouts/layout.vue";
 import PostFeedCard from "@/Components/Post/PostFeedCard.vue";
@@ -7,7 +7,7 @@ import {useIntersectionObserver} from '@vueuse/core'
 import PostCreateModal from "@/Components/Post/PostCreateModal.vue";
 
 defineOptions({layout: Layout})
-const {posts} = defineProps({posts: Object})
+const props = defineProps({posts: Object})
 
 const target = ref(null)
 const showCreateModal = ref(false)
@@ -15,15 +15,26 @@ const showCreateModal = ref(false)
 const page = usePage()
 const user = computed(() => page.props.auth.user)
 
-const postsState = computed(() => posts.data)
-const postsCurrentPage = computed(() => posts.meta.current_page)
-const postsLastPage = computed(() => posts.meta.last_page)
+const postsState = ref(props.posts.data)
+const postsCurrentPage = ref(props.posts.meta.current_page)
+const postsLastPage = ref(props.posts.meta.last_page)
 
 NinshikiApp.$on('post-created', () => {
     NinshikiApp.$router.reload({
         only: ['posts'],
     });
 })
+
+watch(
+    () => props.posts,
+    (newPosts) => {
+        postsState.value = [...newPosts.data];
+        postsLastPage.value = newPosts.meta.last_page;
+        postsCurrentPage.value = newPosts.meta.current_page;
+    },
+    {deep: true, immediate: true}
+);
+
 
 useIntersectionObserver(target, ([{isIntersecting}]) => {
     if (!isIntersecting) {
@@ -62,9 +73,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
             </div>
         </div>
         <div class="content gap-3">
-            <div v-for="post in postsState">
-                <PostFeedCard :key="post.id" :post="post"/>
-            </div>
+            <PostFeedCard v-for="post in postsState" :key="post.id" :post="post"/>
             <!-- Load More Data   -->
             <div ref="target" class="-translate-y-32"></div>
         </div>
