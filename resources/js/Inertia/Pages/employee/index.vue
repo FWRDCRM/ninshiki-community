@@ -19,9 +19,13 @@ const {employees } = defineProps({ employees: Object });
                 </div>
             </template>
             <template #title>
-                <div class="text-wrap text-balance">{{employee.name}}</div>
+                <div class="text-balance text-center">{{employee.name}}</div>
             </template>
-            <template #subtitle>{{employee.email}}</template>
+            <template #subtitle>
+                <div class="text-center">
+                    {{employee.email}}
+                </div>
+            </template>
         </Card>
 
     </div>
