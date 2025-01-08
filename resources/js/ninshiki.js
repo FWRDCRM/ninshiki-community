@@ -63,6 +63,8 @@ export default class Ninshiki {
                 this.app.use(ConfirmationService)
                 this.app.use(plugin)
 
+                this.app.config.globalProperties.$ninshiki = this
+
             },
         })
     }
@@ -74,7 +76,7 @@ export default class Ninshiki {
     }
 
     uiAvatar(name) {
-        return `https://ui-avatars.com/api/?name=${name}&rounded=true&background=random`
+        return `https://ui-avatars.com/api/?name=${name}&rounded=true&color=FFFFFF&background=0D8ABC`
     }
 
     /**

@@ -49,7 +49,7 @@ async function onLike() {
         <!-- Post Header -->
         <div class="flex items-center gap-3">
             <Avatar
-                :image="props.post.posted_by?.avatar ?? `https://ui-avatars.com/api/?name=${props.post.posted_by?.name}&rounded=true&background=random`"
+                :image="props.post.posted_by?.avatar ?? $ninshiki.uiAvatar(props.post.posted_by?.name)"
                 shape="circle" size="large" alt="Profile Picture"
                 class="w-10 h-10 rounded-full"/>
             <div>
@@ -58,7 +58,7 @@ async function onLike() {
                     <i class="pi pi-sparkles"/>
                     <AvatarGroup @click="showRecognizedUserModal = true" class="cursor-pointer">
                         <Avatar v-for="(_user, index) in post.recipients" :key="index"
-                                :image="_user.avatar ?? `https://ui-avatars.com/api/?name=${_user?.name}&rounded=true&background=random`"
+                                :image="_user.avatar ?? $ninshiki.uiAvatar(_user?.name)"
                                 :alt="_user.name" shape="circle" class="object-cover text-sm"/>
                     </AvatarGroup>
                 </div>
@@ -93,7 +93,7 @@ async function onLike() {
             <div class="relative flex items-center">
                 <AvatarGroup>
                     <Avatar v-for="(_user, index) in post.liked_by" :key="index"
-                            :image="_user.avatar ?? `https://ui-avatars.com/api/?name=${_user?.name}&rounded=true&background=random`"
+                            :image="_user.avatar ?? $ninshiki.uiAvatar(_user?.name)"
                             alt="Liked User Avatar" shape="circle" class="object-cover"/>
                 </AvatarGroup>
             </div>

@@ -49,7 +49,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
         <div class="max-w-xl mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
             <div class="flex items-center space-x-3">
                 <img
-                    :src="user.avatar ?? `https://ui-avatars.com/api/?name=${user.name}&rounded=true&background=random`"
+                    :src="user.avatar ?? $ninshiki.uiAvatar(user.name)"
                     alt="Profile Picture" class="w-10 h-10 rounded-full">
                 <div
                     class="cursor-pointer flex-grow p-2 border text-left bg-gray-300 border-gray-300 rounded-full outline-none"
