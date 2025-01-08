@@ -181,7 +181,7 @@ watch(
                             <template #option="slotProps">
                                 <div class="flex items-center">
                                     <Avatar :alt="slotProps.option.name"
-                                            :image="slotProps.option.avatar ?? `https://ui-avatars.com/api/?name=${slotProps.option.name}&rounded=true&background=random`"
+                                            :image="slotProps.option.avatar ?? $ninshiki.uiAvatar(slotProps.option.name)"
                                             class="mr-2" style="width: 18px"/>
                                     <div>{{ slotProps.option.name }}</div>
                                 </div>

@@ -15,7 +15,7 @@ const {employees } = defineProps({ employees: Object });
         <Card class="min-w-48 w-full">
             <template #header>
                 <div class="flex flex-wrap items-center justify-center mt-4">
-                    <Avatar :alt="employee.name" :image="employee.avatar ?? `https://ui-avatars.com/api/?name=${employee.name}&rounded=true&background=random`" shape="circle" size="xlarge"/>
+                    <Avatar :alt="employee.name" :image="employee.avatar ?? $ninshiki.uiAvatar(employee.name)" shape="circle" size="xlarge"/>
                 </div>
             </template>
             <template #title>
