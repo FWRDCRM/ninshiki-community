@@ -12,6 +12,8 @@ class Ninshiki
 
     public static array $jsonVariables = [];
 
+    public static ?string $rootViewApp = 'ninshiki::app';
+
     /**
      * Get the app name utilized by Nova.
      */
