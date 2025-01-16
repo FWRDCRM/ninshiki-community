@@ -5,6 +5,7 @@ import Layout from "@/Layouts/layout.vue";
 import PostFeedCard from "@/Components/Post/PostFeedCard.vue";
 import {useIntersectionObserver} from '@vueuse/core'
 import PostCreateModal from "@/Components/Post/PostCreateModal.vue";
+import NoPostsAvailable from "@/Components/Post/NoPostsAvailable.vue";
 
 defineOptions({layout: Layout})
 const props = defineProps({posts: Object})
@@ -74,6 +75,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
         </div>
         <div class="content gap-3">
             <PostFeedCard v-for="post in postsState" :key="post.id" :post="post"/>
+            <NoPostsAvailable v-if="postsState.length === 0" />
             <!-- Load More Data   -->
             <div ref="target" class="-translate-y-32"></div>
         </div>
