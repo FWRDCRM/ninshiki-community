@@ -56,7 +56,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
 </script>
 
 <template>
-    <div>
+    <div class="w-full sm:min-w-[600px]">
         <PostCreateModal v-model:visible="showCreateModal" :modal-visible="showCreateModal"/>
         <div class="flex min-w-lg w-full mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
             <div class="flex items-center space-x-3 w-full">
@@ -75,7 +75,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
         </div>
         <div class="content gap-3">
             <PostFeedCard v-for="post in postsState" :key="post.id" :post="post"/>
-            <NoPostsAvailable v-if="postsState.length === 0" />
+            <NoPostsAvailable v-if="postsState.length === 0"/>
             <!-- Load More Data   -->
             <div ref="target"></div>
         </div>
