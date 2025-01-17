@@ -146,14 +146,14 @@ const items = ref([
                             <AccordionContent>
                                 <div class="flex gap-1 flex-col flex-wrap w-[200px] m-0">
                                     <div class="flex w-full space-x-2">
-                                        <span class="text-sm text-secondary text-slate-400">Coin Spend Limit:</span>
-                                        <span
-                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_credit.balance }} points</span>
-                                    </div>
-                                    <div class="flex w-full space-x-2">
                                         <span class="text-sm text-secondary text-slate-400">Earned Coins:</span>
                                         <span
-                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_earned.balance }} points</span>
+                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_earned.balance }} coins</span>
+                                    </div>
+                                    <div class="flex w-full space-x-2">
+                                        <span class="text-sm text-secondary text-slate-400">Coin Spend Limit:</span>
+                                        <span
+                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_credit.balance }} coins</span>
                                     </div>
                                 </div>
                             </AccordionContent>
