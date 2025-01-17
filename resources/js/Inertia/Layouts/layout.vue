@@ -75,11 +75,12 @@ const items = ref([
 </script>
 
 <template>
-    <div class="flex w-full justify-center">
+    <div class="flex w-full justify-center h-fit">
         <LogoutDialog/>
         <Toast position="bottom-right" group="br"/>
-        <div class="flex pt-10">
-            <div class="h-screen sticky top-9">
+        <div class="flex">
+            <!-- Left Sidebar  -->
+            <div class="h-fit sticky top-9">
                 <!-- Fixed Sidebar -->
                 <div class="sidebar">
                     <Menu :model="items" class="w-full md:w-60 ">
@@ -124,13 +125,33 @@ const items = ref([
                     </Menu>
                 </div>
             </div>
-
-            <div class="flex w-full">
+            <!--  CONTENT  -->
+            <div class="flex w-full relative top-9 h-fit">
                 <ScrollPanel class="pl-5 flex w-full">
                     <Transition name="page" appear>
-                        <slot class="flex w-full"/>
+                        <slot name="default" class="flex w-full"/>
                     </Transition>
                 </ScrollPanel>
+            </div>
+                <!--   Right Sidebar    -->
+            <div class="h-fit sticky top-9 w-full">
+                <div v-if="route('feed')" class="flex w-full">
+                    <Accordion :value="['0']" multiple class="w-full flex">
+                        <AccordionPanel value="0">
+                            <AccordionHeader>Wallets</AccordionHeader>
+                            <AccordionContent>
+                                <div class="flex w-full gap-1 flex-col flex-wrap">
+                                    <div class="flex w-full">
+                                        <span class="text-sm text-secondary">Earned Coins:</span>
+                                    </div>
+                                    <div class="flex w-full">
+                                        <span class="text-sm text-secondary">Coin Spend Limit:</span>
+                                    </div>
+                                </div>
+                            </AccordionContent>
+                        </AccordionPanel>
+                    </Accordion>
+                </div>
             </div>
         </div>
     </div>

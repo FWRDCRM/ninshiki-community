@@ -3,25 +3,43 @@
 namespace MarJose123\Ninshiki\Http\Controllers;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\Pool;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 
 class FeedsController
 {
-    /**
-     * @throws ConnectionException
-     */
     public function index(Request $request)
     {
-        $response = Http::ninshiki()
-            ->withToken($request->session()->get('token'))
-            ->withQueryParameters([
-                'page' => $request->has('page') ? $request->get('page') : 1,
-                'per_page' => $request->has('per_page') ? $request->get('per_page') : 15,
-            ])
-            ->get(config('ninshiki.api_version').'/posts');
-        $posts = $response->json();
+        $token = $request->session()->get('token');
+        $response = Http::pool(fn (Pool $pool) => [
+            $pool->as('posts')
+                ->ninshiki()
+                ->withToken($token)
+                ->withQueryParameters([
+                    'page' => $request->has('page') ? $request->get('page') : 1,
+                    'per_page' => $request->has('per_page') ? $request->get('per_page') : 15,
+                ])
+                ->get(config('ninshiki.api_version').'/posts'),
+            $pool->as('walletCredit')
+                ->ninshiki()
+                ->withToken($token)
+                ->get(config('ninshiki.api_version').'/wallets/spend/balance'),
+            $pool->as('walletEarned')
+                ->ninshiki()
+                ->withToken($token)
+                ->get(config('ninshiki.api_version').'/wallets/default/balance'),
+        ]);
+
+        //        $response = Http::ninshiki()
+        //            ->withToken($request->session()->get('token'))
+        //            ->withQueryParameters([
+        //                'page' => $request->has('page') ? $request->get('page') : 1,
+        //                'per_page' => $request->has('per_page') ? $request->get('per_page') : 15,
+        //            ])
+        //            ->get(config('ninshiki.api_version').'/posts');
+        $posts = $response['posts']->json();
         $posts = [
             'data' => $posts['data'],
             'meta' => [
@@ -35,8 +53,13 @@ class FeedsController
         ];
 
         if ($request->wantsJson() && ($request->has('page') || $request->has('per_page'))) {
-            return response()->json($posts, $response->status());
+            return response()->json($posts, $response['posts']->status());
         }
+
+        Inertia::share([
+            'wallet_credit' => $response['walletCredit']->json(),
+            'wallet_earned' => $response['walletEarned']->json(),
+        ]);
 
         return Inertia::render('feed/index', [
             'posts' => $posts,

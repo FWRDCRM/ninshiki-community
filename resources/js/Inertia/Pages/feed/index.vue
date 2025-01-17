@@ -58,15 +58,15 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
 <template>
     <div>
         <PostCreateModal v-model:visible="showCreateModal" :modal-visible="showCreateModal"/>
-        <div class="max-w-xl mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
-            <div class="flex items-center space-x-3">
+        <div class="flex min-w-lg w-full mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
+            <div class="flex items-center space-x-3 w-full">
                 <img
                     :src="user.avatar ?? $ninshiki.uiAvatar(user.name)"
                     alt="Profile Picture" class="w-10 h-10 rounded-full">
                 <div
-                    class="cursor-pointer flex-grow p-2 border text-left bg-gray-300 border-gray-300 rounded-full outline-none"
+                    class="cursor-pointer flex-grow p-2 border text-left bg-gray-300 border-gray-300 rounded-full outline-none w-full flex"
                     @click="showCreateModal=true">
-                    <div class="flex">
+                    <div class="flex w-full">
                         <span
                             class="text-sm font-normal text-gray-500">Who you want to recognize?, {{ user.name }}</span>
                     </div>
@@ -77,11 +77,10 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
             <PostFeedCard v-for="post in postsState" :key="post.id" :post="post"/>
             <NoPostsAvailable v-if="postsState.length === 0" />
             <!-- Load More Data   -->
-            <div ref="target" class="-translate-y-32"></div>
+            <div ref="target"></div>
         </div>
     </div>
 </template>
-
 <style scoped>
 
 </style>
