@@ -58,7 +58,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
 <template>
     <div class="w-full sm:min-w-[600px]">
         <PostCreateModal v-model:visible="showCreateModal" :modal-visible="showCreateModal"/>
-        <div class="flex min-w-lg w-full mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
+        <div class="flex max-w-[580px] mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
             <div class="flex items-center space-x-3 w-full">
                 <img
                     :src="user.avatar ?? $ninshiki.uiAvatar(user.name)"

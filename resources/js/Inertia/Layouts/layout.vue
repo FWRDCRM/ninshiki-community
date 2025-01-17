@@ -133,19 +133,27 @@ const items = ref([
                     </Transition>
                 </ScrollPanel>
             </div>
-                <!--   Right Sidebar    -->
-            <div class="h-fit sticky top-9 w-full">
-                <div v-if="route('feed')" class="flex w-full">
-                    <Accordion :value="['0']" multiple class="w-full flex">
+            <!--   Right Sidebar    -->
+            <div class="h-fit sticky top-9 w-full hidden lg:flex">
+                <div v-if="route('feed')" class="flex lg:min-w-[200px]">
+                    <Accordion :value="['0']" multiple :pt="{
+                        root: {
+                            class: 'w-[300px]'
+                        }
+                    }">
                         <AccordionPanel value="0">
                             <AccordionHeader>Wallets</AccordionHeader>
                             <AccordionContent>
-                                <div class="flex w-full gap-1 flex-col flex-wrap">
-                                    <div class="flex w-full">
-                                        <span class="text-sm text-secondary">Earned Coins:</span>
+                                <div class="flex gap-1 flex-col flex-wrap w-[200px] m-0">
+                                    <div class="flex w-full space-x-2">
+                                        <span class="text-sm text-secondary text-slate-400">Coin Spend Limit:</span>
+                                        <span
+                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_credit.balance }} points</span>
                                     </div>
-                                    <div class="flex w-full">
-                                        <span class="text-sm text-secondary">Coin Spend Limit:</span>
+                                    <div class="flex w-full space-x-2">
+                                        <span class="text-sm text-secondary text-slate-400">Earned Coins:</span>
+                                        <span
+                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_earned.balance }} points</span>
                                     </div>
                                 </div>
                             </AccordionContent>
