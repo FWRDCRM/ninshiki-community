@@ -32,13 +32,6 @@ class FeedsController
                 ->get(config('ninshiki.api_version').'/wallets/default/balance'),
         ]);
 
-        //        $response = Http::ninshiki()
-        //            ->withToken($request->session()->get('token'))
-        //            ->withQueryParameters([
-        //                'page' => $request->has('page') ? $request->get('page') : 1,
-        //                'per_page' => $request->has('per_page') ? $request->get('per_page') : 15,
-        //            ])
-        //            ->get(config('ninshiki.api_version').'/posts');
         $posts = $response['posts']->json();
         $posts = [
             'data' => $posts['data'],
