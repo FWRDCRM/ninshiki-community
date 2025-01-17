@@ -3,6 +3,7 @@
 namespace MarJose123\Ninshiki;
 
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +30,17 @@ class NinshikiCoreServiceProvider extends ServiceProvider
                 'Content-Type' => 'application/json',
                 'User-Agent' => Request::header('User-Agent'),
             ])->baseUrl(config('ninshiki.backend').'/api');
+        });
+
+        PendingRequest::macro('ninshiki', function () {
+            $this->withHeaders([
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'User-Agent' => Request::header('User-Agent'),
+            ]);
+            $this->baseUrl(config('ninshiki.backend').'/api');
+
+            return $this;
         });
 
         Http::macro('giphy', function () {
