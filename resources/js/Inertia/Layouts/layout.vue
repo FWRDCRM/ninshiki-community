@@ -6,6 +6,7 @@ import LogoutDialog from "@/Components/Auth/LogoutDialog.vue";
 import {useConfirm} from "primevue/useconfirm";
 import ScrollPanel from 'primevue/scrollpanel';
 import Toast from 'primevue/toast';
+import {route} from "ziggy-js";
 
 const confirm = useConfirm();
 const page = usePage()
@@ -134,8 +135,8 @@ const items = ref([
                 </ScrollPanel>
             </div>
             <!--   Right Sidebar    -->
-            <div class="h-fit sticky top-9 w-full hidden lg:flex">
-                <div v-if="route('feed')" class="flex lg:min-w-[200px]">
+            <div v-if="route().current('feed')"  class="h-fit sticky top-9 w-full hidden lg:flex">
+                <div class="flex lg:min-w-[200px]">
                     <Accordion :value="['0']" multiple :pt="{
                         root: {
                             class: 'w-[300px]'
@@ -146,14 +147,14 @@ const items = ref([
                             <AccordionContent>
                                 <div class="flex gap-1 flex-col flex-wrap w-[200px] m-0">
                                     <div class="flex w-full space-x-2">
+                                        <span class="text-sm text-secondary text-slate-400">Post Limit:</span>
+                                        <span
+                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_credit.balance }} coins</span>
+                                    </div>
+                                    <div class="flex w-full space-x-2">
                                         <span class="text-sm text-secondary text-slate-400">Earned Coins:</span>
                                         <span
                                             class="text-sm text-secondary text-slate-400">{{ page.props.wallet_earned.balance }} coins</span>
-                                    </div>
-                                    <div class="flex w-full space-x-2">
-                                        <span class="text-sm text-secondary text-slate-400">Coin Spend Limit:</span>
-                                        <span
-                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_credit.balance }} coins</span>
                                     </div>
                                 </div>
                             </AccordionContent>
