@@ -6,6 +6,7 @@ import LogoutDialog from "@/Components/Auth/LogoutDialog.vue";
 import {useConfirm} from "primevue/useconfirm";
 import ScrollPanel from 'primevue/scrollpanel';
 import Toast from 'primevue/toast';
+import {route} from "ziggy-js";
 
 const confirm = useConfirm();
 const page = usePage()
@@ -75,11 +76,12 @@ const items = ref([
 </script>
 
 <template>
-    <div class="flex w-full justify-center">
+    <div class="flex w-full justify-center h-fit">
         <LogoutDialog/>
         <Toast position="bottom-right" group="br"/>
-        <div class="flex pt-10">
-            <div class="h-screen sticky top-9">
+        <div class="flex">
+            <!-- Left Sidebar  -->
+            <div class="h-fit sticky top-9">
                 <!-- Fixed Sidebar -->
                 <div class="sidebar">
                     <Menu :model="items" class="w-full md:w-60 ">
@@ -124,13 +126,41 @@ const items = ref([
                     </Menu>
                 </div>
             </div>
-
-            <div class="flex w-full">
+            <!--  CONTENT  -->
+            <div class="flex w-full relative top-9 h-fit">
                 <ScrollPanel class="pl-5 flex w-full">
                     <Transition name="page" appear>
-                        <slot class="flex w-full"/>
+                        <slot name="default" class="flex w-full"/>
                     </Transition>
                 </ScrollPanel>
+            </div>
+            <!--   Right Sidebar    -->
+            <div v-if="route().current('feed')"  class="h-fit sticky top-9 w-full hidden lg:flex">
+                <div class="flex lg:min-w-[200px]">
+                    <Accordion :value="['0']" multiple :pt="{
+                        root: {
+                            class: 'w-[300px]'
+                        }
+                    }">
+                        <AccordionPanel value="0">
+                            <AccordionHeader>Wallets</AccordionHeader>
+                            <AccordionContent>
+                                <div class="flex gap-1 flex-col flex-wrap w-[200px] m-0">
+                                    <div class="flex w-full space-x-2">
+                                        <span class="text-sm text-secondary text-slate-400">Post Limit:</span>
+                                        <span
+                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_credit.balance }} coins</span>
+                                    </div>
+                                    <div class="flex w-full space-x-2">
+                                        <span class="text-sm text-secondary text-slate-400">Earned Coins:</span>
+                                        <span
+                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_earned.balance }} coins</span>
+                                    </div>
+                                </div>
+                            </AccordionContent>
+                        </AccordionPanel>
+                    </Accordion>
+                </div>
             </div>
         </div>
     </div>
