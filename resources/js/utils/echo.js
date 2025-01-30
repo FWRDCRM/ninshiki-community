@@ -15,29 +15,9 @@ export function echo(options = {
         forceTLS: (options.scheme ?? 'https') === 'https',
         enabledTransports: ['ws', 'wss'],
         autoReconnect: true,
-        authEndpoint: '/api/broadcasting/auth',
-        authorizer: (channel) => {
-            return {
-                authorize: async (socketId, callback) => {
-                    try {
-                        const data = await NinshikiApp.request().post(route('broadcast.auth'),{
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json',
-                            },
-                            body: {
-                                socket_id: socketId,
-                                channel_name: channel.name,
-                            },
-                        })
-                        callback(false, data)
-                    }
-                    catch (error) {
-                        callback(error)
-                    }
-                },
-            }
-        },
+        authEndpoint: route('broadcast.auth'),
+        headers: {
+            'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content
+        }
     })
 }
