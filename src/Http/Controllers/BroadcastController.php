@@ -3,7 +3,6 @@
 namespace MarJose123\Ninshiki\Http\Controllers;
 
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class BroadcastController
@@ -11,12 +10,12 @@ class BroadcastController
     /**
      * @throws ConnectionException
      */
-    public function __invoke(Request $request)
+    public function __invoke()
     {
         $response = Http::ninshiki()
-            ->withToken($request->session()->get('token'))
+            ->withToken(\request()->session()->get('token'))
             ->post('/api/broadcasting/auth', [
-                ...$request->all(),
+                ...\request()->all(),
             ]);
 
         return response()->json($response->json(), $response->status());

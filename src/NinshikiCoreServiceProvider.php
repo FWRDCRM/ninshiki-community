@@ -73,7 +73,7 @@ class NinshikiCoreServiceProvider extends ServiceProvider
                 'locale' => config('app.locale', 'en'),
                 'version' => Ninshiki::version(),
                 'websocket' => [
-                    'enabled' => config('ninshiki.websocket.enabled', true),
+                    'enabled' => config('ninshiki.websocket.enabled'),
                     'key' => config('ninshiki.websocket.key'),
                     'host' => config('ninshiki.websocket.host'),
                     'port' => config('ninshiki.websocket.port'),

@@ -44,7 +44,7 @@ Route::middleware(config('ninshiki.middleware'))
                 Route::get('gif/search', [GiphyController::class, 'search'])->name('gif.search');
 
                 // broadcast
-                Route::post('broadcast/auth', [BroadcastController::class])
+                Route::post('broadcast/auth', BroadcastController::class)
                     ->name('broadcast.auth');
 
             });

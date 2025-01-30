@@ -1,6 +1,6 @@
 import Echo from "laravel-echo";
 
-export function echo(options = {
+export function NinshikiEcho(options = {
     key: '',
     host: '',
     port: 8080,
