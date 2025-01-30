@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref, watch} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import {usePage} from '@inertiajs/vue3'
 import Layout from "@/Layouts/layout.vue";
 import PostFeedCard from "@/Components/Post/PostFeedCard.vue";
@@ -19,6 +19,16 @@ const user = computed(() => page.props.auth.user)
 const postsState = ref(props.posts.data)
 const postsCurrentPage = ref(props.posts.meta.current_page)
 const postsLastPage = ref(props.posts.meta.last_page)
+
+const wsChannel = 'server.post.new'
+const ws =  NinshikiApp.$echo();
+onMounted(() => {
+    ws.private(wsChannel)
+        .listen('.new.post', (event) => {
+            console.log(event)
+        })
+})
+
 
 NinshikiApp.$on('post-created', () => {
     NinshikiApp.$router.reload({

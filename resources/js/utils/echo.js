@@ -1,12 +1,13 @@
 import Echo from "laravel-echo";
+import Pusher from 'pusher-js';
 
 export function NinshikiEcho(options = {
     key: '',
     host: '',
     port: 8080,
     scheme: 'http'}) {
-    window.Pusher = Pusher
-    return  new Echo({
+    window.Pusher = Pusher;
+    return window.Echo =  new Echo({
         broadcaster: 'reverb',
         key: options.key,
         wsHost: options.host,

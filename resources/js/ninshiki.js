@@ -66,7 +66,7 @@ export default class Ninshiki {
                 this.app.use(plugin)
 
                 this.app.config.globalProperties.$ninshiki = this
-                this.app.config.globalProperties.$echo = new NinshikiEcho(this.websocket)
+                this.app.config.globalProperties.$echo = NinshikiEcho(this.websocket)
 
             },
         })
@@ -177,8 +177,8 @@ export default class Ninshiki {
     }
 
 
-    echo() {
-        return new NinshikiEcho(this.websocket)
+    $echo() {
+        return NinshikiEcho(this.websocket)
     }
 
     /**
