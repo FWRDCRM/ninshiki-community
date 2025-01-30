@@ -8,6 +8,7 @@ import {createApp, h} from "vue";
 import {createInertiaApp, router} from "@inertiajs/vue3";
 import {setupAxios} from "@util/axios.js";
 import {ToastEventBus} from "primevue";
+import {echo} from "@util/echo.js";
 
 const emitter = new Emitter()
 
@@ -19,6 +20,7 @@ export default class Ninshiki {
         this.version = config.version;
         this.appName = config.appName;
         this.$router = router
+        this.websocket = config.websocket;
     }
 
     async engineStart() {
@@ -64,6 +66,7 @@ export default class Ninshiki {
                 this.app.use(plugin)
 
                 this.app.config.globalProperties.$ninshiki = this
+                this.app.config.globalProperties.$echo = echo(this.websocket)
 
             },
         })
