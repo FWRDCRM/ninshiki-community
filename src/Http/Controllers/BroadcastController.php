@@ -14,7 +14,7 @@ class BroadcastController
     {
         $response = Http::ninshiki()
             ->withToken(\request()->session()->get('token'))
-            ->post('/api/broadcasting/auth', [
+            ->post('/broadcasting/auth', [
                 ...\request()->all(),
             ]);
 
