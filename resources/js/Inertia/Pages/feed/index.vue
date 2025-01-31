@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref, watch} from 'vue'
+import {computed, onMounted, onUnmounted, ref, watch} from 'vue'
 import {usePage} from '@inertiajs/vue3'
 import Layout from "@/Layouts/layout.vue";
 import PostFeedCard from "@/Components/Post/PostFeedCard.vue";
@@ -21,12 +21,30 @@ const postsCurrentPage = ref(props.posts.meta.current_page)
 const postsLastPage = ref(props.posts.meta.last_page)
 
 const wsChannel = 'server.post.new'
-const ws =  NinshikiApp.$echo();
+const ws = NinshikiApp.$echo()
+
+const hasRealtimeNewPosts = ref(true)
+
+function refreshPostFeed() {
+    window.scrollTo(0, 0)
+    NinshikiApp.$router.reload({
+        only: ['posts']
+    })
+}
+
 onMounted(() => {
-    ws.private(wsChannel)
-        .listen('.new.post', (event) => {
-            console.log(event)
-        })
+    if (ws) {
+        ws.private(wsChannel)
+            .listen('.new.post', (event) => {
+                console.log(event)
+            })
+    } else {
+        NinshikiApp.log('Websocket is disabled by system Administrator')
+    }
+})
+
+onUnmounted(() => {
+    if (ws) ws.disconnect();
 })
 
 
@@ -68,7 +86,8 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
 <template>
     <div class="w-full sm:min-w-[600px]">
         <PostCreateModal v-model:visible="showCreateModal" :modal-visible="showCreateModal"/>
-        <div class="flex max-w-[580px] mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
+        <div class="flex max-w-[580px] mx-auto bg-white border border-gray-300 rounded-lg shadow-md p-4"
+             :class="{ 'mb-1': hasRealtimeNewPosts, 'mb-4': !hasRealtimeNewPosts}">
             <div class="flex items-center space-x-3 w-full">
                 <img
                     :src="user.avatar ?? $ninshiki.uiAvatar(user.name)"
@@ -81,6 +100,19 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
                             class="text-sm font-normal text-gray-500">Who you want to recognize?, {{ user.name }}</span>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div v-if="hasRealtimeNewPosts" class="flex w-full mb-1 sticky top-1.5 pt-1 z-250">
+            <div class="flex items-center w-full justify-center">
+                <Button severity="info" raised rounded aria-label="new posts" @click="refreshPostFeed">
+                    <AvatarGroup>
+                        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle"/>
+                        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/asiyajavayant.png" shape="circle"/>
+                        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/onyamalimba.png" shape="circle"/>
+                        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/ionibowcher.png" shape="circle"/>
+                        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/xuxuefeng.png" shape="circle"/>
+                    </AvatarGroup>
+                </Button>
             </div>
         </div>
         <div class="content gap-3">
