@@ -177,7 +177,13 @@ export default class Ninshiki {
     }
 
 
+    /**
+     * Return an Undefined or Echo instance
+     *
+     * @returns {undefined|NinshikiEcho}
+     */
     $echo() {
+        if(!this.websocket.enabled) return undefined;
         return NinshikiEcho(this.websocket)
     }
 
