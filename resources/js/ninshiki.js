@@ -8,6 +8,7 @@ import {createApp, h} from "vue";
 import {createInertiaApp, router} from "@inertiajs/vue3";
 import {setupAxios} from "@util/axios.js";
 import {ToastEventBus} from "primevue";
+import Tooltip from 'primevue/tooltip';
 import {NinshikiEcho} from "@util/echo.js";
 
 const emitter = new Emitter()
@@ -61,6 +62,9 @@ export default class Ninshiki {
                         }
                     }
                 })
+
+                this.app.directive('tooltip', Tooltip)
+
                 this.app.use(ToastService)
                 this.app.use(ConfirmationService)
                 this.app.use(plugin)
