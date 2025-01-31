@@ -8,6 +8,8 @@ import {createApp, h} from "vue";
 import {createInertiaApp, router} from "@inertiajs/vue3";
 import {setupAxios} from "@util/axios.js";
 import {ToastEventBus} from "primevue";
+import Tooltip from 'primevue/tooltip';
+import {NinshikiEcho} from "@util/echo.js";
 
 const emitter = new Emitter()
 
@@ -19,6 +21,7 @@ export default class Ninshiki {
         this.version = config.version;
         this.appName = config.appName;
         this.$router = router
+        this.websocket = config.websocket;
     }
 
     async engineStart() {
@@ -59,11 +62,15 @@ export default class Ninshiki {
                         }
                     }
                 })
+
+                this.app.directive('tooltip', Tooltip)
+
                 this.app.use(ToastService)
                 this.app.use(ConfirmationService)
                 this.app.use(plugin)
 
                 this.app.config.globalProperties.$ninshiki = this
+                this.app.config.globalProperties.$echo = NinshikiEcho(this.websocket)
 
             },
         })
@@ -171,6 +178,17 @@ export default class Ninshiki {
         }
 
         return axios
+    }
+
+
+    /**
+     * Return an Undefined or Echo instance
+     *
+     * @returns {undefined|NinshikiEcho}
+     */
+    $echo() {
+        if(!this.websocket.enabled) return undefined;
+        return NinshikiEcho(this.websocket)
     }
 
     /**

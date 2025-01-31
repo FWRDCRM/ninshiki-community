@@ -17,7 +17,7 @@ class HandleServerMaintenanceMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        $response = Http::ninshiki()->get('');
+        $response = Http::baseUrl(config('ninshiki.backend'))->get('');
         if ($response->status() === 503) {
             Inertia::setRootView(Ninshiki::$rootViewApp);
 

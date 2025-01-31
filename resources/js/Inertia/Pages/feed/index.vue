@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref, watch} from 'vue'
+import {computed, onMounted, onUnmounted, ref, watch} from 'vue'
 import {usePage} from '@inertiajs/vue3'
 import Layout from "@/Layouts/layout.vue";
 import PostFeedCard from "@/Components/Post/PostFeedCard.vue";
@@ -19,6 +19,41 @@ const user = computed(() => page.props.auth.user)
 const postsState = ref(props.posts.data)
 const postsCurrentPage = ref(props.posts.meta.current_page)
 const postsLastPage = ref(props.posts.meta.last_page)
+
+const wsChannel = 'server.post.new'
+const ws = NinshikiApp.$echo()
+
+const hasRealtimeNewPosts = ref(false)
+const realtimeNewPosts = ref([])
+
+function refreshPostFeed() {
+    window.scrollTo(0, 0)
+    NinshikiApp.$router.reload({
+        only: ['posts'],
+        onSuccess: () => {
+            NinshikiApp.log('Feeds Refreshed.')
+            hasRealtimeNewPosts.value = false
+        }
+    })
+}
+
+onMounted(() => {
+    if (ws) {
+        ws.private(wsChannel)
+            .listen('.new.post', (event) => {
+                console.log(event)
+                hasRealtimeNewPosts.value = true
+                realtimeNewPosts.value.push(event.meta.post_by)
+            })
+    } else {
+        NinshikiApp.log('Websocket has disabled by system Administrator')
+    }
+})
+
+onUnmounted(() => {
+    if (ws) ws.disconnect();
+})
+
 
 NinshikiApp.$on('post-created', () => {
     NinshikiApp.$router.reload({
@@ -58,7 +93,8 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
 <template>
     <div class="w-full sm:min-w-[600px]">
         <PostCreateModal v-model:visible="showCreateModal" :modal-visible="showCreateModal"/>
-        <div class="flex max-w-[580px] mx-auto mb-4 bg-white border border-gray-300 rounded-lg shadow-md p-4">
+        <div class="flex max-w-[580px] mx-auto bg-white border border-gray-300 rounded-lg shadow-md p-4"
+             :class="{ 'mb-1': hasRealtimeNewPosts, 'mb-2': !hasRealtimeNewPosts}">
             <div class="flex items-center space-x-3 w-full">
                 <img
                     :src="user.avatar ?? $ninshiki.uiAvatar(user.name)"
@@ -71,6 +107,20 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
                             class="text-sm font-normal text-gray-500">Who you want to recognize?, {{ user.name }}</span>
                     </div>
                 </div>
+            </div>
+        </div>
+        <!--  New Realtime post      -->
+        <div v-if="hasRealtimeNewPosts" class="flex w-full mb-1 sticky top-1.5 pt-1 z-[250]"
+             v-tooltip.bottom="'New Posts'">
+            <div class="flex items-center w-full justify-center">
+                <Button size="small" severity="info" raised rounded aria-label="new posts" @click="refreshPostFeed">
+                    <i class="pi pi-arrow-circle-up"/>
+                    <AvatarGroup>
+                        <Avatar v-for="(_user, index) in realtimeNewPosts" :key="index"
+                                :image="_user.avatar ?? $ninshiki.uiAvatar(_user?.name)" class="object-cover"
+                                shape="circle"/>
+                    </AvatarGroup>
+                </Button>
             </div>
         </div>
         <div class="content gap-3">

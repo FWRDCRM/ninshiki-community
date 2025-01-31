@@ -72,6 +72,13 @@ class NinshikiCoreServiceProvider extends ServiceProvider
                 'timezone' => config('app.timezone', 'UTC'),
                 'locale' => config('app.locale', 'en'),
                 'version' => Ninshiki::version(),
+                'websocket' => [
+                    'enabled' => config('ninshiki.websocket.enabled'),
+                    'key' => config('ninshiki.websocket.key'),
+                    'host' => config('ninshiki.websocket.host'),
+                    'port' => config('ninshiki.websocket.port'),
+                    'scheme' => config('ninshiki.websocket.scheme'),
+                ],
             ]);
         });
     }

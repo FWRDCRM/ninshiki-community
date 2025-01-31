@@ -1,6 +1,7 @@
 <?php
 
 use MarJose123\Ninshiki\Http\Controllers\AuthenticationController;
+use MarJose123\Ninshiki\Http\Controllers\BroadcastController;
 use MarJose123\Ninshiki\Http\Controllers\EmployeesController;
 use MarJose123\Ninshiki\Http\Controllers\FeedsController;
 use MarJose123\Ninshiki\Http\Controllers\GiphyController;
@@ -41,6 +42,10 @@ Route::middleware(config('ninshiki.middleware'))
                 // giphy
                 Route::get('gif', [GiphyController::class, 'trending'])->name('gif.trending');
                 Route::get('gif/search', [GiphyController::class, 'search'])->name('gif.search');
+
+                // broadcast
+                Route::post('broadcast/auth', BroadcastController::class)
+                    ->name('broadcast.auth');
 
             });
     });

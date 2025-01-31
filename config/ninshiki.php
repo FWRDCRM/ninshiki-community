@@ -82,6 +82,22 @@ return [
 
     /**
      * ----------------------------------------------------------------------------------------------
+     * Ninshiki Websocket
+     * ----------------------------------------------------------------------------------------------
+     *
+     * This is used for the realtime post notifications and other system realtime updates/notifications.
+     * You are freely to enable or disable the websocket functionality
+     */
+    'websocket' => [
+        'enabled' => env('NINSHIKI_WEBSOCKET_ENABLED', true),
+        'key' => env('NINSHIKI_WEBSOCKET_KEY', null),
+        'host' => env('NINSHIKI_WEBSOCKET_HOST', 'localhost'),
+        'port' => env('NINSHIKI_WEBSOCKET_PORT', 8080),
+        'scheme' => env('NINSHIKI_WEBSOCKET_SCHEME', 'http'),
+    ],
+
+    /**
+     * ----------------------------------------------------------------------------------------------
      * Ninshiki Route Middleware
      * ----------------------------------------------------------------------------------------------
      *
