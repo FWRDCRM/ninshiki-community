@@ -95,11 +95,11 @@ class FeedsController
 
     }
 
-
     /**
-     * @param Request $request
-     * @param $id
+     * @param  Request  $request
+     * @param  $id
      * @return JsonResponse|Response|\Symfony\Component\HttpFoundation\Response
+     *
      * @throws ConnectionException
      */
     public function show(Request $request, $id)
