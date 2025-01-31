@@ -4,7 +4,6 @@ import {router, usePage} from "@inertiajs/vue3";
 import Menu from 'primevue/menu';
 import LogoutDialog from "@/Components/Auth/LogoutDialog.vue";
 import {useConfirm} from "primevue/useconfirm";
-import ScrollPanel from 'primevue/scrollpanel';
 import Toast from 'primevue/toast';
 import {route} from "ziggy-js";
 
@@ -129,20 +128,14 @@ const items = ref([
             <!--  CONTENT  -->
             <div class="flex w-full relative top-9 h-fit">
                 <!-- Optimized for Feed page for its scrolling and sticky element   -->
-                <ScrollPanel v-if="route().current('feed')" class="pl-5 flex w-full">
+                <div class="pl-5 flex w-full">
                     <Transition name="page" appear>
                         <slot name="default" class="flex w-full"/>
                     </Transition>
-                </ScrollPanel>
-                    <!-- Will be use if the page is not Feed  -->
-                <ScrollPanel v-else class="pl-5 flex w-full">
-                    <Transition name="page" appear>
-                        <slot name="default" class="flex w-full"/>
-                    </Transition>
-                </ScrollPanel>
+                </div>
             </div>
             <!--   Right Sidebar    -->
-            <div v-if="route().current('feed')"  class="h-fit sticky top-9 w-full hidden lg:flex">
+            <div v-if="route().current('feed')" class="h-fit sticky top-9 w-full hidden lg:flex">
                 <div class="flex lg:min-w-[200px]">
                     <Accordion :value="['0']" multiple :pt="{
                         root: {
@@ -156,12 +149,16 @@ const items = ref([
                                     <div class="flex w-full space-x-2">
                                         <span class="text-sm text-secondary text-slate-400">Post Limit:</span>
                                         <span
-                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_credit.balance }} coins</span>
+                                            class="text-sm text-secondary text-slate-400">{{
+                                                page.props.wallet_credit.balance
+                                            }} coins</span>
                                     </div>
                                     <div class="flex w-full space-x-2">
                                         <span class="text-sm text-secondary text-slate-400">Earned Coins:</span>
                                         <span
-                                            class="text-sm text-secondary text-slate-400">{{ page.props.wallet_earned.balance }} coins</span>
+                                            class="text-sm text-secondary text-slate-400">{{
+                                                page.props.wallet_earned.balance
+                                            }} coins</span>
                                     </div>
                                 </div>
                             </AccordionContent>
