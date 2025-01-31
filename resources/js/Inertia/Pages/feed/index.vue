@@ -23,12 +23,17 @@ const postsLastPage = ref(props.posts.meta.last_page)
 const wsChannel = 'server.post.new'
 const ws = NinshikiApp.$echo()
 
-const hasRealtimeNewPosts = ref(true)
+const hasRealtimeNewPosts = ref(false)
+const realtimeNewPosts = ref([])
 
 function refreshPostFeed() {
     window.scrollTo(0, 0)
     NinshikiApp.$router.reload({
-        only: ['posts']
+        only: ['posts'],
+        onSuccess: () => {
+            NinshikiApp.log('Feeds Refreshed.')
+            hasRealtimeNewPosts.value = false
+        }
     })
 }
 
@@ -37,9 +42,11 @@ onMounted(() => {
         ws.private(wsChannel)
             .listen('.new.post', (event) => {
                 console.log(event)
+                hasRealtimeNewPosts.value = true
+                realtimeNewPosts.value.push(event.meta.post_by)
             })
     } else {
-        NinshikiApp.log('Websocket is disabled by system Administrator')
+        NinshikiApp.log('Websocket has disabled by system Administrator')
     }
 })
 
@@ -87,7 +94,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
     <div class="w-full sm:min-w-[600px]">
         <PostCreateModal v-model:visible="showCreateModal" :modal-visible="showCreateModal"/>
         <div class="flex max-w-[580px] mx-auto bg-white border border-gray-300 rounded-lg shadow-md p-4"
-             :class="{ 'mb-1': hasRealtimeNewPosts, 'mb-4': !hasRealtimeNewPosts}">
+             :class="{ 'mb-1': hasRealtimeNewPosts, 'mb-2': !hasRealtimeNewPosts}">
             <div class="flex items-center space-x-3 w-full">
                 <img
                     :src="user.avatar ?? $ninshiki.uiAvatar(user.name)"
@@ -103,16 +110,15 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
             </div>
         </div>
         <!--  New Realtime post      -->
-        <div v-if="hasRealtimeNewPosts" class="flex w-full mb-1 sticky top-1.5 pt-1 z-[250]">
+        <div v-if="hasRealtimeNewPosts" class="flex w-full mb-1 sticky top-1.5 pt-1 z-[250]"
+             v-tooltip.bottom="'New Posts'">
             <div class="flex items-center w-full justify-center">
-                <Button severity="info" raised rounded aria-label="new posts" @click="refreshPostFeed">
-                    <i class="pi pi-arrow-circle-up" />
+                <Button size="small" severity="info" raised rounded aria-label="new posts" @click="refreshPostFeed">
+                    <i class="pi pi-arrow-circle-up"/>
                     <AvatarGroup>
-                        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle"/>
-                        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/asiyajavayant.png" shape="circle"/>
-                        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/onyamalimba.png" shape="circle"/>
-                        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/ionibowcher.png" shape="circle"/>
-                        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/xuxuefeng.png" shape="circle"/>
+                        <Avatar v-for="(_user, index) in realtimeNewPosts" :key="index"
+                                :image="_user.avatar ?? $ninshiki.uiAvatar(_user?.name)" class="object-cover"
+                                shape="circle"/>
                     </AvatarGroup>
                 </Button>
             </div>
