@@ -4,9 +4,11 @@ namespace MarJose123\Ninshiki\Http\Controllers;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Pool;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class FeedsController
 {
@@ -93,10 +95,11 @@ class FeedsController
 
     }
 
+
     /**
-     * @param  Request  $request
-     * @param  $id
-     *
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse|Response|\Symfony\Component\HttpFoundation\Response
      * @throws ConnectionException
      */
     public function show(Request $request, $id)
