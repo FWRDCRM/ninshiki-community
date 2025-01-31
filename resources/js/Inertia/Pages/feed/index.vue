@@ -126,8 +126,11 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
         </div>
         <div class="content gap-3">
             <PostFeedCard v-for="post in postsState" :key="post.id" :post="post"
-                          class="hover:bg-slate-100/60 cursor-pointer transition-colors  duration-100 ease-in-out"
-                          :redirect-to-record-on-click="true"
+                          class="hover:bg-slate-50/30 cursor-pointer transition-colors  duration-100 ease-in-out"
+                          @click.stop="$ninshiki.$router.visit(route('feed.show', post.id), {
+            only: ['post'],
+            preserveState: true
+        })"
             />
             <NoPostsAvailable v-if="postsState.length === 0"/>
             <!-- Load More Data   -->

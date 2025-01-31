@@ -8,12 +8,7 @@ import {route} from "ziggy-js";
 
 
 const props = defineProps({
-    post: Object,
-    redirectToRecordOnClick: {
-        type: Boolean,
-        default: false,
-        required: false
-    }
+    post: Object
 });
 const page = usePage()
 const showRecognizedUserModal = ref(false)
@@ -51,13 +46,8 @@ async function onLike() {
 
 <template>
     <div class="max-w-sm md:max-w-xl md:min-w-xl mx-auto mb-2 bg-white border border-gray-300 rounded-lg shadow-md p-4">
-        <div @click="redirectToRecordOnClick && $ninshiki.$router.visit(route('feed.show', props.post.id), {
-            only: ['post'],
-            preserveState: true
-        })">
             <!-- Post Recognized user -->
             <RecognizedDialog v-model:visible="showRecognizedUserModal" :users="props.post.recipients"/>
-
             <!-- Post Header -->
             <div class="flex items-center gap-3">
                 <Avatar
@@ -68,7 +58,7 @@ async function onLike() {
                     <div class="flex flex-row gap-3 items-center">
                         <h3 class="text-sm font-semibold">{{ post.posted_by.name }}</h3>
                         <i class="pi pi-sparkles"/>
-                        <AvatarGroup @click="showRecognizedUserModal = true" class="cursor-pointer">
+                        <AvatarGroup @click.stop="showRecognizedUserModal = true" class="cursor-pointer">
                             <Avatar v-for="(_user, index) in post.recipients" :key="index"
                                     :image="_user.avatar ?? $ninshiki.uiAvatar(_user?.name)"
                                     :alt="_user.name" shape="circle" class="object-cover text-sm"/>
@@ -77,6 +67,7 @@ async function onLike() {
                     <p class="text-xs text-gray-500">{{ post.created_at_formatted }}</p>
                 </div>
             </div>
+
 
             <!-- Post Content -->
             <div class="mt-4">
@@ -110,11 +101,11 @@ async function onLike() {
                     </AvatarGroup>
                 </div>
             </div>
-        </div>
+
         <!-- Post Actions -->
         <div class="mt-4  border-t border-gray-200 space-x-2 pt-2  flex items-center justify-between text-gray-500">
             <!-- Show the liked button if the user liked the post  -->
-            <button v-if="post.is_liked" @click="onLike" class="flex items-center space-x-1 text-red-500">
+            <button v-if="post.is_liked" @click.stop="onLike" class="flex items-center space-x-1 text-red-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
                     <path
                         d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -122,7 +113,7 @@ async function onLike() {
                 <span>Liked</span>
             </button>
 
-            <button v-else @click="onLike" class="flex items-center space-x-1 hover:text-red-500">
+            <button v-else @click.stop="onLike" class="flex items-center space-x-1 hover:text-red-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
                     <path
                         d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -130,19 +121,17 @@ async function onLike() {
                 <span>Like</span>
             </button>
 
-            <button @click="onComment" class="flex items-center space-x-1 hover:text-blue-500">
+            <button @click.stop="onComment" class="flex items-center space-x-1 hover:text-blue-500">
                 <i class="pi pi-comment"></i>
                 <span>Comment</span>
             </button>
 
-            <button @click="onShare" class="flex items-center space-x-1 hover:text-blue-500">
+            <button @click.stop="onShare" class="flex items-center space-x-1 hover:text-blue-500">
                 <i class="pi pi-share-alt"></i>
                 <span>Share</span>
             </button>
         </div>
-    </div>
-
-
+        </div>
 </template>
 
 <style scoped>
