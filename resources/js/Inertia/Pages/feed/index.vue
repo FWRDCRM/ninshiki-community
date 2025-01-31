@@ -102,9 +102,11 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
                 </div>
             </div>
         </div>
-        <div v-if="hasRealtimeNewPosts" class="flex w-full mb-1 sticky top-1.5 pt-1 z-250">
+        <!--  New Realtime post      -->
+        <div v-if="hasRealtimeNewPosts" class="flex w-full mb-1 sticky top-1.5 pt-1 z-[250]">
             <div class="flex items-center w-full justify-center">
                 <Button severity="info" raised rounded aria-label="new posts" @click="refreshPostFeed">
+                    <i class="pi pi-arrow-circle-up" />
                     <AvatarGroup>
                         <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle"/>
                         <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/asiyajavayant.png" shape="circle"/>

@@ -128,7 +128,14 @@ const items = ref([
             </div>
             <!--  CONTENT  -->
             <div class="flex w-full relative top-9 h-fit">
-                <ScrollPanel class="pl-5 flex w-full">
+                <!-- Optimized for Feed page for its scrolling and sticky element   -->
+                <ScrollPanel v-if="route().current('feed')" class="pl-5 flex w-full">
+                    <Transition name="page" appear>
+                        <slot name="default" class="flex w-full"/>
+                    </Transition>
+                </ScrollPanel>
+                    <!-- Will be use if the page is not Feed  -->
+                <ScrollPanel v-else class="pl-5 flex w-full">
                     <Transition name="page" appear>
                         <slot name="default" class="flex w-full"/>
                     </Transition>
