@@ -106,7 +106,7 @@ class FeedsController
             ->get(config('ninshiki.api_version').'/posts/'.$id);
 
         if ($response->status() === 404) {
-            return Inertia::render('Error', [
+            return Inertia::render('error/index', [
                 'status' => $response->getStatusCode(),
                 'redirect' => route('feed'),
             ])
