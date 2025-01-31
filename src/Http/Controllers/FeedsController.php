@@ -92,4 +92,31 @@ class FeedsController
         return response()->json($response->json(), $response->status());
 
     }
+
+    /**
+     * @param  Request  $request
+     * @param  $id
+     *
+     * @throws ConnectionException
+     */
+    public function show(Request $request, $id)
+    {
+        $response = Http::ninshiki()
+            ->withToken($request->session()->get('token'))
+            ->get(config('ninshiki.api_version').'/posts/'.$id);
+
+        if ($response->status() === 404) {
+            return Inertia::render('Error', [
+                'status' => $response->getStatusCode(),
+                'redirect' => route('feed'),
+            ])
+                ->toResponse($request)
+                ->setStatusCode($response->status());
+        }
+
+        return Inertia::render('feed/view', [
+            'post' => $response->json('data'),
+        ]);
+
+    }
 }

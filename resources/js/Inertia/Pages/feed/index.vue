@@ -1,6 +1,7 @@
 <script setup>
 import {computed, onMounted, onUnmounted, ref, watch} from 'vue'
-import {usePage} from '@inertiajs/vue3'
+import {router, usePage} from '@inertiajs/vue3'
+import {route} from "ziggy-js";
 import Layout from "@/Layouts/layout.vue";
 import PostFeedCard from "@/Components/Post/PostFeedCard.vue";
 import {useIntersectionObserver} from '@vueuse/core'
@@ -124,7 +125,10 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
             </div>
         </div>
         <div class="content gap-3">
-            <PostFeedCard v-for="post in postsState" :key="post.id" :post="post"/>
+            <PostFeedCard v-for="post in postsState" :key="post.id" :post="post"
+                          class="hover:bg-slate-100/60 cursor-pointer transition-colors  duration-100 ease-in-out"
+                          :redirect-to-record-on-click="true"
+            />
             <NoPostsAvailable v-if="postsState.length === 0"/>
             <!-- Load More Data   -->
             <div ref="target"></div>
