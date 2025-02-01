@@ -34,6 +34,7 @@ Route::middleware(config('ninshiki.middleware'))
                 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
                 // post
                 Route::get('feed', [FeedsController::class, 'index'])->name('feed');
+                Route::get('feed/{id}', [FeedsController::class, 'show'])->name('feed.show');
                 Route::patch('feed/{id}', [FeedsController::class, 'likeUnlike'])->name('feeds.like-unlike');
                 Route::post('feed', [FeedsController::class, 'createPost'])->name('feeds.create-post');
                 // users

@@ -10,6 +10,7 @@ import {setupAxios} from "@util/axios.js";
 import {ToastEventBus} from "primevue";
 import Tooltip from 'primevue/tooltip';
 import {NinshikiEcho} from "@util/echo.js";
+import Mousetrap from 'mousetrap'
 
 const emitter = new Emitter()
 
@@ -187,8 +188,27 @@ export default class Ninshiki {
      * @returns {undefined|NinshikiEcho}
      */
     $echo() {
-        if(!this.websocket.enabled) return undefined;
+        if (!this.websocket.enabled) return undefined;
         return NinshikiEcho(this.websocket)
+    }
+
+    /**
+     * Register a keyboard shortcut.
+     *
+     * @param {string} keys
+     * @param {Function} callback
+     */
+    addShortcut(keys, callback) {
+        Mousetrap.bind(keys, callback)
+    }
+
+    /**
+     * Unbind a keyboard shortcut.
+     *
+     * @param {string} keys
+     */
+    disableShortcut(keys) {
+        Mousetrap.unbind(keys)
     }
 
     /**

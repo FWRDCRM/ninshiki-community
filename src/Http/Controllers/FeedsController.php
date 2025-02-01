@@ -4,9 +4,11 @@ namespace MarJose123\Ninshiki\Http\Controllers;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Pool;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class FeedsController
 {
@@ -90,6 +92,34 @@ class FeedsController
             ]);
 
         return response()->json($response->json(), $response->status());
+
+    }
+
+    /**
+     * @param  Request  $request
+     * @param  $id
+     * @return JsonResponse|Response|\Symfony\Component\HttpFoundation\Response
+     *
+     * @throws ConnectionException
+     */
+    public function show(Request $request, $id)
+    {
+        $response = Http::ninshiki()
+            ->withToken($request->session()->get('token'))
+            ->get(config('ninshiki.api_version').'/posts/'.$id);
+
+        if ($response->status() === 404) {
+            return Inertia::render('error/index', [
+                'status' => $response->getStatusCode(),
+                'redirect' => route('feed'),
+            ])
+                ->toResponse($request)
+                ->setStatusCode($response->status());
+        }
+
+        return Inertia::render('feed/view', [
+            'post' => $response->json('data'),
+        ]);
 
     }
 }
