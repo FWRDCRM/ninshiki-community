@@ -1,5 +1,5 @@
 <script setup>
-import {usePage, Link} from "@inertiajs/vue3";
+import {usePage} from "@inertiajs/vue3";
 import PostFeedCard from "@/Components/Post/PostFeedCard.vue";
 import Layout from "@/Layouts/layout.vue";
 
