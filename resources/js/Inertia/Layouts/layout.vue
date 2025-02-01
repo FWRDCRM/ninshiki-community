@@ -6,6 +6,7 @@ import LogoutDialog from "@/Components/Auth/LogoutDialog.vue";
 import {useConfirm} from "primevue/useconfirm";
 import Toast from 'primevue/toast';
 import {route} from "ziggy-js";
+import _ from "lodash";
 
 const confirm = useConfirm();
 const page = usePage()
@@ -39,6 +40,7 @@ const items = ref([
             {
                 label: 'Feed',
                 icon: 'pi pi-home',
+                shortcut: '⌘+⇧+D',
                 command: () => {
                     route().current('feed') ?
                         router.reload({
@@ -46,11 +48,12 @@ const items = ref([
                             preserveState: false
                         }) : router.visit(route('feed'), {preserveState: false});
 
-                }
+                },
             },
             {
                 label: 'Employees',
                 icon: 'pi pi-users',
+                shortcut: '⌘+E',
                 command: () => {
                     route().current('employees.list') ?
                         router.reload({
@@ -63,6 +66,7 @@ const items = ref([
             {
                 label: 'Logout',
                 icon: 'pi pi-sign-out',
+                shortcut: '⌘+Q',
                 command: () => requireConfirmation()
             }
         ]
@@ -71,6 +75,26 @@ const items = ref([
         separator: true
     }
 ]);
+
+NinshikiApp.addShortcut(['command+shift+d', 'ctrl+shift+d'], function () {
+    const command = _.find(items.value[1].items, function (o) {
+        return o.label === 'Feed'
+    })
+    command.command()
+})
+NinshikiApp.addShortcut(['command+e', 'ctrl+e'], function () {
+    const command = _.find(items.value[1].items, function (o) {
+        return o.label === 'Employees'
+    })
+    command.command()
+})
+NinshikiApp.addShortcut(['command+q', 'ctrl+q'], function () {
+    const command = _.find(items.value[1].items, function (o) {
+        return o.label === 'Logout'
+    })
+    command.command()
+})
+
 
 </script>
 
