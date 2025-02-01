@@ -1,5 +1,6 @@
 <script setup>
-import {usePage} from "@inertiajs/vue3";
+import {router, usePage} from "@inertiajs/vue3";
+import {route} from "ziggy-js";
 import PostFeedCard from "@/Components/Post/PostFeedCard.vue";
 import Layout from "@/Layouts/layout.vue";
 
@@ -9,7 +10,7 @@ const props = defineProps({post: Object})
 const page = usePage()
 
 const goBack = () => {
-    window.history.back();
+    router.visit(route('feed'), {only: ['posts'], preserveScroll: true})
 }
 
 </script>
