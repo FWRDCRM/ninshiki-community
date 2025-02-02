@@ -3,6 +3,8 @@ import {useForm, usePage} from "@inertiajs/vue3";
 import {computed, ref, watch} from "vue";
 import GiphyModal from "@/Components/Post/GiphyModal.vue";
 import _ from "lodash";
+import "quill-mention/autoregister";
+import 'quill-mention/dist/quill.mention.css';
 
 const page = usePage()
 
@@ -144,6 +146,13 @@ watch(
     }
 );
 
+async function mentionUser(searchTerm) {
+    const search = employees.value.filter(person => person.name.includes(searchTerm))
+    return search.map(person => {return { id: person.id, value: person.name}});
+}
+
+
+
 </script>
 
 <template>
@@ -215,15 +224,32 @@ watch(
 
             <!-- Post Input -->
             <div class="mb-4">
-                <Textarea
-                    rows="4"
-                    autoResize
-                    class="w-full"
-                    placeholder="Recognize someone or your team?"
-                    v-model="formState.content"
-                    :maxlength="maxLengthPerPoints"
-                    required
-                    :invalid="!!formState.errors?.content"
+                <!--                <Textarea
+                                    rows="4"
+                                    autoResize
+                                    class="w-full"
+                                    placeholder="Recognize someone or your team?"
+                                    v-model="formState.content"
+                                    :maxlength="maxLengthPerPoints"
+                                    required
+                                    :invalid="!!formState.errors?.content"
+                                />-->
+                <Editor v-model="formState.content" editorStyle="height: 320px"
+                        :modules="{
+                                mention: {
+                                  allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+                                  mentionDenotationChars: ['@', '#'],
+                                    source: async function(searchTerm, renderList) {
+                                        const matchedPeople = await mentionUser(searchTerm);
+                                        renderList(matchedPeople);
+                                    }
+                                }
+                        }"
+                        :maxlength="maxLengthPerPoints"
+                        required
+                        :invalid="!!formState.errors?.content"
+                        autoResize
+                        placeholder="Recognize someone or your team?"
                 />
                 <!-- Character Counter -->
                 <div class="flex flex-row w-full">
