@@ -5,6 +5,8 @@ import GiphyModal from "@/Components/Post/GiphyModal.vue";
 import _ from "lodash";
 import "quill-mention/autoregister";
 import 'quill-mention/dist/quill.mention.css';
+import 'floating-vue/dist/style.css'
+import Mentionable from "@/Components/Post/Mentionable.vue";
 
 const page = usePage()
 
@@ -12,6 +14,7 @@ const props = defineProps({modalVisible: Boolean})
 const emit = defineEmits([]);
 
 const employees = ref([]);
+const employeeMention = ref([]);
 const points = ref([
     {
         name: '3 coins',
@@ -141,15 +144,12 @@ watch(
                 // remove current user info from the list
                 _.remove(data, (data) => data.id === page.props.auth.user.id);
                 employees.value = data;
+                employeeMention.value = data.map(person => {return {value: person.name, label: person.name, imgUrl: person.avatar ?? NinshikiApp.uiAvatar(person.name)}});
             })
         }
     }
 );
 
-async function mentionUser(searchTerm) {
-    const search = employees.value.filter(person => person.name.includes(searchTerm))
-    return search.map(person => {return { id: person.id, value: person.name}});
-}
 
 
 
@@ -224,33 +224,19 @@ async function mentionUser(searchTerm) {
 
             <!-- Post Input -->
             <div class="mb-4">
-                <!--                <Textarea
-                                    rows="4"
-                                    autoResize
-                                    class="w-full"
-                                    placeholder="Recognize someone or your team?"
-                                    v-model="formState.content"
-                                    :maxlength="maxLengthPerPoints"
-                                    required
-                                    :invalid="!!formState.errors?.content"
-                                />-->
-                <Editor v-model="formState.content" editorStyle="height: 320px"
-                        :modules="{
-                                mention: {
-                                  allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-                                  mentionDenotationChars: ['@', '#'],
-                                    source: async function(searchTerm, renderList) {
-                                        const matchedPeople = await mentionUser(searchTerm);
-                                        renderList(matchedPeople);
-                                    }
-                                }
-                        }"
+                <Mentionable :keys="['@']" :items="employeeMention" :insert-space="true">
+                    <Textarea
+                        rows="4"
+                        autoResize
+                        class="w-full font-normal text-base"
+                        placeholder="Recognize someone or your team?"
+                        v-model="formState.content"
                         :maxlength="maxLengthPerPoints"
                         required
                         :invalid="!!formState.errors?.content"
-                        autoResize
-                        placeholder="Recognize someone or your team?"
-                />
+                    />
+                </Mentionable>
+
                 <!-- Character Counter -->
                 <div class="flex flex-row w-full">
                     <div class="text-left text-sm mr-auto">
@@ -307,6 +293,15 @@ async function mentionUser(searchTerm) {
     </Dialog>
 </template>
 
-<style scoped>
+<style>
+
+.mention-item {
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.mention-selected {
+    background: rgb(192, 250, 153);
+}
 
 </style>
