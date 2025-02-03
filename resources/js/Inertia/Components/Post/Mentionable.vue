@@ -412,9 +412,9 @@ export default defineComponent({
                     <div
                         v-for="(item, index) of displayedItems"
                         :key="index"
-                        class="mention-item"
+                        class="mention-item pt-1 pr-[10px] rounded-sm"
                         :class="{
-              'mention-selected': selectedIndex === index,
+              'mention-selected bg-primary-400': selectedIndex === index,
             }"
                         @mouseover="selectedIndex = index"
                         @mousedown="applyMention(index)"
@@ -429,8 +429,10 @@ export default defineComponent({
                                 :item="item"
                                 :index="index"
                             >
-                                <img class="item-img" :src="item?.imgUrl" v-if="item.imgUrl"/>
-                                <span class="item-text">{{ item.label || item.value }}</span>
+                                <div class="flex flex-row gap-1 items-center py-1 px-2 w-full cursor-pointer">
+                                    <Avatar  class="item-img" shape="circle" :image="item?.imgUrl" v-if="item.imgUrl"/>
+                                    <span class="text-base font-normal">{{ item.label || item.value }}</span>
+                                </div>
                             </slot>
                         </slot>
                     </div>

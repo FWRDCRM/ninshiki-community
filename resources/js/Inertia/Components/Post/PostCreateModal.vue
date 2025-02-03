@@ -293,15 +293,3 @@ watch(
     </Dialog>
 </template>
 
-<style>
-
-.mention-item {
-    padding: 4px 10px;
-    border-radius: 4px;
-}
-
-.mention-selected {
-    background: rgb(192, 250, 153);
-}
-
-</style>
