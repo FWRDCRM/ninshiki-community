@@ -3,8 +3,6 @@ import {useForm, usePage} from "@inertiajs/vue3";
 import {computed, ref, watch} from "vue";
 import GiphyModal from "@/Components/Post/GiphyModal.vue";
 import _ from "lodash";
-import "quill-mention/autoregister";
-import 'quill-mention/dist/quill.mention.css';
 import 'floating-vue/dist/style.css'
 import Mentionable from "@/Components/Post/Mentionable.vue";
 
