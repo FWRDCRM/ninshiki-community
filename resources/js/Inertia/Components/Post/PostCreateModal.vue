@@ -15,16 +15,16 @@ const employees = ref([]);
 const employeeMention = ref([]);
 const points = ref([
     {
-        name: '3 coins',
-        value: 3
-    },
-    {
         name: '5 coins',
         value: 5
     },
     {
-        name: '10 coins',
-        value: 10
+        name: '15 coins',
+        value: 15
+    },
+    {
+        name: '20 coins',
+        value: 20
     }
 ])
 
