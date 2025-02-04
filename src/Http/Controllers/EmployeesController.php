@@ -28,6 +28,7 @@ class EmployeesController
                 return [
                     'id' => $employee['id'],
                     'name' => $employee['name'],
+                    'username' => $employee['username'],
                     'avatar' => $employee['avatar'],
                     'email' => $employee['email'],
                 ];

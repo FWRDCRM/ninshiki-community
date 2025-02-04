@@ -142,13 +142,17 @@ watch(
                 // remove current user info from the list
                 _.remove(data, (data) => data.id === page.props.auth.user.id);
                 employees.value = data;
-                employeeMention.value = data.map(person => {return {value: person.name, label: person.name, imgUrl: person.avatar ?? NinshikiApp.uiAvatar(person.name)}});
+                employeeMention.value = data.map(person => {
+                    return {
+                        value: person.username,
+                        label: person.name,
+                        imgUrl: person.avatar ?? NinshikiApp.uiAvatar(person.name)
+                    }
+                });
             })
         }
     }
 );
-
-
 
 
 </script>
