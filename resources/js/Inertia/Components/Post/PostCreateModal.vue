@@ -47,12 +47,12 @@ const formState = useForm({
 // function for handling the content max length per points
 const maxLengthPerPoints = computed(() => {
     switch (formState.points?.value) {
-        case 5:
-            return 310;
-        case 10:
-            return 480;
+        case 15:
+            return 380;
+        case 20:
+            return 500;
         default:
-            return 210;
+            return 260;
     }
 })
 
