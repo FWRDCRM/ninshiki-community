@@ -1,4 +1,10 @@
 {
+    "name": "ninshiki-community",
+    "author": {
+        "name": "MarJose213",
+        "url": "https://github.com/MarJose123",
+        "email": "hypernate1@gmail.com"
+    },
     "private": true,
     "type": "module",
     "scripts": {
