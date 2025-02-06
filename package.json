@@ -29,6 +29,7 @@
         "laravel-vite-plugin": "^1.1.1",
         "linkify-html": "^4.2.0",
         "linkify-plugin-hashtag": "^4.2.0",
+        "linkify-plugin-mention": "^4.2.0",
         "linkifyjs": "^4.2.0",
         "lodash": "^4.17.21",
         "mousetrap": "^1.6.5",
