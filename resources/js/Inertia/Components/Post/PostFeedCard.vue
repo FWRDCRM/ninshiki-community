@@ -22,7 +22,7 @@ const employees = ref([])
 const options = {
     formatHref: {
         hashtag: () => `#`,
-        mention: (href) => "/employee" + href,
+        mention: (href) => route('employees.list'),
     },
     className: () => 'text-blue-400',
     tagName: {
