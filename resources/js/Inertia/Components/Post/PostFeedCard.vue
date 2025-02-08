@@ -27,19 +27,7 @@ const options = {
     className: () => 'text-blue-400',
     tagName: {
         hashtag: "span",
-    },
-    render: ({ tagName, attributes, content }) => {
-        let _attributes = "";
-        for (const attr in attributes) {
-            _attributes += ` ${attr}=${attributes[attr]}`;
-        }
-        // find the name based on username
-        let username;
-        if(content.includes("@")) {
-            username = content.substring(1);
-        }
-        return `<${tagName}${_attributes}>${content}</${tagName}>`;
-    },
+    }
 }
 
 
