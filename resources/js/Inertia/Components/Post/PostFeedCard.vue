@@ -27,7 +27,14 @@ const options = {
     className: () => 'text-blue-400',
     tagName: {
         hashtag: "span",
-    }
+    },
+    render: ({ tagName, attributes, content }) => {
+        let _attributes = "";
+        for (const attr in attributes) {
+            _attributes += ` ${attr}=${attributes[attr]}`;
+        }
+        return `<${tagName}${_attributes} >${content}</${tagName}>`;
+    },
 }
 
 
