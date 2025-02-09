@@ -29,7 +29,10 @@ class NinshikiCoreServiceProvider extends ServiceProvider
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'User-Agent' => Request::header('User-Agent'),
-            ])->baseUrl(config('ninshiki.backend').'/api');
+            ])
+                ->connectTimeout(5)
+                ->timeout(60) // 1 minute
+                ->baseUrl(config('ninshiki.backend').'/api');
         });
 
         PendingRequest::macro('ninshiki', function () {
@@ -38,6 +41,8 @@ class NinshikiCoreServiceProvider extends ServiceProvider
                 'Content-Type' => 'application/json',
                 'User-Agent' => Request::header('User-Agent'),
             ]);
+            $this->connectTimeout(5);
+            $this->timeout(60); // 1 minute
             $this->baseUrl(config('ninshiki.backend').'/api');
 
             return $this;
@@ -48,6 +53,8 @@ class NinshikiCoreServiceProvider extends ServiceProvider
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
             ])
+                ->connectTimeout(5)
+                ->timeout(60) // 1 minute
                 ->baseUrl('https://api.giphy.com/v1');
         });
 

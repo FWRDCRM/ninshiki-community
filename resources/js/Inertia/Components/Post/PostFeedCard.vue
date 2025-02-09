@@ -1,17 +1,43 @@
 <script setup>
 import Image from 'primevue/image';
 import _ from "lodash";
-import {router, usePage} from "@inertiajs/vue3";
+import {router, usePage, Link} from "@inertiajs/vue3";
 import {ref} from "vue";
 import RecognizedDialog from "@/Components/Post/RecognizedDialog.vue";
 import {route} from "ziggy-js";
-
+import linkifyHtml from "linkify-html";
+import "linkify-plugin-mention";
+import "linkify-plugin-hashtag";
 
 const props = defineProps({
     post: Object
 });
+
 const page = usePage()
+
 const showRecognizedUserModal = ref(false)
+
+const employees = ref([])
+
+const options = {
+    formatHref: {
+        hashtag: () => `#`,
+        mention: (href) => route('employees.list'),
+    },
+    className: () => 'text-blue-400',
+    tagName: {
+        hashtag: "span",
+    },
+    render: ({ tagName, attributes, content }) => {
+        let _attributes = "";
+        for (const attr in attributes) {
+            _attributes += ` ${attr}=${attributes[attr]}`;
+        }
+        return `<${tagName}${_attributes} >${content}</${tagName}>`;
+    },
+}
+
+
 
 function onComment() {
     NinshikiApp.info('The functionality you clicked is not yet implemented.', 'Sorry');
@@ -71,8 +97,8 @@ async function onLike() {
 
             <!-- Post Content -->
             <div class="mt-4">
-                <p class="text-gray-700 font-normal text-sm">
-                    {{ post.content }}
+                <p class="text-gray-700 font-normal text-sm"
+                   v-html="linkifyHtml(post.content, options)">
                 </p>
             </div>
 

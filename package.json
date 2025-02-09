@@ -1,4 +1,10 @@
 {
+    "name": "ninshiki-community",
+    "author": {
+        "name": "MarJose213",
+        "url": "https://github.com/MarJose123",
+        "email": "hypernate1@gmail.com"
+    },
     "private": true,
     "type": "module",
     "scripts": {
@@ -19,12 +25,18 @@
         "@vueuse/core": "^12.0.0",
         "autosize": "^6.0.1",
         "axios": "^1.7.9",
+        "floating-vue": "^5.2.2",
         "laravel-vite-plugin": "^1.1.1",
+        "linkify-html": "^4.2.0",
+        "linkify-plugin-hashtag": "^4.2.0",
+        "linkify-plugin-mention": "^4.2.0",
+        "linkifyjs": "^4.2.0",
         "lodash": "^4.17.21",
         "mousetrap": "^1.6.5",
         "primeicons": "^7.0.0",
         "primevue": "^4.2.5",
         "tailwindcss-primeui": "^0.3.4",
+        "textarea-caret": "^3.1.0",
         "tiny-emitter": "^2.1.0",
         "uuid": "^11.0.3",
         "vite": "^6.0.7",
@@ -35,6 +47,7 @@
         "@primevue/auto-import-resolver": "^4.2.5",
         "@tailwindcss/container-queries": "^0.1.1",
         "@tailwindcss/typography": "^0.5.15",
+        "@types/textarea-caret": "^3.0.3",
         "autoprefixer": "^10.4.20",
         "laravel-echo": "^1.19.0",
         "postcss": "^8.4.49",

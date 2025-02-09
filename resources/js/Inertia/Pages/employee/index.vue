@@ -22,6 +22,11 @@ const {employees } = defineProps({ employees: Object });
                 <div class="text-balance text-center">{{employee.name}}</div>
             </template>
             <template #subtitle>
+                <div class="text-center italic">
+                    @{{employee.username}}
+                </div>
+            </template>
+            <template #footer>
                 <div class="text-center">
                     {{employee.email}}
                 </div>

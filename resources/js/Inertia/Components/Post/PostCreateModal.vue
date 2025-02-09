@@ -3,6 +3,8 @@ import {useForm, usePage} from "@inertiajs/vue3";
 import {computed, ref, watch} from "vue";
 import GiphyModal from "@/Components/Post/GiphyModal.vue";
 import _ from "lodash";
+import 'floating-vue/dist/style.css'
+import Mentionable from "@/Components/Post/Mentionable.vue";
 
 const page = usePage()
 
@@ -10,18 +12,19 @@ const props = defineProps({modalVisible: Boolean})
 const emit = defineEmits([]);
 
 const employees = ref([]);
+const employeeMention = ref([]);
 const points = ref([
-    {
-        name: '3 coins',
-        value: 3
-    },
     {
         name: '5 coins',
         value: 5
     },
     {
-        name: '10 coins',
-        value: 10
+        name: '15 coins',
+        value: 15
+    },
+    {
+        name: '20 coins',
+        value: 20
     }
 ])
 
@@ -44,12 +47,12 @@ const formState = useForm({
 // function for handling the content max length per points
 const maxLengthPerPoints = computed(() => {
     switch (formState.points?.value) {
-        case 5:
-            return 310;
-        case 10:
-            return 480;
+        case 15:
+            return 380;
+        case 20:
+            return 500;
         default:
-            return 210;
+            return 260;
     }
 })
 
@@ -139,10 +142,18 @@ watch(
                 // remove current user info from the list
                 _.remove(data, (data) => data.id === page.props.auth.user.id);
                 employees.value = data;
+                employeeMention.value = data.map(person => {
+                    return {
+                        value: person.username,
+                        label: person.name,
+                        imgUrl: person.avatar ?? NinshikiApp.uiAvatar(person.name)
+                    }
+                });
             })
         }
     }
 );
+
 
 </script>
 
@@ -215,16 +226,19 @@ watch(
 
             <!-- Post Input -->
             <div class="mb-4">
-                <Textarea
-                    rows="4"
-                    autoResize
-                    class="w-full"
-                    placeholder="Recognize someone or your team?"
-                    v-model="formState.content"
-                    :maxlength="maxLengthPerPoints"
-                    required
-                    :invalid="!!formState.errors?.content"
-                />
+                <Mentionable :keys="['@']" :items="employeeMention" :insert-space="true">
+                    <Textarea
+                        rows="4"
+                        autoResize
+                        class="w-full font-normal text-base"
+                        placeholder="Recognize someone or your team?"
+                        v-model="formState.content"
+                        :maxlength="maxLengthPerPoints"
+                        required
+                        :invalid="!!formState.errors?.content"
+                    />
+                </Mentionable>
+
                 <!-- Character Counter -->
                 <div class="flex flex-row w-full">
                     <div class="text-left text-sm mr-auto">
@@ -281,6 +295,3 @@ watch(
     </Dialog>
 </template>
 
-<style scoped>
-
-</style>

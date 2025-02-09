@@ -1,11 +1,13 @@
 <?php
 
+use Inertia\Inertia;
 use MarJose123\Ninshiki\Http\Controllers\AuthenticationController;
 use MarJose123\Ninshiki\Http\Controllers\BroadcastController;
 use MarJose123\Ninshiki\Http\Controllers\EmployeesController;
 use MarJose123\Ninshiki\Http\Controllers\FeedsController;
 use MarJose123\Ninshiki\Http\Controllers\GiphyController;
 use MarJose123\Ninshiki\Http\Middleware\EnsureAuthenticatedMiddleware;
+use MarJose123\Ninshiki\Ninshiki;
 
 Route::middleware(config('ninshiki.middleware'))
     ->domain(config('ninshiki.domain'))
@@ -50,3 +52,11 @@ Route::middleware(config('ninshiki.middleware'))
 
             });
     });
+
+Route::fallback(function () {
+    Inertia::setRootView(Ninshiki::$rootViewApp);
+
+    return Inertia::render('error/index', [
+        'status' => 404,
+    ]);
+});
