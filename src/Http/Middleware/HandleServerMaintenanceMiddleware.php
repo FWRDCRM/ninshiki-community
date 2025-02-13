@@ -17,12 +17,13 @@ class HandleServerMaintenanceMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        $response = Http::baseUrl(config('ninshiki.backend'))->get('');
-        if ($response->status() === 503) {
+        $response = Http::ninshiki()
+            ->get(config('ninshiki.api_version').'/application/maintenance');
+        if ($response->status() === 503 || $response->json()['maintenance_mode']) {
             Inertia::setRootView(Ninshiki::$rootViewApp);
 
             return Inertia::render('error/index', [
-                'status' => $response->status(),
+                'status' => 503,
             ]);
         }
 
