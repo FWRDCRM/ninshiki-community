@@ -12,6 +12,8 @@
 
 Ninshiki Web App; Inspiring Recognition: Celebrate Success
 
+---
+
 ## Installation
 
 You can install the package via composer:
@@ -44,6 +46,50 @@ Keeping Ninshiki’s Assets Updated
     ]
 }
 ```
+
+# Known Issue 
+
+---
+
+#### Increasing the NGINX buffer size for Inertia requests
+Because of a [known issue](https://github.com/inertiajs/inertia-laravel/issues/529) with Inertia.js and default NGINX configuration, you may need to increase the buffer size for NGINX to handle Inertia requests.
+```diff
+server {
+    listen 80;
+    listen [::]:80;
+    server_name example.com;
+    root /srv/example.com/public;
+ 
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+ 
+    index index.php;
+ 
+    charset utf-8;
+ 
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+ 
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+ 
+    error_page 404 /index.php;
+ 
+    location ~ ^/index\.php(/|$) {
++       fastcgi_buffer_size 8k;    
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_hide_header X-Powered-By;
+    }
+ 
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
+
 
 ## Testing
 
