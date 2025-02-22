@@ -58,7 +58,7 @@ onUnmounted(() => {
 
 NinshikiApp.$on('post-created', () => {
     NinshikiApp.$router.reload({
-        only: ['posts'],
+        only: ['posts', 'wallet_credit', 'wallet_earned'],
     });
 })
 

@@ -51,13 +51,10 @@ class FeedsController
             return response()->json($posts, $response['posts']->status());
         }
 
-        Inertia::share([
-            'wallet_credit' => $response['walletCredit']->json(),
-            'wallet_earned' => $response['walletEarned']->json(),
-        ]);
-
         return Inertia::render('feed/index', [
             'posts' => $posts,
+            'wallet_credit' => $response['walletCredit']->json(),
+            'wallet_earned' => $response['walletEarned']->json(),
         ]);
     }
 
