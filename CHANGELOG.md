@@ -2,6 +2,10 @@
 
 All notable changes to `ninshiki` will be documented in this file.
 
+## 0.0.2 - 2025-02-22
+
+**Full Changelog**: https://github.com/ninshiki-project/ninshiki-community/compare/0.0.1...0.0.2
+
 ## 0.0.1 - 2025-02-21
 
 ### What's Changed
