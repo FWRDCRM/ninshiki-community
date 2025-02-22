@@ -68,9 +68,10 @@ class HandleInertiaRequestsMiddleware extends Middleware
     {
         Config::set('inertia.ssr.enabled', false);
 
-        if (method_exists(ResponseFactory::class, 'encryptHistory') && $request->getScheme() === 'https') {
+        // TODO: Fix this as this cause an issue on HTTPS protocol
+        /*if (method_exists(ResponseFactory::class, 'encryptHistory') && $request->getScheme() === 'https') {
             Inertia::encryptHistory(); // @phpstan-ignore staticMethod.notFound
-        }
+        }*/
 
         return parent::handle($request, $next);
     }
