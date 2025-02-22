@@ -73,8 +73,8 @@ class AuthenticationController
             'user' => $body->user,
         ]);
 
-        \Log::info('login session',[
-            $request->session()
+        \Log::info('login session', [
+            $request->session(),
         ]);
 
         return redirect(route('feed'));
