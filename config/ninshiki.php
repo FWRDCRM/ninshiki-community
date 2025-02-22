@@ -68,7 +68,7 @@ return [
      * can be used to prevent Ninshiki's internal routes from being registered
      * on subdomains which do not need access to your admin application.
      */
-    'domain' => env('Ninshiki_DOMAIN_NAME', null),
+    'domain' => env('NINSHIKI_DOMAIN_NAME', null),
 
     /**
      * ----------------------------------------------------------------------------------------------
