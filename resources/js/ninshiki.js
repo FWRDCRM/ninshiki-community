@@ -73,14 +73,10 @@ export default class Ninshiki {
                 this.app.config.globalProperties.$ninshiki = this
                 this.app.config.globalProperties.$echo = NinshikiEcho(this.websocket)
 
-            },
-        })
-    }
+                this.app.mount(el)
 
-    fly() {
-        this.log('We have lift off!')
-        this.app.mount(this.mountTo)
-        this.log('All systems go...')
+            },
+        }).then(() => console.log('We have lift off!'))
     }
 
     uiAvatar(name) {

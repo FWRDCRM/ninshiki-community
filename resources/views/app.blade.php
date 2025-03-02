@@ -29,6 +29,7 @@
     {{ Vite::useBuildDirectory('vendor/ninshiki')
 ->useHotFile('vendor/ninshiki/ninshiki.hot')
 ->withEntryPoints(['resources/js/app.js', 'resources/css/ninshiki.css']) }}
+    @inertiaHead
 </head>
 <body class=" text-sm font-medium h-screen max-w-full text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800">
 @inertia
@@ -39,10 +40,6 @@
     const config = @json(\MarJose123\Ninshiki\Ninshiki::jsonVariables(request()));
     window.NinshikiApp = createNinshikiApp(config)
     NinshikiApp.engineStart()
-    /* Start Ninshiki */
-    document.addEventListener('DOMContentLoaded', function () {
-        NinshikiApp.fly()
-    })
 </script>
 </body>
 </html>
