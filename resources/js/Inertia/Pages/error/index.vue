@@ -30,7 +30,7 @@ const description = computed(() => {
         <div class="flex items-center justify-center w-full">
             <div class="flex gap-3 flex-col max-w-lg">
                 <p class="font-bold text-3xl text-gray-600">{{ title }}</p>
-                <p class="font-normal">{{ description }}</p>
+                <p class="font-normal">{{ description ?? message }}</p>
                 <div class="flex max-w-60">
                     <Button class="mt-8" :label="status === 503 ? 'Try Again' : 'Go Back'" as="a" :href="redirect ?? '/'"/>
                 </div>
