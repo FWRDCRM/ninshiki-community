@@ -17,6 +17,7 @@ const requireConfirmation = () => {
         header: 'Logout',
         message: 'Are you sure you want to logout?',
         accept: () => {
+            router.clearHistory()
             router.post(route('logout'))
         },
         reject: () => {

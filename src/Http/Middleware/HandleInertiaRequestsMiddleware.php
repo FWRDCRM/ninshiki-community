@@ -5,7 +5,9 @@ namespace MarJose123\Ninshiki\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Inertia\Inertia;
 use Inertia\Middleware;
+use Inertia\ResponseFactory;
 use Override;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -65,6 +67,10 @@ class HandleInertiaRequestsMiddleware extends Middleware
     public function handle($request, Closure $next): Response
     {
         Config::set('inertia.ssr.enabled', false);
+
+        if (method_exists(ResponseFactory::class, 'encryptHistory')  && $request->getScheme() === 'https') {
+            Inertia::encryptHistory(); // @phpstan-ignore staticMethod.notFound
+        }
 
         return parent::handle($request, $next);
     }
