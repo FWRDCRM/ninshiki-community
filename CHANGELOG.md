@@ -2,6 +2,14 @@
 
 All notable changes to `ninshiki` will be documented in this file.
 
+## 0.0.6 - 2025-02-22
+
+### What's Changed
+
+* Fix sidebar height if no post yet by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/18
+
+**Full Changelog**: https://github.com/ninshiki-project/ninshiki-community/compare/0.0.5...0.0.6
+
 ## 0.0.5 - 2025-02-22
 
 **Full Changelog**: https://github.com/ninshiki-project/ninshiki-community/compare/0.0.4...0.0.5
