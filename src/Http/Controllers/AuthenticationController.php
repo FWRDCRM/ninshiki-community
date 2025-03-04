@@ -84,7 +84,7 @@ class AuthenticationController
     {
         $response = Http::ninshiki()
             ->withHeaders([
-                'X-Forwarded-For' => $request->ip()
+                'X-Forwarded-For' => $request->ip(),
             ])
             ->withToken($request->session()->get('token'))
             ->post('/logout');
