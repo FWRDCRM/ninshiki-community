@@ -29,6 +29,7 @@ class NinshikiCoreServiceProvider extends ServiceProvider
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'User-Agent' => Request::header('User-Agent'),
+                'X-Forwarded-For' => Request::getClientIp(),
             ])
                 ->withoutRedirecting()
                 ->connectTimeout(15)
@@ -41,6 +42,7 @@ class NinshikiCoreServiceProvider extends ServiceProvider
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'User-Agent' => Request::header('User-Agent'),
+                'X-Forwarded-For' => Request::getClientIp(),
             ]);
             $this->withoutRedirecting();
             $this->connectTimeout(15);
