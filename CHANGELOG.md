@@ -2,6 +2,14 @@
 
 All notable changes to `ninshiki` will be documented in this file.
 
+## 0.0.7 - 2025-03-04
+
+### What's Changed
+
+* fix bug page break and unable to mount app by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/19
+
+**Full Changelog**: https://github.com/ninshiki-project/ninshiki-community/compare/0.0.6...0.0.7
+
 ## 0.0.6 - 2025-02-22
 
 ### What's Changed
