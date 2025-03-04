@@ -45,6 +45,9 @@ class AuthenticationController
     public function callbackForProviderLogin(Request $request): Application|RedirectResponse|Redirector|InertiaResponse|Response
     {
         $response = Http::ninshiki()
+            ->withHeaders([
+                'X-Forwarded-For' => $request->ip()
+            ])
             ->post('/login/zoho', [
                 'code' => $request->get('code'),
             ]);
@@ -83,6 +86,9 @@ class AuthenticationController
     public function logout(Request $request)
     {
         $response = Http::ninshiki()
+            ->withHeaders([
+                'X-Forwarded-For' => $request->ip()
+            ])
             ->withToken($request->session()->get('token'))
             ->post('/logout');
 
