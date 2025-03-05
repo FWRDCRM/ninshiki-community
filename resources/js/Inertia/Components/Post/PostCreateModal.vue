@@ -48,11 +48,11 @@ const formState = useForm({
 const maxLengthPerPoints = computed(() => {
     switch (formState.points?.value) {
         case 15:
-            return 380;
+            return 385;
         case 20:
-            return 500;
+            return 650;
         default:
-            return 260;
+            return 280;
     }
 })
 
@@ -183,9 +183,9 @@ watch(
                     <FloatLabel class="w-full md:w-80">
                         <MultiSelect id="employees" v-model="formState.employees" :options="employees"
                                      optionLabel="name"
-                                     filter class="w-full" :show-toggle-all="false"
-                                     :max-selected-labels=3
-                                     display="chip"
+                                     filter
+                                     class="w-full" :show-toggle-all="false"
+                                     :maxSelectedLabels=2
                                      required
                                      :invalid="!!formState.errors?.employees"
                         >
@@ -193,15 +193,13 @@ watch(
                                 <div class="flex items-center">
                                     <Avatar :alt="slotProps.option.name"
                                             :image="slotProps.option.avatar ?? $ninshiki.uiAvatar(slotProps.option.name)"
-                                            class="mr-2" style="width: 18px"/>
+                                            class="mr-2" style="width: 18px"
+                                            shape="circle"/>
                                     <div>{{ slotProps.option.name }}</div>
                                 </div>
                             </template>
                             <template #dropdownicon>
                                 <i class="pi pi-users"/>
-                            </template>
-                            <template #header>
-                                <div class="font-medium px-3 py-2">Available Employees</div>
                             </template>
                         </MultiSelect>
                         <label for="employees">Who you want to recognize?</label>
