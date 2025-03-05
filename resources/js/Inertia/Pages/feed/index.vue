@@ -126,10 +126,7 @@ useIntersectionObserver(target, ([{isIntersecting}]) => {
         </div>
         <div class="content gap-3">
             <PostFeedCard v-for="post in postsState" :key="post.id" :post="post"
-                          class="hover:bg-slate-50 cursor-pointer transition-colors  duration-100 ease-in-out"
-                          @click.stop="router.visit(route('feed.show', post.id), {
-                preserveScroll: true,  // Ensure scroll position is preserved
-            })"
+                          class="cursor-default transition-colors duration-100 ease-in-out"
             />
             <NoPostsAvailable v-if="postsState.length === 0"/>
             <!-- Load More Data   -->

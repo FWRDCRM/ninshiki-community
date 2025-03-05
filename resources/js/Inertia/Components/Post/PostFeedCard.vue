@@ -97,9 +97,9 @@ async function onLike() {
 
             <!-- Post Content -->
             <div class="mt-4">
-                <p class="text-gray-700 font-normal text-sm"
+                <span class="text-gray-700 font-normal text-sm whitespace-pre-wrap"
                    v-html="linkifyHtml(post.content, options)">
-                </p>
+                </span>
             </div>
 
             <!-- Post Image (Optional) -->
