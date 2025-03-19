@@ -2,6 +2,15 @@
 
 All notable changes to `ninshiki` will be documented in this file.
 
+## 0.0.10 - 2025-03-05
+
+### What's Changed
+
+* bug fix the post content spacing and line break by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/21
+* User Dropdown Enhancement in Post Creation by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/22
+
+**Full Changelog**: https://github.com/ninshiki-project/ninshiki-community/compare/0.0.9...0.0.10
+
 ## 0.0.9 - 2025-03-04
 
 **Full Changelog**: https://github.com/ninshiki-project/ninshiki-community/compare/0.0.8...0.0.9
