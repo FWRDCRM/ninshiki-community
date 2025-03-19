@@ -32,6 +32,7 @@
         "linkify-plugin-mention": "^4.2.0",
         "linkifyjs": "^4.2.0",
         "lodash": "^4.17.21",
+        "lucide-vue-next": "^0.483.0",
         "mousetrap": "^1.6.5",
         "primeicons": "^7.0.0",
         "primevue": "^4.3.2",
