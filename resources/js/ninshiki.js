@@ -1,7 +1,7 @@
 import Emitter from 'tiny-emitter'
 import {ZiggyVue} from "ziggy-js";
 import PrimeVue from "primevue/config";
-import Aura from "@primevue/themes/aura";
+import Aura from '@primeuix/themes/aura';
 import ToastService from "primevue/toastservice";
 import ConfirmationService from "primevue/confirmationservice";
 import {createApp, h} from "vue";
