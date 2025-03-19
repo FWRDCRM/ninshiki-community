@@ -39,29 +39,18 @@ class EmployeesController
         }
     }
 
-    /**
-     * @throws ConnectionException
-     */
     final public function index(Request $request)
     {
-//        $response = Http::ninshiki()
-//            ->withToken($request->session()->get('token'))
-//            ->withQueryParameters([
-//                'page' => $request->has('page') ? $request->get('page') : 1,
-//                'per_page' => $request->has('per_page') ? $request->get('per_page') : 300,
-//            ])
-//            ->get(config('ninshiki.api_version').'/users');
-//        $data = $response->collect('data');
 
         $response = Http::pool(fn (Pool $pool) => [
-           $pool->as('employees')
+            $pool->as('employees')
                 ->ninshiki()
-               ->withToken($request->session()->get('token'))
-               ->withQueryParameters([
-                'page' => $request->has('page') ? $request->get('page') : 1,
-                'per_page' => $request->has('per_page') ? $request->get('per_page') : 300,
-            ])
-               ->get(config('ninshiki.api_version').'/users'),
+                ->withToken($request->session()->get('token'))
+                ->withQueryParameters([
+                    'page' => $request->has('page') ? $request->get('page') : 1,
+                    'per_page' => $request->has('per_page') ? $request->get('per_page') : 300,
+                ])
+                ->get(config('ninshiki.api_version').'/users'),
             $pool->as('gift_features')
                 ->ninshiki()
                 ->withToken($request->session()->get('token'))
@@ -79,7 +68,7 @@ class EmployeesController
         return Inertia::render('employee/index', [
             'employees' => $employeeData,
             'gift_feature_enable' => $giftFeature['settings']['gift']['enable'],
-            'gift_type' => $giftType['gift_type']
+            'gift_type' => $giftType['gift_type'],
         ]);
     }
 }
