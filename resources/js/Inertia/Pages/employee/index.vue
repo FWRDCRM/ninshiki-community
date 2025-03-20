@@ -3,7 +3,6 @@ import Layout from "@/Layouts/layout.vue";
 import {computed, ref} from "vue";
 import {useForm, usePage} from "@inertiajs/vue3";
 import Select from 'primevue/select';
-import {useArrayMap} from "@vueuse/core";
 
 defineOptions({layout: Layout})
 
@@ -11,9 +10,9 @@ defineOptions({layout: Layout})
 const page = usePage();
 const user = computed(() => page.props.auth.user)
 const employees = ref(page.props.employees);
-const isGiftFeatureEnabled = ref(page.props.gift_feature_enable);
+const isGiftFeatureEnabled = computed(() => page.props.gift_feature_enable);
 const giftType = ref(page.props.gift_type)
-const giftTypeOption = computed(() => useArrayMap(giftType, o => o.toUp))
+const exchange_rate = computed(() => page.props.gift_exchange_rate);
 
 
 const isGiftModalOpen = ref(false)
@@ -24,15 +23,24 @@ const giftForm = useForm({
     amount: undefined
 })
 
+const onSubmit = () => {
+    // clear the error state
+    giftForm.clearErrors()
+
+
+}
+
 
 </script>
 
 <template>
     <div class="max-w-screen-lg mx-auto mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
         <Dialog v-model:visible="isGiftModalOpen" modal header="Send Gift" :style="{ width: '20rem' }">
+            <Message severity="info" class="w-full my-4"><i class="text-xs text-balance">Current exchange rate for sending gift coins: {{ exchange_rate }}</i></Message>
             <div class="flex flex-col gap-4 mb-4">
                 <label for="gift_type" class="font-semibold w-auto">Select Type of Gift</label>
-                <Select v-model="giftForm.type" :options="giftType" placeholder="Select type of gift" class="w-ful" :pt="{
+                <Select v-model="giftForm.type" :options="giftType" placeholder="Select type of gift" class="w-ful"
+                        :pt="{
                    optionLabel: {
                        class: 'capitalize'
                    },
@@ -40,10 +48,17 @@ const giftForm = useForm({
                      class: 'capitalize'
                    }
                 }" required/>
+                <Message v-if="giftForm.errors?.type" severity="error" size="small" variant="simple">
+                    {{ formState.errors?.type }}
+                </Message>
             </div>
-            <div class="flex flex-col gap-4 mb-8">
+            <div v-if="giftForm?.type === 'coins' " class="flex flex-col gap-4 mb-8">
                 <label for="amount" class="font-semibold w-24">Amount</label>
-                <InputNumber v-model="giftForm.amount" id="amount" :min="0" class="flex-auto" autocomplete="off" :useGrouping="false" required/>
+                <InputNumber v-model="giftForm.amount" id="amount" :min="0" class="flex-auto" autocomplete="off"
+                             :useGrouping="false" required/>
+                <Message v-if="giftForm.errors?.amount" severity="error" size="small" variant="simple">
+                    {{ formState.errors?.amount }}
+                </Message>
             </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancel" severity="secondary" @click="isGiftModalOpen = false"></Button>
@@ -74,8 +89,9 @@ const giftForm = useForm({
                 </template>
                 <template #footer>
                     <div class="text-center">
-                        <Button v-if="isGiftFeatureEnabled && user?.id !== employee.id" icon="pi pi-gift" variant="text" rounded aria-label="Gift"
-                                v-tooltip.bottom="'Send Gift'" @click="isGiftModalOpen = true" />
+                        <Button v-if="isGiftFeatureEnabled && user?.id !== employee.id" icon="pi pi-gift" variant="text"
+                                rounded aria-label="Gift"
+                                v-tooltip.bottom="'Send Gift'" @click="isGiftModalOpen = true"/>
                     </div>
                 </template>
             </Card>
