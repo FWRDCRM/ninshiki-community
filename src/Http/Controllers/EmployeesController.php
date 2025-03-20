@@ -55,7 +55,7 @@ class EmployeesController
                 ->ninshiki()
                 ->withToken($request->session()->get('token'))
                 ->get(config('ninshiki.api_version').'/application'),
-            $pool->as('gift_type')
+            $pool->as('gift_meta')
                 ->ninshiki()
                 ->withToken($request->session()->get('token'))
                 ->get(config('ninshiki.api_version').'/gifts/meta'),
@@ -63,12 +63,13 @@ class EmployeesController
 
         $employeeData = $response['employees']->collect('data');
         $giftFeature = $response['gift_features']->json('data');
-        $giftType = $response['gift_type']->json();
+        $giftMeta = $response['gift_meta']->json();
 
         return Inertia::render('employee/index', [
             'employees' => $employeeData,
             'gift_feature_enable' => $giftFeature['settings']['gift']['enable'],
-            'gift_type' => $giftType['gift_type'],
+            'gift_type' => $giftMeta['gift_type'],
+            'gift_exchange_rate' => $giftMeta['exchange_rate'],
         ]);
     }
 }
