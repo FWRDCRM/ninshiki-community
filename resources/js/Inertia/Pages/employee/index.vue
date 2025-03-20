@@ -1,6 +1,6 @@
 <script setup>
 import Layout from "@/Layouts/layout.vue";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {useForm, usePage} from "@inertiajs/vue3";
 import Select from 'primevue/select';
 
@@ -17,25 +17,59 @@ const exchange_rate = computed(() => page.props.gift_exchange_rate);
 
 const isGiftModalOpen = ref(false)
 
+const toggleDialog = (employeeId) => {
+    isGiftModalOpen.value = !!isGiftModalOpen
+    giftForm.receiver = employeeId
+}
 
 const giftForm = useForm({
     type: undefined,
-    amount: undefined
+    amount: undefined,
+    receiver: undefined,
 })
 
 const onSubmit = () => {
+    giftForm.processing = true
     // clear the error state
     giftForm.clearErrors()
+    if(giftForm.type === 'shop'){
+        giftForm.setError('type', 'Sending Gift via Shop is not available at this moment.')
+        return;
+    }
+
+    NinshikiApp.request().post(route('gift.send'),{
+        type: giftForm.type,
+        amount: giftForm.amount,
+        receiver: giftForm.receiver
+    }).then((resp) => {
+        giftForm.processing = false
+        console.info(resp)
+    }).catch(resp => {
+        giftForm.processing = false
+        console.error(resp)
+    })
 
 
 }
+
+watch(() => giftForm.type, (val) => {
+    if(giftForm.type !== val?.type){
+        giftForm.clearErrors()
+    }
+})
+
+watch(() => giftForm.amount, (val) => {
+    if(giftForm.amount !== val?.amount){
+        giftForm.clearErrors()
+    }
+})
 
 
 </script>
 
 <template>
     <div class="max-w-screen-lg mx-auto mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
-        <Dialog v-model:visible="isGiftModalOpen" modal header="Send Gift" :style="{ width: '20rem' }">
+        <Dialog v-model:visible="isGiftModalOpen" :block-scroll="true" :closable="!giftForm.processing" position="center" modal header="Send Gift" :style="{ width: '20rem' }">
             <Message severity="info" class="w-full my-4"><i class="text-xs text-balance">Current exchange rate for sending gift coins: {{ exchange_rate }}</i></Message>
             <div class="flex flex-col gap-4 mb-4">
                 <label for="gift_type" class="font-semibold w-auto">Select Type of Gift</label>
@@ -49,7 +83,7 @@ const onSubmit = () => {
                    }
                 }" required/>
                 <Message v-if="giftForm.errors?.type" severity="error" size="small" variant="simple">
-                    {{ formState.errors?.type }}
+                    {{ giftForm.errors?.type }}
                 </Message>
             </div>
             <div v-if="giftForm?.type === 'coins' " class="flex flex-col gap-4 mb-8">
@@ -57,12 +91,12 @@ const onSubmit = () => {
                 <InputNumber v-model="giftForm.amount" id="amount" :min="0" class="flex-auto" autocomplete="off"
                              :useGrouping="false" required/>
                 <Message v-if="giftForm.errors?.amount" severity="error" size="small" variant="simple">
-                    {{ formState.errors?.amount }}
+                    {{ giftForm.errors?.amount }}
                 </Message>
             </div>
             <div class="flex justify-end gap-2">
-                <Button type="button" label="Cancel" severity="secondary" @click="isGiftModalOpen = false"></Button>
-                <Button type="button" icon="pi pi-send" label="Send" @click="isGiftModalOpen = false"></Button>
+                <Button type="button" label="Cancel" severity="secondary" :disabled="giftForm.processing" @click="isGiftModalOpen = false"></Button>
+                <Button type="button" icon="pi pi-send" label="Send" :disabled="giftForm.processing" :loading="giftForm.processing" @click.prevent="onSubmit"></Button>
             </div>
         </Dialog>
 
@@ -91,7 +125,7 @@ const onSubmit = () => {
                     <div class="text-center">
                         <Button v-if="isGiftFeatureEnabled && user?.id !== employee.id" icon="pi pi-gift" variant="text"
                                 rounded aria-label="Gift"
-                                v-tooltip.bottom="'Send Gift'" @click="isGiftModalOpen = true"/>
+                                v-tooltip.bottom="'Send Gift'" @click="toggleDialog(employee.id)"/>
                     </div>
                 </template>
             </Card>
