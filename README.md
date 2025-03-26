@@ -3,7 +3,6 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ninshiki-project/ninshiki.svg?style=flat-square)](https://packagist.org/packages/ninshiki-project/ninshiki)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/ninshiki-project/ninshiki/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/ninshiki-project/ninshiki/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/ninshiki-project/ninshiki.svg?style=flat-square)](https://packagist.org/packages/ninshiki-project/ninshiki)
-[![](https://img.shields.io/badge/Laravel-v10.x-FF2D20?style=flat-square&logo=laravel&logoColor=white)](#)
 [![](https://img.shields.io/badge/Laravel-v11.x-FF2D20?style=flat-square&logo=laravel&logoColor=white)](#)
 [![](https://img.shields.io/badge/Vue.js-v3.x-4FC08D?style=flat-square&logo=vue.js&logoColor=white)](#)
 [![](https://img.shields.io/badge/Tailwind_CSS-v3.x-06B6D4?style=flat-square&logo=tailwind-css&logoColor=white)](#)
