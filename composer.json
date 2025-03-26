@@ -53,7 +53,17 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+        "format:be": [
+            "vendor/bin/pint"
+        ],
+        "format:fe": [
+            "npm run format"
+        ],
+        "format": [
+            "Composer\\Config::disableProcessTimeout",
+            "@format:be",
+            "@format:fe"
+        ]
     },
     "config": {
         "sort-packages": true,
