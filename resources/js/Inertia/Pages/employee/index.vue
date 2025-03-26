@@ -16,9 +16,14 @@ const exchange_rate = computed(() => page.props.gift_exchange_rate);
 const isGiftModalOpen = ref(false);
 
 const toggleDialog = (employeeId, name) => {
+    resetForm();
     isGiftModalOpen.value = !!isGiftModalOpen;
     giftForm.receiver.id = employeeId;
     giftForm.receiver.name = name;
+};
+
+const resetForm = () => {
+    giftForm.reset();
 };
 
 const giftForm = useForm({
@@ -48,6 +53,7 @@ const onSubmit = () => {
         })
         .then((resp) => {
             giftForm.processing = false;
+            resetForm();
             console.info(resp);
         })
         .catch((resp) => {
