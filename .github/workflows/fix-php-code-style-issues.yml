@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - '**.php'
+      - '**.css'
+      - '**.vue'
 
 permissions:
   contents: write
@@ -20,7 +22,11 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Fix PHP code style issues
-        uses: aglipanci/laravel-pint-action@2.5
+        uses: php-actions/composer@v6
+        env:
+          COMPOSER: "composer.json"
+        with:
+          command: 'composer format'
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
