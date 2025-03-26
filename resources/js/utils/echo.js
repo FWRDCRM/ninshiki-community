@@ -1,13 +1,16 @@
-import Echo from "laravel-echo";
+import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
-export function NinshikiEcho(options = {
-    key: '',
-    host: '',
-    port: 8080,
-    scheme: 'http'}) {
+export function NinshikiEcho(
+    options = {
+        key: '',
+        host: '',
+        port: 8080,
+        scheme: 'http',
+    },
+) {
     window.Pusher = Pusher;
-    return window.Echo =  new Echo({
+    return (window.Echo = new Echo({
         broadcaster: 'reverb',
         key: options.key,
         wsHost: options.host,
@@ -18,7 +21,7 @@ export function NinshikiEcho(options = {
         autoReconnect: true,
         authEndpoint: route('broadcast.auth'),
         headers: {
-            'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content
-        }
-    })
+            'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+        },
+    }));
 }
