@@ -5,6 +5,7 @@ use MarJose123\Ninshiki\Http\Controllers\AuthenticationController;
 use MarJose123\Ninshiki\Http\Controllers\BroadcastController;
 use MarJose123\Ninshiki\Http\Controllers\EmployeesController;
 use MarJose123\Ninshiki\Http\Controllers\FeedsController;
+use MarJose123\Ninshiki\Http\Controllers\GiftController;
 use MarJose123\Ninshiki\Http\Controllers\GiphyController;
 use MarJose123\Ninshiki\Http\Middleware\EnsureAuthenticatedMiddleware;
 use MarJose123\Ninshiki\Ninshiki;
@@ -49,6 +50,9 @@ Route::middleware(config('ninshiki.middleware'))
                 // broadcast
                 Route::post('broadcast/auth', BroadcastController::class)
                     ->name('broadcast.auth');
+
+                // gift
+                Route::post('gift/send', [GiftController::class, 'send'])->name('gift.send');
 
             });
     });

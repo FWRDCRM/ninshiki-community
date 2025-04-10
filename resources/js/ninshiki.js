@@ -1,86 +1,85 @@
-import Emitter from 'tiny-emitter'
-import {ZiggyVue} from "ziggy-js";
-import PrimeVue from "primevue/config";
+import { createInertiaApp, router } from '@inertiajs/vue3';
 import Aura from '@primeuix/themes/aura';
-import ToastService from "primevue/toastservice";
-import ConfirmationService from "primevue/confirmationservice";
-import {createApp, h} from "vue";
-import {createInertiaApp, router} from "@inertiajs/vue3";
-import {setupAxios} from "@util/axios.js";
-import {ToastEventBus} from "primevue";
+import { setupAxios } from '@util/axios.js';
+import { NinshikiEcho } from '@util/echo.js';
+import Mousetrap from 'mousetrap';
+import { ToastEventBus } from 'primevue';
+import PrimeVue from 'primevue/config';
+import ConfirmationService from 'primevue/confirmationservice';
+import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
-import {NinshikiEcho} from "@util/echo.js";
-import Mousetrap from 'mousetrap'
+import Emitter from 'tiny-emitter';
+import { createApp, h } from 'vue';
+import { ZiggyVue } from 'ziggy-js';
 
-const emitter = new Emitter()
+const emitter = new Emitter();
 
 export default class Ninshiki {
     constructor(config) {
         /** @readonly */
-        this.appConfig = config
-        this.toast = ToastEventBus
+        this.appConfig = config;
+        this.toast = ToastEventBus;
         this.version = config.version;
         this.appName = config.appName;
-        this.$router = router
+        this.$router = router;
         this.websocket = config.websocket;
     }
 
     async engineStart() {
-        this.log('Initiating Ninshiki engine...')
+        this.log('Initiating Ninshiki engine...');
 
-        const appName = this.config('appName')
+        const appName = this.config('appName');
 
         await createInertiaApp({
-            title: title => (!title ? appName : `${title} - ${appName}`),
+            title: (title) => (!title ? appName : `${title} - ${appName}`),
             progress: {
                 delay: 250,
                 color: '#29d',
                 includeCSS: true,
                 showSpinner: false,
             },
-            resolve: name => {
-                const pages = import.meta.glob('./Inertia/**/*.vue', {eager: true})
-                return pages[`./Inertia/Pages/${name}.vue`]
+            resolve: (name) => {
+                const pages = import.meta.glob('./Inertia/**/*.vue', { eager: true });
+                return pages[`./Inertia/Pages/${name}.vue`];
             },
-            setup: ({el, App, props, plugin}) => {
+            setup: ({ el, App, props, plugin }) => {
                 /** @protected */
-                this.mountTo = el
+                this.mountTo = el;
                 /**
                  * @protected
                  * @type VueApp
                  */
-                this.app = createApp({render: () => h(App, props)})
+                this.app = createApp({ render: () => h(App, props) });
 
-                this.app.use(ZiggyVue)
+                this.app.use(ZiggyVue);
                 this.app.use(PrimeVue, {
                     theme: {
                         preset: Aura,
                         options: {
                             cssLayer: {
                                 name: 'primevue',
-                                order: 'tailwind-base, primevue, tailwind-utilities'
-                            }
-                        }
-                    }
-                })
+                                order: 'tailwind-base, primevue, tailwind-utilities',
+                            },
+                        },
+                    },
+                });
 
-                this.app.directive('tooltip', Tooltip)
+                this.app.directive('tooltip', Tooltip);
 
-                this.app.use(ToastService)
-                this.app.use(ConfirmationService)
-                this.app.use(plugin)
+                this.app.use(ToastService);
+                this.app.use(ConfirmationService);
+                this.app.use(plugin);
 
-                this.app.config.globalProperties.$ninshiki = this
-                this.app.config.globalProperties.$echo = NinshikiEcho(this.websocket)
+                this.app.config.globalProperties.$ninshiki = this;
+                this.app.config.globalProperties.$echo = NinshikiEcho(this.websocket);
 
-                this.app.mount(el)
-
+                this.app.mount(el);
             },
-        }).then(() => console.log('We have lift off!'))
+        }).then(() => console.log('We have lift off!'));
     }
 
     uiAvatar(name) {
-        return `https://ui-avatars.com/api/?name=${name}&rounded=true&color=FFFFFF&background=0D8ABC`
+        return `https://ui-avatars.com/api/?name=${name}&rounded=true&color=FFFFFF&background=0D8ABC`;
     }
 
     /**
@@ -90,7 +89,7 @@ export default class Ninshiki {
      * @param {string} [type=log]
      */
     log(message, type = 'log') {
-        console[type](`[NINSHIKI]`, message)
+        console[type](`[NINSHIKI]`, message);
     }
 
     /**
@@ -100,14 +99,13 @@ export default class Ninshiki {
      * @param {string} [type=log]
      */
     debug(message, type = 'log') {
-        const debugEnabled =
-            process.env.NODE_ENV === true || (this.config('debug') ?? false)
+        const debugEnabled = process.env.NODE_ENV === true || (this.config('debug') ?? false);
 
         if (debugEnabled === true) {
             if (type === 'error') {
-                console.error(message)
+                console.error(message);
             } else {
-                this.log(message, type)
+                this.log(message, type);
             }
         }
     }
@@ -119,9 +117,8 @@ export default class Ninshiki {
      * @returns {any}
      */
     config(key) {
-        return this.appConfig[key]
+        return this.appConfig[key];
     }
-
 
     /**
      * Register a listener on Ninshiki's built-in event bus
@@ -129,7 +126,7 @@ export default class Ninshiki {
      * @param args
      */
     $on(...args) {
-        emitter.on(...args)
+        emitter.on(...args);
     }
 
     /**
@@ -138,7 +135,7 @@ export default class Ninshiki {
      * @param args
      */
     $once(...args) {
-        emitter.once(...args)
+        emitter.once(...args);
     }
 
     /**
@@ -147,7 +144,7 @@ export default class Ninshiki {
      * @param args
      */
     $off(...args) {
-        emitter.off(...args)
+        emitter.off(...args);
     }
 
     /**
@@ -156,7 +153,7 @@ export default class Ninshiki {
      * @param args
      */
     $emit(...args) {
-        emitter.emit(...args)
+        emitter.emit(...args);
     }
 
     /**
@@ -168,15 +165,14 @@ export default class Ninshiki {
      */
     request(options = null) {
         /** @type AxiosInstance */
-        let axios = setupAxios()
+        let axios = setupAxios();
 
         if (options != null) {
-            return axios(options)
+            return axios(options);
         }
 
-        return axios
+        return axios;
     }
-
 
     /**
      * Return an Undefined or Echo instance
@@ -185,7 +181,7 @@ export default class Ninshiki {
      */
     $echo() {
         if (!this.websocket.enabled) return undefined;
-        return NinshikiEcho(this.websocket)
+        return NinshikiEcho(this.websocket);
     }
 
     /**
@@ -195,7 +191,7 @@ export default class Ninshiki {
      * @param {Function} callback
      */
     addShortcut(keys, callback) {
-        Mousetrap.bind(keys, callback)
+        Mousetrap.bind(keys, callback);
     }
 
     /**
@@ -204,7 +200,7 @@ export default class Ninshiki {
      * @param {string} keys
      */
     disableShortcut(keys) {
-        Mousetrap.unbind(keys)
+        Mousetrap.unbind(keys);
     }
 
     /**
@@ -219,9 +215,8 @@ export default class Ninshiki {
             summary: summary,
             detail: message,
             group: 'br',
-            life: 5000
-        })
-
+            life: 5000,
+        });
     }
 
     /**
@@ -236,8 +231,8 @@ export default class Ninshiki {
             summary: summary,
             detail: message,
             group: 'br',
-            life: 5000
-        })
+            life: 5000,
+        });
     }
 
     /**
@@ -252,8 +247,8 @@ export default class Ninshiki {
             summary: summary,
             detail: message,
             group: 'br',
-            life: 5000
-        })
+            life: 5000,
+        });
     }
 
     /**
@@ -268,9 +263,7 @@ export default class Ninshiki {
             summary: summary,
             detail: message,
             group: 'br',
-            life: 5000
-        })
+            life: 5000,
+        });
     }
 }
-
-

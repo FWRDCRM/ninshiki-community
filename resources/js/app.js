@@ -1,4 +1,3 @@
-import Ninshiki from "./ninshiki.js";
+import Ninshiki from './ninshiki.js';
 
-window.createNinshikiApp = config => new Ninshiki(config);
-
+window.createNinshikiApp = (config) => new Ninshiki(config);

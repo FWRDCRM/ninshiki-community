@@ -1,5 +1,5 @@
-@import "primeicons/primeicons.css";
-@import "./slim-scrollbar.css";
+@import 'primeicons/primeicons.css';
+@import './slim-scrollbar.css';
 
 @layer tailwind-base, primevue, tailwind-utilities;
 
@@ -11,4 +11,3 @@
     @tailwind components;
     @tailwind utilities;
 }
-
