@@ -2,6 +2,15 @@
 
 All notable changes to `ninshiki` will be documented in this file.
 
+## 0.1.0 - 2025-04-10
+
+### What's Changed
+
+* ⬆️ chore(dependencies): Update PrimeVue and related packages. by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/23
+* Gifting feature by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/24
+
+**Full Changelog**: https://github.com/ninshiki-project/ninshiki-community/compare/0.0.10...0.1.0
+
 ## 0.0.10 - 2025-03-05
 
 ### What's Changed
