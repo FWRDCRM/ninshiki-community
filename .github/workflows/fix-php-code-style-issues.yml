@@ -27,6 +27,7 @@ jobs:
           COMPOSER: "composer.json"
         with:
           command: 'composer format'
+          version: 2.8.1
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
