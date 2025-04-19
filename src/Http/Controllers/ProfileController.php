@@ -2,20 +2,23 @@
 
 namespace MarJose123\Ninshiki\Http\Controllers;
 
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class ProfileController
 {
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @throws ConnectionException
      */
     public function index()
     {
+        $resp = Http::ninshiki()
+            ->withToken(\request()->session()->get('token'))
+            ->get(config('ninshiki.api_version').'/sessions');
+
         return Inertia::render('profile/index', [
-            'user' => session()->get('user'),
+            'devices' => $resp->json(),
         ]);
     }
 }
