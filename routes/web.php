@@ -58,7 +58,6 @@ Route::middleware(config('ninshiki.middleware'))
                 // profile
                 Route::get('profile', [ProfileController::class, 'index'])->name('profile');
 
-
             });
     });
 
