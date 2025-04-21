@@ -1,7 +1,9 @@
 <script setup>
 import Layout from '@/Layouts/layout.vue';
-import { usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { router, usePage } from '@inertiajs/vue3';
+import { useToast } from 'primevue';
+import { useConfirm } from 'primevue/useconfirm';
+import { computed, ref } from 'vue';
 
 defineOptions({ layout: Layout });
 
@@ -9,9 +11,45 @@ const page = usePage();
 const auth = computed(() => page.props.auth.user);
 
 const sessions = computed(() => page.props.devices);
+
+const confirm = useConfirm();
+const toast = useToast();
+
+const password = ref();
+
+const confirmLogoutOtherDevices = (event) => {
+    confirm.require({
+        target: event.currentTarget,
+        message: 'Do you want to logout other devices?',
+        icon: 'pi pi-question-circle',
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true,
+        },
+        acceptProps: {
+            label: 'Continue',
+            severity: 'danger',
+        },
+        accept: () => {
+            router.delete(
+                route('profile.devices-other-logout'),
+                {},
+                {
+                    preserveScroll: true,
+                    onFinish: () =>
+                        toast.add({ severity: 'info', summary: 'Confirmed', detail: 'Other devices has been successfully logged out.', life: 3000 }),
+                },
+            );
+        },
+    });
+};
 </script>
 
 <template>
+    <Toast />
+    <ConfirmDialog></ConfirmDialog>
+    <ConfirmPopup></ConfirmPopup>
     <div class="flex w-full">
         <Card>
             <template #content class="flex w-full max-w-md">
@@ -115,7 +153,12 @@ const sessions = computed(() => page.props.devices);
                                     </ScrollPanel>
                                 </div>
                                 <div class="flex w-full flex-row-reverse">
-                                    <Button label="Log Out Other Browser Sessions" severity="danger" size="small" />
+                                    <Button
+                                        @click="confirmLogoutOtherDevices($event)"
+                                        label="Log Out Other Browser Sessions"
+                                        severity="danger"
+                                        size="small"
+                                    />
                                 </div>
                             </div>
                         </TabPanel>
