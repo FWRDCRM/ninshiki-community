@@ -4,7 +4,9 @@ namespace MarJose123\Ninshiki\Http\Controllers;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Pool;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class ProfileController
@@ -35,11 +37,20 @@ class ProfileController
      *
      * @throws ConnectionException
      */
-    public function logoutOtherDevices()
+    public function logoutOtherDevices(Request $request)
     {
         $resp = Http::ninshiki()
             ->withToken(\request()->session()->get('token'))
-            ->post(config('ninshiki.api_version').'/sessions/logout/devices');
+            ->post(config('ninshiki.api_version').'/sessions/logout/devices', [
+                'password' => $request->password,
+            ]);
+
+        if ($resp->status() === 422) {
+            $error = $resp->json();
+            throw ValidationException::withMessages([
+                $error['error']['errors'],
+            ]);
+        }
 
         return to_route('profile');
     }

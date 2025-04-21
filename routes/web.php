@@ -57,7 +57,7 @@ Route::middleware(config('ninshiki.middleware'))
 
                 // profile
                 Route::get('profile', [ProfileController::class, 'index'])->name('profile');
-                Route::delete('profile/logout-other-devices', [ProfileController::class, 'logoutOtherDevices'])->name('profile.devices-other-logout');
+                Route::post('profile/logout-other-devices', [ProfileController::class, 'logoutOtherDevices'])->name('profile.devices-other-logout');
 
             });
     });
