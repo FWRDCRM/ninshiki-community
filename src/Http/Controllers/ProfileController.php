@@ -42,14 +42,12 @@ class ProfileController
         $resp = Http::ninshiki()
             ->withToken(\request()->session()->get('token'))
             ->post(config('ninshiki.api_version').'/sessions/logout/devices', [
-                'password' => $request->password,
+                ...($request->has('password') ? ['password' => $request->password] : []),
             ]);
 
         if ($resp->status() === 422) {
             $error = $resp->json();
-            throw ValidationException::withMessages([
-                $error['error']['errors'],
-            ]);
+            throw ValidationException::withMessages($error['error']['errors']);
         }
 
         return to_route('profile');

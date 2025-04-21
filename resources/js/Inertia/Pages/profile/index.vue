@@ -34,8 +34,7 @@ const confirmLogoutOtherDevices = (event) => {
                 errorBag: 'logoutOtherDevices',
                 onError: (errors) => {
                     password.value = '';
-                    passwordError.value = errors.password;
-                    console.log(errors);
+                    passwordError.value = errors?.password;
                 },
                 onStart: () => {
                     isSubmitting.value = true;
