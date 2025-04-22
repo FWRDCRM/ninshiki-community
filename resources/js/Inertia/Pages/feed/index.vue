@@ -42,8 +42,11 @@ onMounted(() => {
     if (ws) {
         ws.private(wsChannel).listen('.new.post', (event) => {
             console.log(event);
-            hasRealtimeNewPosts.value = true;
-            realtimeNewPosts.value.push(event.meta.post_by);
+            // show only that's not the current user
+            if (user?.id !== event.meta.post_by.id) {
+                hasRealtimeNewPosts.value = true;
+                realtimeNewPosts.value.push(event.meta.post_by);
+            }
         });
     } else {
         NinshikiApp.log('Websocket has disabled by system Administrator');

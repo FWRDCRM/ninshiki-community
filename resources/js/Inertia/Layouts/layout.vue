@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Menu from 'primevue/menu';
 import Toast from 'primevue/toast';
 import { useConfirm } from 'primevue/useconfirm';
-import { reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { route } from 'ziggy-js';
 
 const confirm = useConfirm();
@@ -93,6 +93,27 @@ NinshikiApp.addShortcut(['command+q', 'ctrl+q'], function () {
     });
     command.command();
 });
+
+const wsHeartbeatChannel = 'session.health.check';
+const wsHeartbeatBroadcastName = '.session.heartbeat.check';
+const wsLogoutOtherDeviceChannel = `session.logout.${page.props.auth.user.id}`;
+const wsLogoutOtherDeviceBroadcastName = '.session.logout.other.device';
+const ws = NinshikiApp.$echo();
+
+onMounted(() => {
+    if (ws) {
+        ws.private(wsHeartbeatChannel).listen(wsHeartbeatBroadcastName, (event) => sessionHealthChecker());
+        ws.private(wsLogoutOtherDeviceChannel).listen(wsLogoutOtherDeviceBroadcastName, (event) => sessionHealthChecker());
+    }
+});
+
+onUnmounted(() => {
+    if (ws) ws.disconnect();
+});
+
+const sessionHealthChecker = () => {
+    router.get(route('session.heartbeat'), {}, {});
+};
 </script>
 
 <template>
