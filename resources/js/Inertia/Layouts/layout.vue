@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Menu from 'primevue/menu';
 import Toast from 'primevue/toast';
 import { useConfirm } from 'primevue/useconfirm';
-import { reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { route } from 'ziggy-js';
 
 const confirm = useConfirm();
@@ -93,13 +93,34 @@ NinshikiApp.addShortcut(['command+q', 'ctrl+q'], function () {
     });
     command.command();
 });
+
+const wsHeartbeatChannel = 'session.health.check';
+const wsHeartbeatBroadcastName = '.session.heartbeat.check';
+const wsLogoutOtherDeviceChannel = `session.logout.${page.props.auth.user.id}`;
+const wsLogoutOtherDeviceBroadcastName = '.session.logout.other.device';
+const ws = NinshikiApp.$echo();
+
+onMounted(() => {
+    if (ws) {
+        ws.private(wsHeartbeatChannel).listen(wsHeartbeatBroadcastName, (event) => sessionHealthChecker());
+        ws.private(wsLogoutOtherDeviceChannel).listen(wsLogoutOtherDeviceBroadcastName, (event) => sessionHealthChecker());
+    }
+});
+
+onUnmounted(() => {
+    if (ws) ws.disconnect();
+});
+
+const sessionHealthChecker = () => {
+    router.get(route('session.heartbeat'), {}, {});
+};
 </script>
 
 <template>
     <div class="flex h-fit w-full justify-center">
         <LogoutDialog />
         <Toast position="bottom-right" group="br" />
-        <div class="flex">
+        <div class="flex pt-16">
             <!-- Left Sidebar  -->
             <div class="sticky top-9 h-fit">
                 <!-- Fixed Sidebar -->
@@ -129,6 +150,7 @@ NinshikiApp.addShortcut(['command+q', 'ctrl+q'], function () {
                             <button
                                 v-ripple
                                 class="relative flex w-full cursor-pointer items-start overflow-hidden rounded-none border-0 bg-transparent p-2 pl-4 transition-colors duration-200 hover:bg-surface-100 dark:hover:bg-surface-800"
+                                @click.stop="router.visit(route('profile'))"
                             >
                                 <Avatar
                                     :image="page.props.auth.user.avatar ?? $ninshiki.uiAvatar(page.props.auth.user.name)"
@@ -149,7 +171,7 @@ NinshikiApp.addShortcut(['command+q', 'ctrl+q'], function () {
                 </div>
             </div>
             <!--  CONTENT  -->
-            <div class="relative top-9 flex h-fit w-full">
+            <div class="relative flex h-fit w-full">
                 <!-- Optimized for Feed page for its scrolling and sticky element   -->
                 <div class="flex w-full pl-5">
                     <Transition name="page" appear>

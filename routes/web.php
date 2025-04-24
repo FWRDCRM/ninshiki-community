@@ -7,6 +7,8 @@ use MarJose123\Ninshiki\Http\Controllers\EmployeesController;
 use MarJose123\Ninshiki\Http\Controllers\FeedsController;
 use MarJose123\Ninshiki\Http\Controllers\GiftController;
 use MarJose123\Ninshiki\Http\Controllers\GiphyController;
+use MarJose123\Ninshiki\Http\Controllers\ProfileController;
+use MarJose123\Ninshiki\Http\Controllers\SessionController;
 use MarJose123\Ninshiki\Http\Middleware\EnsureAuthenticatedMiddleware;
 use MarJose123\Ninshiki\Ninshiki;
 
@@ -53,6 +55,17 @@ Route::middleware(config('ninshiki.middleware'))
 
                 // gift
                 Route::post('gift/send', [GiftController::class, 'send'])->name('gift.send');
+
+                // profile
+                Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+                Route::post('profile/logout-other-devices', [ProfileController::class, 'logoutOtherDevices'])->name('profile.devices-other-logout');
+
+                // session
+                Route::get('session/health', [SessionController::class, 'heartbeat'])->name('session.heartbeat')
+                    ->withoutMiddleware([
+                        EnsureAuthenticatedMiddleware::class,
+
+                    ]);
 
             });
     });
