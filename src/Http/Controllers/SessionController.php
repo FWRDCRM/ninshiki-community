@@ -39,7 +39,7 @@ class SessionController
                 ->setStatusCode(401);
         }
 
-        return response()->json([]);
+        return back();
 
     }
 }
