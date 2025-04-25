@@ -57,12 +57,6 @@ onUnmounted(() => {
     if (ws) ws.disconnect();
 });
 
-NinshikiApp.$on('post-created', () => {
-    NinshikiApp.$router.reload({
-        only: ['posts', 'wallet_credit', 'wallet_earned'],
-    });
-});
-
 watch(
     () => props.posts,
     (newPosts) => {
