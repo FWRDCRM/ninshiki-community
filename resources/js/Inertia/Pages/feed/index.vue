@@ -30,7 +30,7 @@ const realtimeNewPosts = ref([]);
 function refreshPostFeed() {
     window.scrollTo(0, 0);
     NinshikiApp.$router.reload({
-        only: ['posts'],
+        only: ['posts', 'wallet_credit', 'wallet_earned'],
         onSuccess: () => {
             NinshikiApp.log('Feeds Refreshed.');
             hasRealtimeNewPosts.value = false;
