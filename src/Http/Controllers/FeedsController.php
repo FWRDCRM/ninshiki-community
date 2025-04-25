@@ -7,6 +7,7 @@ use Illuminate\Http\Client\Pool;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -88,7 +89,22 @@ class FeedsController
                 'recipient_id' => $request->recipient_id,
             ]);
 
-        return response()->json($response->json(), $response->status());
+        if ($response->status() === 422) {
+            throw ValidationException::withMessages($response->json()['error']['errors']);
+        }
+        if ($response->status() === 429) {
+            return back()
+                ->withErrors([
+                    'tooManyRequest' => $response->json()['error']['message'],
+                ]);
+        }
+        if ($response->status() !== 201) {
+            return back()->withErrors([
+                'error' => $response->json()['error']['message'],
+            ]);
+        }
+
+        return to_route('feed');
 
     }
 

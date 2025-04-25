@@ -49,7 +49,7 @@ onMounted(() => {
             }
         });
     } else {
-        NinshikiApp.log('Websocket has disabled by system Administrator');
+        NinshikiApp.log('Websocket has been disabled by the system administrator.');
     }
 });
 
