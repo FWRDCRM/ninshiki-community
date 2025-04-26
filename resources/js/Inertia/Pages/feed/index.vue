@@ -30,7 +30,7 @@ const realtimeNewPosts = ref([]);
 function refreshPostFeed() {
     window.scrollTo(0, 0);
     NinshikiApp.$router.reload({
-        only: ['posts'],
+        only: ['posts', 'wallet_credit', 'wallet_earned'],
         onSuccess: () => {
             NinshikiApp.log('Feeds Refreshed.');
             hasRealtimeNewPosts.value = false;
@@ -49,18 +49,12 @@ onMounted(() => {
             }
         });
     } else {
-        NinshikiApp.log('Websocket has disabled by system Administrator');
+        NinshikiApp.log('Websocket has been disabled by the system administrator.');
     }
 });
 
 onUnmounted(() => {
     if (ws) ws.disconnect();
-});
-
-NinshikiApp.$on('post-created', () => {
-    NinshikiApp.$router.reload({
-        only: ['posts', 'wallet_credit', 'wallet_earned'],
-    });
 });
 
 watch(

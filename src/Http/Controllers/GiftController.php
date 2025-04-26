@@ -5,6 +5,7 @@ namespace MarJose123\Ninshiki\Http\Controllers;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 
 class GiftController
 {
@@ -13,11 +14,6 @@ class GiftController
      */
     public function send(Request $request)
     {
-        $request->validate([
-            'type' => ['required', 'string'],
-            'amount' => ['required', 'numeric'],
-        ]);
-
         $response = Http::ninshiki()
             ->withToken($request->session()->get('token'))
             ->post(config('ninshiki.api_version').'/gifts/send', [
@@ -26,7 +22,11 @@ class GiftController
                 'receiver' => $request->receiver,
             ]);
 
-        return response()->json($response->json(), $response->status());
+        if ($response->status() === 422) {
+            throw ValidationException::withMessages($response->json()['error']['errors']);
+        }
+
+        return to_route('employees.list');
 
     }
 }

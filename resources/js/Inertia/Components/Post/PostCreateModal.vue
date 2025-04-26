@@ -36,12 +36,6 @@ const formState = useForm({
     points: undefined,
     employees: [],
     gif: undefined,
-    reset: () => {
-        this.employees = [];
-        this.points = undefined;
-        this.content = undefined;
-        this.gif = undefined;
-    },
 });
 
 // function for handling the content max length per points
@@ -76,66 +70,44 @@ const selectGif = () => {
     showGiphyModal.value = true;
 };
 
-const validateForm = () => {
-    let isValid = true;
-    formState.clearErrors();
-    if (formState.employees.length === 0) {
-        formState.setError('employees', 'Employee field is required');
-        isValid = false;
-    }
-    if (formState.content?.length === 0 || formState.content === undefined || formState.content === null) {
-        formState.setError('content', 'Content field is required');
-        isValid = false;
-    }
-    if (formState.points === undefined || formState.points === null) {
-        formState.setError('points', 'Points field is required');
-        isValid = false;
-    }
-    return isValid;
-};
-
 const createPost = () => {
-    const isFormValid = validateForm();
-    if (!isFormValid) return;
-    const data = new FormData();
-    formState.processing = true;
-    data.append('post_content', formState.content);
-    data.append('points', formState.points?.value);
-    if (formState.gif !== undefined && formState.gif !== null) {
-        data.append('attachment_type', 'gif');
-        data.append('gif_url', formState.gif);
-    }
-    data.append('type', 'user');
-    for (let i = 0; i < formState.employees.length; i++) {
-        data.append(`recipient_id[${i}]`, formState.employees[i]?.id);
-    }
-
-    NinshikiApp.request()
-        .post(route('feeds.create-post'), data)
-        .then((data) => {
-            NinshikiApp.success('🎉 Your recognition post for your colleague has been successfully posted! 🌟', 'Successfully Posted');
-            NinshikiApp.$emit('post-created');
-            // Clear the form value
-            formState.reset();
-            // close modal
-            emit('update:visible', false);
-        })
-        .catch(({ response }) => {
-            if (response.status === 429) {
-                NinshikiApp.warning(response.data.error.message, response.statusText);
-            }
-            if (response.status === 422) {
-                NinshikiApp.warning(response.data.error.message, response.statusText);
-                // show error message per field
-                const errorFields = response.data.error.errors;
-            }
-        })
-        .finally(() => {
-            formState.processing = false;
+    formState
+        .transform((data) => ({
+            ...data,
+            post_content: data.content,
+            points: data.points?.value,
+            ...(data.gif !== null && data.gif !== undefined && { attachment_type: 'gif', gif_url: data.gif }),
+            type: 'user',
+            recipient_id: data.employees.map((employee) => employee.id),
+        }))
+        .post(route('feeds.create-post'), {
+            preserveScroll: true,
+            onBefore: () => formState.clearErrors(),
+            onError: (errors) => {
+                console.error(errors);
+                if (errors.hasOwnProperty('recipient_id')) {
+                    formState.setError('employees', errors.recipient_id.includes('required') ? 'Employee field is required' : errors.recipient_id);
+                }
+                if (errors.hasOwnProperty('post_content')) {
+                    formState.setError('content', errors.post_content.includes('required') ? 'Content field is required' : errors.post_content);
+                }
+                if (errors.hasOwnProperty('amount')) {
+                    formState.setError('points', errors.amount.includes('required') ? 'Points field is required' : errors.points);
+                }
+                if (errors.hasOwnProperty('tooManyRequest')) {
+                    NinshikiApp.error(errors.tooManyRequest, 'Posting Too Fast.');
+                }
+            },
+            onSuccess: () => {
+                NinshikiApp.success('🎉 Your recognition post for your colleague has been successfully posted! 🌟', 'Successfully Posted');
+                formState.reset();
+                // close modal
+                emit('update:visible', false);
+            },
         });
 };
 
-// Fetch trending Employee list when the modal is opened
+// Fetch Employee list when the modal is opened
 watch(
     () => props.modalVisible,
     (newVal) => {
@@ -206,8 +178,8 @@ watch(
                         </MultiSelect>
                         <label for="employees">Who you want to recognize?</label>
                     </FloatLabel>
-                    <Message v-if="formState.errors?.employees" severity="error" size="small" variant="simple">
-                        {{ formState.errors?.employees }}
+                    <Message v-if="formState.errors.employees" severity="error" size="small" variant="simple">
+                        {{ formState.errors.employees }}
                     </Message>
                 </div>
 
