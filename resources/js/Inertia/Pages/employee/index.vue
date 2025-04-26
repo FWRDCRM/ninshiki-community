@@ -16,14 +16,9 @@ const exchange_rate = computed(() => page.props.gift_exchange_rate);
 const isGiftModalOpen = ref(false);
 
 const toggleDialog = (employeeId, name) => {
-    resetForm();
     isGiftModalOpen.value = !!isGiftModalOpen;
     giftForm.receiver.id = employeeId;
     giftForm.receiver.name = name;
-};
-
-const resetForm = () => {
-    giftForm.reset();
 };
 
 const giftForm = useForm({
@@ -36,35 +31,36 @@ const giftForm = useForm({
 });
 
 const onSubmit = () => {
-    giftForm.processing = true;
-    // clear the error state
     giftForm.clearErrors();
+
     if (giftForm.type === 'shop') {
-        giftForm.setError('type', 'Sending Gift via Shop is not available at this moment.');
-        giftForm.processing = false;
+        giftForm.setError('type', 'Sending gift shop item is not available at this moment.');
         return;
     }
 
-    NinshikiApp.request()
+    giftForm
+        .transform((data) => ({
+            ...data,
+            type: data.type,
+            ...(data.type === 'coins' && { amount: data.amount }),
+            receiver: data.receiver.id,
+        }))
         .post(route('gift.send'), {
-            type: giftForm.type,
-            amount: giftForm.amount,
-            receiver: giftForm.receiver?.id,
-        })
-        .then((resp) => {
-            giftForm.processing = false;
-            resetForm();
-            console.info(resp);
-        })
-        .catch((resp) => {
-            giftForm.processing = false;
-            if (resp.status === 422) {
-                const amountError = resp.response.data.error.errors.amount[0];
-                if (amountError) {
-                    giftForm.setError('amount', amountError);
+            preserveScroll: true,
+            onSuccess: () => {
+                NinshikiApp.success('🎁 Your gift has been successfully sent.', 'Gift Sent');
+                isGiftModalOpen.value = false;
+                giftForm.reset();
+            },
+            onError: (errors) => {
+                console.error(errors);
+                if (errors.hasOwnProperty('type')) {
+                    giftForm.setError('type', errors.type.includes('required') ? 'Type of gift is required.' : errors.type);
                 }
-            }
-            console.error(resp);
+                if (errors.hasOwnProperty('amount')) {
+                    giftForm.setError('amount', errors.amount.includes('required') ? 'Amount is required.' : errors.amount);
+                }
+            },
         });
 };
 
