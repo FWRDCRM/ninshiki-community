@@ -63,6 +63,19 @@ const items = ref([
                 },
             },
             {
+                label: 'Store',
+                icon: 'pi pi-shop',
+                command: () => {
+                    route().current('store.index')
+                        ? router.reload({
+                              only: [],
+                              preserveState: false,
+                              preserveScroll: true,
+                          })
+                        : router.visit(route('store.index'));
+                },
+            },
+            {
                 label: 'Logout',
                 icon: 'pi pi-sign-out',
                 shortcut: '⌘+Q',
