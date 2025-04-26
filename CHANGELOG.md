@@ -2,6 +2,15 @@
 
 All notable changes to `ninshiki` will be documented in this file.
 
+## 0.2.0 - 2025-04-26
+
+### What's Changed
+
+* Profile by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/25
+* Refactor replace axios post request with inertiajs by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/26
+
+**Full Changelog**: https://github.com/ninshiki-project/ninshiki-community/compare/0.1.0...0.2.0
+
 ## 0.1.0 - 2025-04-10
 
 ### What's Changed
