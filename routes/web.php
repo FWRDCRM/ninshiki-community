@@ -63,6 +63,7 @@ Route::middleware(config('ninshiki.middleware'))
 
                 // Store
                 Route::get('store', [StoreController::class, 'index'])->name('store.index');
+                Route::post('store/redeem', [StoreController::class, 'redeem'])->name('store.redeem');
 
                 // session
                 Route::get('session/health', [SessionController::class, 'heartbeat'])->name('session.heartbeat')
