@@ -75,7 +75,7 @@ const redeemProduct = (event, shop) => {
                     },
                     onSuccess: () => {
                         toast.add({ severity: 'success', summary: 'Redeemed', detail: 'Shop Item has been successfully redeemed.', life: 5000 });
-                        tabCurrentOpen.value = 'redeemed';
+                        tabCurrentOpen.value = 'redeem';
                     },
                 },
             );
