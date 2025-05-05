@@ -9,6 +9,7 @@ use MarJose123\Ninshiki\Http\Controllers\GiftController;
 use MarJose123\Ninshiki\Http\Controllers\GiphyController;
 use MarJose123\Ninshiki\Http\Controllers\ProfileController;
 use MarJose123\Ninshiki\Http\Controllers\SessionController;
+use MarJose123\Ninshiki\Http\Controllers\StoreController;
 use MarJose123\Ninshiki\Http\Middleware\EnsureAuthenticatedMiddleware;
 use MarJose123\Ninshiki\Ninshiki;
 
@@ -59,6 +60,12 @@ Route::middleware(config('ninshiki.middleware'))
                 // profile
                 Route::get('profile', [ProfileController::class, 'index'])->name('profile');
                 Route::post('profile/logout-other-devices', [ProfileController::class, 'logoutOtherDevices'])->name('profile.devices-other-logout');
+
+                // Store
+                Route::get('store', [StoreController::class, 'index'])->name('store.index');
+                Route::post('store/redeem', [StoreController::class, 'redeem'])->name('store.redeem');
+                Route::post('store/wishlist/toggle', [StoreController::class, 'toggleFavorite'])->name('store.wishlist.toggle');
+                Route::delete('store/redeem/{id}/cancel', [StoreController::class, 'cancelRedeem'])->name('store.redeem.cancel');
 
                 // session
                 Route::get('session/health', [SessionController::class, 'heartbeat'])->name('session.heartbeat')

@@ -63,6 +63,20 @@ const items = ref([
                 },
             },
             {
+                label: 'Store',
+                icon: 'pi pi-shop',
+                shortcut: '⌘+⇧+S',
+                command: () => {
+                    route().current('store.index')
+                        ? router.reload({
+                              only: [],
+                              preserveState: false,
+                              preserveScroll: true,
+                          })
+                        : router.visit(route('store.index'));
+                },
+            },
+            {
                 label: 'Logout',
                 icon: 'pi pi-sign-out',
                 shortcut: '⌘+Q',
@@ -78,6 +92,12 @@ const items = ref([
 NinshikiApp.addShortcut(['command+shift+d', 'ctrl+shift+d'], function () {
     const command = _.find(items.value[1].items, function (o) {
         return o.label === 'Feed';
+    });
+    command.command();
+});
+NinshikiApp.addShortcut(['command+shift+s', 'ctrl+shift+s'], function () {
+    const command = _.find(items.value[1].items, function (o) {
+        return o.label === 'Store';
     });
     command.command();
 });
