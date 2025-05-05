@@ -29,7 +29,7 @@ const getSeverity = (product) => {
         case 'Processing':
             return 'success';
 
-        case 'Waiting-Approval':
+        case 'Awaiting Approval':
             return 'info';
 
         case 'Canceled':
@@ -107,6 +107,37 @@ const toggleFavorite = (shop) => {
             },
         },
     );
+};
+
+const cancelRedeem = (event, record) => {
+    confirm.require({
+        target: event.currentTarget,
+        message: 'Are you sure you want to proceed?',
+        icon: 'pi pi-question-circle',
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true,
+        },
+        acceptProps: {
+            label: 'Proceed',
+        },
+        accept: () => {
+            router.delete(route('store.redeem.cancel', { id: record.id }), {
+                preserveScroll: true,
+                onError: (errors) => {
+                    console.log(errors);
+                    if (errors.hasOwnProperty('error')) {
+                        toast.add({ severity: 'error', summary: errors.error, detail: errors.error, life: 5000 });
+                    }
+                },
+                onSuccess: () => {
+                    toast.add({ severity: 'success', summary: 'Canceled', detail: 'Redeem has been successfully canceled.', life: 5000 });
+                    tabCurrentOpen.value = 'redeem';
+                },
+            });
+        },
+    });
 };
 
 const wishlistTooltipText = (shop) => {
@@ -240,6 +271,23 @@ watch(
                                 </div>
                             </div>
                             <DataTable v-else :value="redeem" tableStyle="min-width: 50rem" class="w-full">
+                                <Column>
+                                    <template #body="slotProps">
+                                        <div class="flex flex-row flex-wrap">
+                                            <Button
+                                                v-if="slotProps.data.status === 'Awaiting Approval'"
+                                                icon="pi pi-times"
+                                                severity="danger"
+                                                variant="text"
+                                                aria-label="Cancel"
+                                                v-tooltip.bottom="'Cancel Redeem'"
+                                                rounded
+                                                size="small"
+                                                @click="cancelRedeem($event, slotProps.data)"
+                                            />
+                                        </div>
+                                    </template>
+                                </Column>
                                 <Column header="Image">
                                     <template #body="slotProps">
                                         <img :src="slotProps.data.product.image" :alt="slotProps.data.product.image" class="w-24" />

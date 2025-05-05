@@ -65,6 +65,7 @@ Route::middleware(config('ninshiki.middleware'))
                 Route::get('store', [StoreController::class, 'index'])->name('store.index');
                 Route::post('store/redeem', [StoreController::class, 'redeem'])->name('store.redeem');
                 Route::post('store/wishlist/toggle', [StoreController::class, 'toggleFavorite'])->name('store.wishlist.toggle');
+                Route::delete('store/redeem/{id}/cancel', [StoreController::class, 'cancelRedeem'])->name('store.redeem.cancel');
 
                 // session
                 Route::get('session/health', [SessionController::class, 'heartbeat'])->name('session.heartbeat')

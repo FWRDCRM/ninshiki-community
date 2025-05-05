@@ -74,4 +74,21 @@ class StoreController
 
         return to_route('store.index');
     }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function cancelRedeem(Request $request, $id)
+    {
+        $response = Http::ninshiki()
+            ->withToken($request->session()->get('token'))
+            ->delete(config('ninshiki.api_version').'/redeems/'.$id);
+
+        if ($response->status() === 403) {
+            return back()->withErrors(['error' => $response->json()['message']]);
+        }
+
+        return to_route('store.index');
+
+    }
 }
