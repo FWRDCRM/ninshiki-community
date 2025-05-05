@@ -25,7 +25,7 @@ class StoreController
 
         return Inertia::render('store/index', [
             'products' => $response['products']->json('data'),
-            'redeemed' => $response['redeemed']->json('data'),
+            'redeem' => $response['redeemed']->json('data'),
         ]);
     }
 

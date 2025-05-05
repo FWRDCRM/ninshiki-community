@@ -13,7 +13,7 @@ const confirm = useConfirm();
 const tabCurrentOpen = ref('shop');
 
 const products = ref(page.props.products);
-const redeemed = ref(page.props.redeemed);
+const redeem = ref(page.props.redeem);
 
 const getSeverity = (product) => {
     switch (product.status) {
@@ -146,9 +146,9 @@ watch(
                     <i class="pi pi-shopping-cart" style="font-size: 1.2rem" />
                     <span class="whitespace-nowrap font-bold">Shop</span>
                 </Tab>
-                <Tab value="redeemed" as="div" class="flex items-center gap-2">
+                <Tab value="redeem" as="div" class="flex items-center gap-2">
                     <i class="pi pi-gift" style="font-size: 1.2rem" />
-                    <span class="whitespace-nowrap font-bold">Redeemed</span>
+                    <span class="whitespace-nowrap font-bold">Redeem</span>
                 </Tab>
             </TabList>
             <TabPanels>
@@ -219,10 +219,10 @@ watch(
                         </div>
                     </div>
                 </TabPanel>
-                <TabPanel value="redeemed">
+                <TabPanel value="redeem">
                     <div class="w-full max-w-full md:min-w-[1000px]">
                         <div class="flex flex-row flex-wrap gap-3">
-                            <div v-if="redeemed.length === 0" class="flex h-full w-full">
+                            <div v-if="redeem.length === 0" class="flex h-full w-full">
                                 <div class="flex min-h-[300px] min-w-full">
                                     <div class="flex h-full w-full items-center justify-center">
                                         <div class="flex flex-col space-y-3">
@@ -231,7 +231,7 @@ watch(
                                     </div>
                                 </div>
                             </div>
-                            <DataTable v-else :value="redeemed" tableStyle="min-width: 50rem" class="w-full">
+                            <DataTable v-else :value="redeem" tableStyle="min-width: 50rem" class="w-full">
                                 <Column field="name" header="Name"></Column>
                                 <Column header="Image">
                                     <template #body="slotProps">
