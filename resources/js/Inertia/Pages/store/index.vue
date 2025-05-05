@@ -101,7 +101,7 @@ const toggleFavorite = (shop) => {
                 toast.add({
                     severity: 'success',
                     summary: 'Favorite',
-                    detail: `Shop Item has been successfully ${shop?.favorite ? 'removed' : 'added'} to your wishlist.`,
+                    detail: `Shop item has been successfully ${shop?.favorite ? 'removed from your wishlist.' : 'added to your wishlist.'}`,
                     life: 5000,
                 });
             },
