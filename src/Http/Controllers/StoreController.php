@@ -56,4 +56,22 @@ class StoreController
 
         return back();
     }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function toggleFavorite(Request $request)
+    {
+        $response = Http::ninshiki()
+            ->withToken($request->session()->get('token'))
+            ->post(config('ninshiki.api_version').'/shop/wishlist', [
+                'shop' => $request->id,
+            ]);
+
+        if ($response->status() === 422) {
+            throw ValidationException::withMessages($response->json()['error']['errors']);
+        }
+
+        return to_route('store.index');
+    }
 }

@@ -3,7 +3,7 @@ import Layout from '@/Layouts/layout.vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { useToast } from 'primevue';
 import { useConfirm } from 'primevue/useconfirm';
-import { ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 defineOptions({ layout: Layout });
 
@@ -82,6 +82,58 @@ const redeemProduct = (event, shop) => {
         },
     });
 };
+
+const toggleFavorite = (shop) => {
+    router.post(
+        route('store.wishlist.toggle'),
+        {
+            id: shop.id,
+        },
+        {
+            preserveScroll: true,
+            onError: (errors) => {
+                console.log(errors);
+                if (errors.hasOwnProperty('error')) {
+                    toast.add({ severity: 'error', summary: 'Something went wrong!', detail: errors.error, life: 5000 });
+                }
+            },
+            onSuccess: () => {
+                toast.add({
+                    severity: 'success',
+                    summary: 'Favorite',
+                    detail: `Shop Item has been successfully ${shop?.favorite ? 'removed' : 'added'} to your wishlist.`,
+                    life: 5000,
+                });
+            },
+        },
+    );
+};
+
+const wishlistTooltipText = (shop) => {
+    return computed(() => {
+        if (shop?.favorite) {
+            return 'Remove from Wishlist';
+        }
+        return 'Add to Wishlist';
+    }).value;
+};
+
+const wishlistIcon = (shop) => {
+    return computed(() => {
+        if (shop?.favorite) {
+            return 'pi pi-heart-fill';
+        }
+        return 'pi pi-heart';
+    }).value;
+};
+
+watch(
+    () => page.props.products,
+    (newVal) => {
+        products.value = newVal;
+    },
+    { deep: true, immediate: true },
+);
 </script>
 
 <template>
@@ -152,12 +204,13 @@ const redeemProduct = (event, shop) => {
                                         <div class="flex flex-row-reverse gap-2 pt-5">
                                             <Button label="Purchase" severity="primary" @click="redeemProduct($event, shop)" />
                                             <Button
-                                                icon="pi pi-heart"
+                                                :icon="wishlistIcon(shop)"
                                                 severity="help"
                                                 variant="text"
                                                 rounded
                                                 aria-label="Favorite"
-                                                v-tooltip.bottom="'Add to Wishlist'"
+                                                v-tooltip.bottom="wishlistTooltipText(shop)"
+                                                @click="toggleFavorite(shop)"
                                             />
                                         </div>
                                     </template>
