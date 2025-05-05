@@ -27,10 +27,10 @@ const getSeverity = (product) => {
             return 'danger';
 
         case 'Processing':
-            return 'danger';
+            return 'success';
 
         case 'Waiting-Approval':
-            return 'danger';
+            return 'info';
 
         case 'Canceled':
             return 'danger';
@@ -134,6 +134,14 @@ watch(
     },
     { deep: true, immediate: true },
 );
+
+watch(
+    () => page.props.redeem,
+    (newVal) => {
+        redeem.value = newVal;
+    },
+    { deep: true, immediate: true },
+);
 </script>
 
 <template>
@@ -232,10 +240,14 @@ watch(
                                 </div>
                             </div>
                             <DataTable v-else :value="redeem" tableStyle="min-width: 50rem" class="w-full">
-                                <Column field="name" header="Name"></Column>
                                 <Column header="Image">
                                     <template #body="slotProps">
-                                        <img :src="slotProps.data.product.image" :alt="slotProps.data.product.image" class="w-24 rounded" />
+                                        <img :src="slotProps.data.product.image" :alt="slotProps.data.product.image" class="w-24" />
+                                    </template>
+                                </Column>
+                                <Column field="name" header="Name">
+                                    <template #body="slotProps">
+                                        {{ slotProps.data.product.name }}
                                     </template>
                                 </Column>
                                 <Column field="price" header="Price">

@@ -54,7 +54,7 @@ class StoreController
             return back()->withErrors(['error' => $response->json()['message']]);
         }
 
-        return back();
+        return to_route('store.index');
     }
 
     /**
