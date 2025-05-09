@@ -77,6 +77,16 @@ const items = ref([
                 },
             },
             {
+                label: 'Notification',
+                icon: 'pi pi-bell',
+                badge: 2,
+                command: () => {
+                    route().current('notification.index')
+                        ? router.reload({ preserveScroll: true, preserveState: true })
+                        : router.visit(route('notification.index'));
+                },
+            },
+            {
                 label: 'Logout',
                 icon: 'pi pi-sign-out',
                 shortcut: '⌘+Q',
@@ -157,10 +167,13 @@ const sessionHealthChecker = () => {
                             <span class="font-bold text-primary">{{ item.label }}</span>
                         </template>
                         <template #item="{ item, props }">
-                            <a v-ripple class="flex items-center" v-bind="props.action">
-                                <span :class="item.icon" />
+                            <a v-ripple class="flex items-center p-[9.5px]" v-bind="props.action">
+                                <OverlayBadge v-if="item.badge" :value="item.badge" size="small">
+                                    <i class="pi" :class="item.icon" style="font-size: 1.2rem" />
+                                </OverlayBadge>
+                                <span v-else :class="item.icon" style="font-size: 1.2rem" />
                                 <span>{{ item.label }}</span>
-                                <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
+                                <!--                                <Badge v-if="item.badge" class="ml-auto" :value="item.badge" size="small"/>-->
                                 <span v-if="item.shortcut" class="ml-auto rounded border p-1 text-xs border-surface bg-emphasis text-muted-color">
                                     {{ item.shortcut }}
                                 </span>

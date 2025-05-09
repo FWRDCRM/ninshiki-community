@@ -27,6 +27,7 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     Message: typeof import('primevue/message')['default']
     MultiSelect: typeof import('primevue/multiselect')['default']
+    OverlayBadge: typeof import('primevue/overlaybadge')['default']
     ScrollPanel: typeof import('primevue/scrollpanel')['default']
     Select: typeof import('primevue/select')['default']
     Tab: typeof import('primevue/tab')['default']

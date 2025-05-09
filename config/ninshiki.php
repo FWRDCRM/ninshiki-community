@@ -10,6 +10,7 @@ use MarJose123\Ninshiki\Http\Middleware\DispatchServingNinshikiEvent;
 use MarJose123\Ninshiki\Http\Middleware\HandleInertiaRequestsMiddleware;
 use MarJose123\Ninshiki\Http\Middleware\HandleServerMaintenanceMiddleware;
 use MarJose123\Ninshiki\Http\Middleware\RedirectIfAuthenticated;
+use MarJose123\Ninshiki\Http\Middleware\UserProfileMiddleware;
 
 return [
 
@@ -121,6 +122,7 @@ return [
 
     'authMiddleware' => [
         AuthenticateMiddleware::class,
+        UserProfileMiddleware::class,
     ],
 
     'guestMiddleware' => [
