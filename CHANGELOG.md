@@ -2,6 +2,16 @@
 
 All notable changes to `ninshiki` will be documented in this file.
 
+## 1.0.0 - 2025-05-17
+
+### What's Changed
+
+* Store Module by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/27
+* build(deps): bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot in https://github.com/ninshiki-project/ninshiki-community/pull/28
+* [Feature]: Notification by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/30
+
+**Full Changelog**: https://github.com/ninshiki-project/ninshiki-community/compare/0.2.0...1.0.0
+
 ## 0.2.0 - 2025-04-26
 
 ### What's Changed
