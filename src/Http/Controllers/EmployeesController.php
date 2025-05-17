@@ -67,7 +67,7 @@ class EmployeesController
 
         return Inertia::render('employee/index', [
             'employees' => $employeeData,
-            'gift_feature_enable' => $giftFeature['settings']['gift']['enable'],
+            'gift_feature_enable' => $giftFeature['settings']['gift']['enable'] ?? false,
             'gift_type' => $giftMeta['gift_type'],
             'gift_exchange_rate' => $giftMeta['exchange_rate'],
         ]);
