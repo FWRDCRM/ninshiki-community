@@ -3,6 +3,7 @@
 namespace MarJose123\Ninshiki\Http\Controllers;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class NotificationController
@@ -26,10 +27,10 @@ class NotificationController
     /**
      * @throws ConnectionException
      */
-    public function markAsRead(string $id)
+    public function markAsRead(Request $request, string $id)
     {
-        $response = Http::ninshiki()
-            ->withToken(\request()->session()->get('token'))
+        Http::ninshiki()
+            ->withToken($request->session()->get('token'))
             ->patch(config('ninshiki.api_version').'/notifications/'.$id.'/read');
 
         return back();
@@ -38,10 +39,10 @@ class NotificationController
     /**
      * @throws ConnectionException
      */
-    public function markAllAsRead()
+    public function markAllAsRead(Request $request)
     {
-        $response = Http::ninshiki()
-            ->withToken(\request()->session()->get('token'))
+        Http::ninshiki()
+            ->withToken($request->session()->get('token'))
             ->patch(config('ninshiki.api_version').'/notifications/read');
 
         return back();

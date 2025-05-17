@@ -6,12 +6,14 @@ import { useDialog } from 'primevue';
 import Menu from 'primevue/menu';
 import Toast from 'primevue/toast';
 import { useConfirm } from 'primevue/useconfirm';
-import { defineAsyncComponent, onMounted, onUnmounted, reactive, ref } from 'vue';
+import { computed, defineAsyncComponent, onMounted, onUnmounted, reactive, ref } from 'vue';
 import { route } from 'ziggy-js';
 
 const confirm = useConfirm();
 const page = usePage();
 const dialog = useDialog();
+
+const notifications_count = computed(() => page.props.auth.user.notifications_count.unread);
 
 const requireConfirmation = () => {
     confirm.require({
@@ -81,7 +83,7 @@ const items = ref([
             {
                 label: 'Notification',
                 icon: 'pi pi-bell',
-                badge: page.props.auth.user.notifications_count.unread ?? undefined,
+                badge: notifications_count ?? undefined,
                 command: () => showNotifications(),
             },
             {
