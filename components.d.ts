@@ -13,6 +13,7 @@ declare module 'vue' {
     AccordionPanel: typeof import('primevue/accordionpanel')['default']
     Avatar: typeof import('primevue/avatar')['default']
     AvatarGroup: typeof import('primevue/avatargroup')['default']
+    Badge: typeof import('primevue/badge')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
     Chip: typeof import('primevue/chip')['default']
