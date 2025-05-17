@@ -7,6 +7,7 @@ use MarJose123\Ninshiki\Http\Controllers\EmployeesController;
 use MarJose123\Ninshiki\Http\Controllers\FeedsController;
 use MarJose123\Ninshiki\Http\Controllers\GiftController;
 use MarJose123\Ninshiki\Http\Controllers\GiphyController;
+use MarJose123\Ninshiki\Http\Controllers\NotificationController;
 use MarJose123\Ninshiki\Http\Controllers\ProfileController;
 use MarJose123\Ninshiki\Http\Controllers\SessionController;
 use MarJose123\Ninshiki\Http\Controllers\StoreController;
@@ -66,6 +67,11 @@ Route::middleware(config('ninshiki.middleware'))
                 Route::post('store/redeem', [StoreController::class, 'redeem'])->name('store.redeem');
                 Route::post('store/wishlist/toggle', [StoreController::class, 'toggleFavorite'])->name('store.wishlist.toggle');
                 Route::delete('store/redeem/{id}/cancel', [StoreController::class, 'cancelRedeem'])->name('store.redeem.cancel');
+
+                // Notification
+                Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
+                Route::patch('notification/{id}/read', [NotificationController::class, 'markAsRead'])->name('notification.mark-as-read');
+                Route::patch('notification/read', [NotificationController::class, 'markAllAsRead'])->name('notification.mark-all-as-read');
 
                 // session
                 Route::get('session/health', [SessionController::class, 'heartbeat'])->name('session.heartbeat')

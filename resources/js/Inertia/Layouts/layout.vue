@@ -2,14 +2,16 @@
 import LogoutDialog from '@/Components/Auth/LogoutDialog.vue';
 import { router, usePage } from '@inertiajs/vue3';
 import _ from 'lodash';
+import { useDialog } from 'primevue';
 import Menu from 'primevue/menu';
 import Toast from 'primevue/toast';
 import { useConfirm } from 'primevue/useconfirm';
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { defineAsyncComponent, onMounted, onUnmounted, reactive, ref } from 'vue';
 import { route } from 'ziggy-js';
 
 const confirm = useConfirm();
 const page = usePage();
+const dialog = useDialog();
 
 const requireConfirmation = () => {
     confirm.require({
@@ -79,12 +81,8 @@ const items = ref([
             {
                 label: 'Notification',
                 icon: 'pi pi-bell',
-                badge: 2,
-                command: () => {
-                    route().current('notification.index')
-                        ? router.reload({ preserveScroll: true, preserveState: true })
-                        : router.visit(route('notification.index'));
-                },
+                badge: page.props.auth.user.notifications_count.unread ?? undefined,
+                command: () => showNotifications(),
             },
             {
                 label: 'Logout',
@@ -144,12 +142,33 @@ onUnmounted(() => {
 const sessionHealthChecker = () => {
     router.get(route('session.heartbeat'), {}, {});
 };
+
+const NotificationComponent = defineAsyncComponent(() => import('@/Components/Notification/Notification.vue'));
+
+const showNotifications = () => {
+    const dialogRef = dialog.open(NotificationComponent, {
+        props: {
+            header: 'Notifications',
+            style: {
+                width: '500px',
+            },
+            breakpoints: {
+                '960px': '75vw',
+                '640px': '90vw',
+            },
+            modal: true,
+            draggable: false,
+            position: 'center',
+        },
+    });
+};
 </script>
 
 <template>
     <div class="flex h-fit w-full justify-center">
         <LogoutDialog />
         <Toast position="bottom-right" group="br" />
+        <DynamicDialog />
         <div class="flex pt-16">
             <!-- Left Sidebar  -->
             <div class="sticky top-9 h-fit">
