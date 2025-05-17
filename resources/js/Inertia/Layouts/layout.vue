@@ -2,14 +2,18 @@
 import LogoutDialog from '@/Components/Auth/LogoutDialog.vue';
 import { router, usePage } from '@inertiajs/vue3';
 import _ from 'lodash';
+import { useDialog } from 'primevue';
 import Menu from 'primevue/menu';
 import Toast from 'primevue/toast';
 import { useConfirm } from 'primevue/useconfirm';
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { computed, defineAsyncComponent, onMounted, onUnmounted, reactive, ref } from 'vue';
 import { route } from 'ziggy-js';
 
 const confirm = useConfirm();
 const page = usePage();
+const dialog = useDialog();
+
+const notifications_count = computed(() => page.props.auth.user.notifications_count.unread);
 
 const requireConfirmation = () => {
     confirm.require({
@@ -77,6 +81,12 @@ const items = ref([
                 },
             },
             {
+                label: 'Notification',
+                icon: 'pi pi-bell',
+                badge: notifications_count ?? undefined,
+                command: () => showNotifications(),
+            },
+            {
                 label: 'Logout',
                 icon: 'pi pi-sign-out',
                 shortcut: '⌘+Q',
@@ -134,12 +144,33 @@ onUnmounted(() => {
 const sessionHealthChecker = () => {
     router.get(route('session.heartbeat'), {}, {});
 };
+
+const NotificationComponent = defineAsyncComponent(() => import('@/Components/Notification/Notification.vue'));
+
+const showNotifications = () => {
+    const dialogRef = dialog.open(NotificationComponent, {
+        props: {
+            header: 'Notifications',
+            style: {
+                width: '500px',
+            },
+            breakpoints: {
+                '960px': '75vw',
+                '640px': '90vw',
+            },
+            modal: true,
+            draggable: false,
+            position: 'center',
+        },
+    });
+};
 </script>
 
 <template>
     <div class="flex h-fit w-full justify-center">
         <LogoutDialog />
         <Toast position="bottom-right" group="br" />
+        <DynamicDialog />
         <div class="flex pt-16">
             <!-- Left Sidebar  -->
             <div class="sticky top-9 h-fit">
@@ -157,10 +188,13 @@ const sessionHealthChecker = () => {
                             <span class="font-bold text-primary">{{ item.label }}</span>
                         </template>
                         <template #item="{ item, props }">
-                            <a v-ripple class="flex items-center" v-bind="props.action">
-                                <span :class="item.icon" />
+                            <a v-ripple class="flex items-center p-[9.5px]" v-bind="props.action">
+                                <OverlayBadge v-if="item.badge" :value="item.badge" size="small">
+                                    <i class="pi" :class="item.icon" style="font-size: 1.2rem" />
+                                </OverlayBadge>
+                                <span v-else :class="item.icon" style="font-size: 1.2rem" />
                                 <span>{{ item.label }}</span>
-                                <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
+                                <!--                                <Badge v-if="item.badge" class="ml-auto" :value="item.badge" size="small"/>-->
                                 <span v-if="item.shortcut" class="ml-auto rounded border p-1 text-xs border-surface bg-emphasis text-muted-color">
                                     {{ item.shortcut }}
                                 </span>

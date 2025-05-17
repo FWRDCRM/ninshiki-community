@@ -6,6 +6,7 @@ import Mousetrap from 'mousetrap';
 import { ToastEventBus } from 'primevue';
 import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';
+import DialogService from 'primevue/dialogservice';
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
 import Emitter from 'tiny-emitter';
@@ -68,6 +69,7 @@ export default class Ninshiki {
 
                 this.app.use(ToastService);
                 this.app.use(ConfirmationService);
+                this.app.use(DialogService);
                 this.app.use(plugin);
 
                 this.app.config.globalProperties.$ninshiki = this;
