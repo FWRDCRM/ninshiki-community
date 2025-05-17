@@ -1,7 +1,7 @@
 <script setup>
 import { router } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
 import { useToast } from 'primevue';
+import { onMounted, ref } from 'vue';
 
 const notifications = ref([]);
 const isFetchingNotifications = ref(true);
