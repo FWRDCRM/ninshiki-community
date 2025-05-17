@@ -2,6 +2,14 @@
 
 All notable changes to `ninshiki` will be documented in this file.
 
+## 1.0.1 - 2025-05-17
+
+### What's Changed
+
+* Handle missing gift feature settings in EmployeesController. by @MarJose123 in https://github.com/ninshiki-project/ninshiki-community/pull/31
+
+**Full Changelog**: https://github.com/ninshiki-project/ninshiki-community/compare/1.0.0...1.0.1
+
 ## 1.0.0 - 2025-05-17
 
 ### What's Changed
